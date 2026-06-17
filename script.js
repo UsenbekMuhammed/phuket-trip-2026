@@ -732,3 +732,225 @@ document.getElementById("personModal")?.addEventListener("click", function(e) {
 });
 
 renderSquad();
+
+// ===== PHUKET TRAVEL GUIDE =====
+
+const villaLocation = "New 3BR Chalet-Style Villa Pasak Paradise 3 Private Pool Laguna Phuket";
+
+const travelPlaces = [
+  {
+    tag: "🏝 Пляж",
+    title: "Freedom Beach",
+    img: "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1400&q=90",
+    query: "Freedom Beach Phuket",
+    text: "Один из самых красивых пляжей Пхукета: белый песок, бирюзовая вода и спокойная атмосфера. Вход или проход может стоить примерно 100–200 бат, зависит от маршрута. Лучше ехать утром или после обеда, взять воду и наличные."
+  },
+  {
+    tag: "🐒 Острова",
+    title: "Monkey Beach",
+    img: "https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?auto=format&fit=crop&w=1400&q=90",
+    query: "Monkey Beach Phi Phi",
+    text: "Популярная остановка на туре Пхи-Пхи. Тут можно увидеть обезьян у пляжа. Важно: не кормить, не трогать, не держать еду и очки в руках."
+  },
+  {
+    tag: "🙏 Достопримечательность",
+    title: "Big Buddha",
+    img: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1400&q=90",
+    query: "Big Buddha Phuket",
+    text: "Одна из главных точек Пхукета с панорамным видом на остров. Вход обычно бесплатный, но перед поездкой лучше проверить статус открытия."
+  },
+  {
+    tag: "🚤 Морской тур",
+    title: "Phi Phi Islands",
+    img: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1400&q=90",
+    query: "Phi Phi Islands Thailand",
+    text: "Острова с бирюзовой водой, скалами, снорклингом и красивыми бухтами. Тур на спидботе часто стоит примерно 1800–3500 бат с человека."
+  },
+  {
+    tag: "🌊 Бухта",
+    title: "Maya Bay",
+    img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=90",
+    query: "Maya Bay Thailand",
+    text: "Легендарная бухта рядом с Пхи-Пхи. Может временно закрываться для восстановления природы, поэтому перед туром нужно уточнять у оператора."
+  },
+  {
+    tag: "🌅 Закат",
+    title: "Promthep Cape",
+    img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=90",
+    query: "Promthep Cape Phuket",
+    text: "Одна из лучших точек для заката на Пхукете. Бесплатно, красиво, но вечером может быть много людей."
+  },
+  {
+    tag: "🏖 Пляж",
+    title: "Bang Tao Beach",
+    img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=90",
+    query: "Bang Tao Beach Phuket",
+    text: "Большой пляж рядом с Laguna Phuket. Удобно от вашей виллы, подходит для спокойного отдыха, прогулок и beach clubs."
+  },
+  {
+    tag: "🎧 Beach Club",
+    title: "Cafe Del Mar Phuket",
+    img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=1400&q=90",
+    query: "Cafe Del Mar Phuket",
+    text: "Один из самых известных beach club на Пхукете: музыка, бассейн, коктейли, закатный вайб. Бюджет зависит от брони daybed и депозитов."
+  },
+  {
+    tag: "🎧 Beach Club",
+    title: "Catch Beach Club",
+    img: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1400&q=90",
+    query: "Catch Beach Club Phuket",
+    text: "Премиальный beach club на Bang Tao: daybeds, еда, коктейли и DJ. Хороший вариант для luxury-дня."
+  },
+  {
+    tag: "🍤 Еда",
+    title: "Rawai Seafood Market",
+    img: "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=1400&q=90",
+    query: "Rawai Seafood Market Phuket",
+    text: "Рынок морепродуктов: выбираете креветки, лобстеров, рыбу, потом ресторан напротив готовит. Цена зависит от веса и торга."
+  },
+  {
+    tag: "🎉 Ночная жизнь",
+    title: "Bangla Road",
+    img: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1400&q=90",
+    query: "Bangla Road Patong Phuket",
+    text: "Главная улица ночной жизни Патонга: бары, клубы, музыка и неон. Лучше ехать компанией и заранее договориться о точке встречи."
+  },
+  {
+    tag: "🛕 Храм",
+    title: "Wat Chalong",
+    img: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1400&q=90",
+    query: "Wat Chalong Phuket",
+    text: "Один из самых известных храмов Пхукета. Вход обычно бесплатный. Нужна уважительная одежда: плечи и колени лучше прикрыть."
+  },
+  {
+    tag: "🏙 Город",
+    title: "Old Phuket Town",
+    img: "https://images.unsplash.com/photo-1599639668273-b3503150d8b1?auto=format&fit=crop&w=1400&q=90",
+    query: "Old Phuket Town",
+    text: "Цветные улицы, кафе, граффити, сувениры и фотозоны. Отлично подходит для прогулки днем или вечером."
+  },
+  {
+    tag: "🌅 Вид",
+    title: "Windmill Viewpoint",
+    img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=90",
+    query: "Windmill Viewpoint Phuket",
+    text: "Смотровая площадка рядом с Yanui Beach. Хорошая точка для фото, заката и вида на море."
+  },
+  {
+    tag: "🏖 Пляж",
+    title: "Yanui Beach",
+    img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=90",
+    query: "Yanui Beach Phuket",
+    text: "Небольшой уютный пляж для каяков и снорклинга. Хорошо совместить с Windmill Viewpoint."
+  },
+  {
+    tag: "🏖 Пляж",
+    title: "Nai Harn Beach",
+    img: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=90",
+    query: "Nai Harn Beach Phuket",
+    text: "Один из лучших пляжей юга Пхукета: купание, кафе, красивый песок и хороший вайб."
+  },
+  {
+    tag: "🛍 Шопинг",
+    title: "Central Phuket",
+    img: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=90",
+    query: "Central Phuket",
+    text: "Большой торговый центр: бренды, косметика, сувениры, фудкорт и кондиционер в жаркий день."
+  },
+  {
+    tag: "🍢 Рынок",
+    title: "Chillva Market",
+    img: "https://images.unsplash.com/photo-1523906630133-f6934a1ab2b9?auto=format&fit=crop&w=1400&q=90",
+    query: "Chillva Market Phuket",
+    text: "Ночной рынок со street food, сувенирами, роти, сатэ, манго и атмосферой локального Пхукета."
+  },
+  {
+    tag: "🍢 Рынок",
+    title: "Naka Weekend Market",
+    img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1400&q=90",
+    query: "Naka Weekend Market Phuket",
+    text: "Большой ночной рынок выходного дня. Много еды, вещей и сувениров. Лучше идти голодными."
+  },
+  {
+    tag: "🌊 Аквапарк",
+    title: "Andamanda Phuket",
+    img: "https://images.unsplash.com/photo-1563911302283-d2bc129e7570?auto=format&fit=crop&w=1400&q=90",
+    query: "Andamanda Phuket",
+    text: "Большой аквапарк на случай шторма или если не получится поехать на острова. Билеты лучше проверять заранее."
+  }
+];
+
+function googleMapsLink(query) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
+function googleRouteLink(destination) {
+  return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(villaLocation)}&destination=${encodeURIComponent(destination)}&travelmode=driving`;
+}
+
+function youtubeLink(query) {
+  return `https://www.youtube.com/results?search_query=${encodeURIComponent(query + " Phuket vlog travel guide")}`;
+}
+
+function renderTravelGuide() {
+  const grid = document.getElementById("guideGrid");
+  if (!grid) return;
+
+  grid.innerHTML = "";
+
+  travelPlaces.forEach(place => {
+    const card = document.createElement("div");
+    card.className = "guide-card";
+
+    card.innerHTML = `
+      <img src="${place.img}" alt="${place.title}">
+      <div class="guide-content">
+        <span>${place.tag}</span>
+        <h3>${place.title}</h3>
+        <p>${place.text.slice(0, 120)}...</p>
+        <div class="guide-buttons">
+          <a href="${googleMapsLink(place.query)}" target="_blank" onclick="event.stopPropagation()">📍 Карта</a>
+          <a href="${googleRouteLink(place.query)}" target="_blank" onclick="event.stopPropagation()">🧭 Маршрут</a>
+          <a href="${youtubeLink(place.title)}" target="_blank" onclick="event.stopPropagation()">🎥 YouTube</a>
+        </div>
+      </div>
+    `;
+
+    card.onclick = () => openPlaceModal(place);
+    grid.appendChild(card);
+  });
+}
+
+function openPlaceModal(place) {
+  const modal = document.getElementById("placeModal");
+  const bg = document.getElementById("placeBg");
+  const tag = document.getElementById("placeTag");
+  const title = document.getElementById("placeTitle");
+  const text = document.getElementById("placeText");
+  const actions = document.getElementById("placeActions");
+
+  if (!modal || !bg || !tag || !title || !text || !actions) return;
+
+  modal.style.display = "flex";
+  bg.style.backgroundImage = `url('${place.img}')`;
+  tag.innerText = place.tag;
+  title.innerText = place.title;
+  text.innerText = place.text;
+
+  actions.innerHTML = `
+    <a href="${googleMapsLink(place.query)}" target="_blank">📍 Открыть в Google Maps</a>
+    <a href="${googleRouteLink(place.query)}" target="_blank">🧭 Построить маршрут от виллы</a>
+    <a href="${youtubeLink(place.title)}" target="_blank">🎥 Смотреть YouTube-обзор</a>
+  `;
+}
+
+function closePlaceModal() {
+  const modal = document.getElementById("placeModal");
+  if (modal) modal.style.display = "none";
+}
+
+document.getElementById("placeModal")?.addEventListener("click", function(e) {
+  if (e.target.id === "placeModal") closePlaceModal();
+});
+
+renderTravelGuide();
