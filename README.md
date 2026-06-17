@@ -1,0 +1,1 @@
+# phuket-trip-2026
