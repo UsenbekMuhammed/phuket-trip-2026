@@ -725,3 +725,75 @@ footer {
     font-size: 18px;
   }
 }
+
+.person {
+  cursor: pointer;
+}
+
+.person-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  background: rgba(0,0,0,.88);
+  z-index: 45;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.person-detail {
+  width: min(720px, 100%);
+  border-radius: 38px;
+  padding: 44px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+  border: 1px solid rgba(255,255,255,.14);
+  position: relative;
+  text-align: center;
+}
+
+.person-big-icon {
+  font-size: 90px;
+}
+
+.person-detail h2 {
+  margin: 20px 0 10px;
+}
+
+.person-detail p {
+  color: #ccc;
+  font-size: 24px;
+}
+
+.person-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.person-info div {
+  padding: 22px;
+  border-radius: 24px;
+  background: rgba(255,255,255,.08);
+}
+
+.person-info b,
+.person-info span {
+  display: block;
+}
+
+.person-info span {
+  margin-top: 8px;
+  color: #ccc;
+}
+
+@media (max-width: 600px) {
+  .person-detail {
+    padding: 28px;
+  }
+
+  .person-info {
+    grid-template-columns: 1fr;
+  }
+}
