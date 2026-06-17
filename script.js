@@ -633,3 +633,102 @@ function convertCurrency() {
 
   result.innerText = `≈ ${Math.round(usd * rate).toLocaleString()} ฿`;
 }
+
+// ===== SQUAD PROFILES =====
+
+const squad = [
+  {
+    icon: "🧭",
+    name: "Жан",
+    role: "Капитан трипа",
+    place: "Promthep Cape",
+    mission: "Держать команду вместе"
+  },
+  {
+    icon: "💰",
+    name: "Алихан",
+    role: "Министр финансов",
+    place: "Central Festival",
+    mission: "Следить за бюджетом"
+  },
+  {
+    icon: "📍",
+    name: "Алишер",
+    role: "Навигатор",
+    place: "Big Buddha",
+    mission: "Не дать никому потеряться"
+  },
+  {
+    icon: "📸",
+    name: "Мухаммед",
+    role: "Контент-мейкер",
+    place: "Freedom Beach",
+    mission: "Снимать лучший контент"
+  },
+  {
+    icon: "🥩",
+    name: "Адилет",
+    role: "BBQ-мастер",
+    place: "Вилла",
+    mission: "Отвечать за финальный гриль"
+  },
+  {
+    icon: "🎧",
+    name: "Султан",
+    role: "Главный DJ",
+    place: "Bangla Road",
+    mission: "Держать вайб"
+  },
+  {
+    icon: "📷",
+    name: "Ерлан",
+    role: "Фотограф",
+    place: "Phi Phi Islands",
+    mission: "Поймать лучшие кадры"
+  },
+  {
+    icon: "🎉",
+    name: "Самат",
+    role: "Министр развлечений",
+    place: "Beach Club",
+    mission: "Делать каждый день веселее"
+  }
+];
+
+function renderSquad() {
+  const grid = document.getElementById("squadGrid");
+  if (!grid) return;
+
+  grid.innerHTML = "";
+
+  squad.forEach(person => {
+    const card = document.createElement("div");
+    card.className = "person";
+    card.innerHTML = `
+      ${person.icon}
+      <h3>${person.name}</h3>
+      <p>${person.role}</p>
+    `;
+    card.onclick = () => openPersonModal(person);
+    grid.appendChild(card);
+  });
+}
+
+function openPersonModal(person) {
+  document.getElementById("personModal").style.display = "flex";
+  document.getElementById("personIcon").innerText = person.icon;
+  document.getElementById("personName").innerText = person.name;
+  document.getElementById("personRole").innerText = person.role;
+  document.getElementById("personPlace").innerText = person.place;
+  document.getElementById("personMission").innerText = person.mission;
+}
+
+function closePersonModal() {
+  document.getElementById("personModal").style.display = "none";
+}
+
+document.getElementById("personModal")?.addEventListener("click", function(e) {
+  if (e.target.id === "personModal") closePersonModal();
+});
+
+renderSquad();
