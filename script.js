@@ -443,6 +443,7 @@ function openModal(day) {
         <span>${event.text}</span>
       </div>
     `;
+    item.onclick = () => openEventModal(event);
     list.appendChild(item);
   });
 }
@@ -536,3 +537,37 @@ document.addEventListener("keydown", function(e) {
 renderCards();
 updateCountdown();
 setInterval(updateCountdown, 1000);
+
+function getEventDescription(event) {
+  const text = event.text.toLowerCase();
+
+  if (text.includes("freedom beach")) return "Freedom Beach — один из самых красивых пляжей Пхукета: белый песок, бирюзовая вода, фото, кокосы и спокойный отдых.";
+  if (text.includes("monkey beach")) return "Monkey Beach — место на Пхи-Пхи, где можно увидеть обезьян. Главное: не кормить, не трогать и не подходить слишком близко.";
+  if (text.includes("big buddha")) return "Big Buddha — одна из главных точек Пхукета с панорамным видом на остров, море и джунгли.";
+  if (text.includes("bangla")) return "Bangla Road — центр ночной жизни Патонга: бары, музыка, неон, коктейли и атмосфера тусовки.";
+  if (text.includes("пхи") || text.includes("phi")) return "Пхи-Пхи — острова с бирюзовой водой, скалами, пляжами, снорклингом и красивыми бухтами.";
+  if (text.includes("promthep")) return "Promthep Cape — культовая точка для заката на Пхукете.";
+  if (text.includes("windmill")) return "Windmill Viewpoint — смотровая площадка рядом с Януи с красивым видом на море.";
+  if (text.includes("yanui")) return "Yanui Beach — маленький уютный пляж для каяков, снорклинга и спокойного купания.";
+  if (text.includes("cafe del mar") || text.includes("catch beach")) return "Beach Club day — luxury-день: daybeds, бассейн, коктейли, DJ и пляжный вайб.";
+  if (text.includes("rawai seafood")) return "Rawai Seafood Market — рынок свежих морепродуктов: лобстеры, креветки, рыба и рестораны напротив.";
+  if (text.includes("elephant")) return "Elephant Sanctuary — этичный формат знакомства со слонами без жестоких шоу.";
+  if (text.includes("atv")) return "ATV-тур — грязевые трассы, джунгли и приключение.";
+  if (text.includes("central") || text.includes("шопинг")) return "Central Festival — большой торговый центр для покупок, косметики, сувениров и брендов.";
+  if (text.includes("chillva") || text.includes("naka")) return "Ночной рынок — street food, роти, сатэ, манго, сувениры и атмосфера Пхукета.";
+  if (text.includes("вылет") || text.includes("аэропорт")) return "Финальный этап: аэропорт, Duty Free и возвращение домой.";
+
+  return "Красивая точка маршрута для фото, отдыха и воспоминаний всей компанией.";
+}
+
+function openEventModal(event) {
+  document.getElementById("eventModal").style.display = "flex";
+  document.getElementById("eventDetailBg").style.backgroundImage = `url('${event.img}')`;
+  document.getElementById("eventDetailTime").innerText = event.time;
+  document.getElementById("eventDetailTitle").innerText = event.text;
+  document.getElementById("eventDetailText").innerText = getEventDescription(event);
+}
+
+function closeEventModal() {
+  document.getElementById("eventModal").style.display = "none";
+}
