@@ -3,20 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Phuket Trip 2026</title>
+  <title>Phuket Squad Trip 2026</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <nav>
-  <div class="logo">PHUKET 2026</div>
+  <div class="logo">🌴 PHUKET 2026</div>
   <div>
-    <a href="#today">Сегодня</a>
+    <a href="#weather">Погода</a>
+    <a href="#money">Валюта</a>
+    <a href="#gallery">Галерея</a>
     <a href="#days">Маршрут</a>
     <a href="#squad">Команда</a>
-    <a href="#budget">Бюджет</a>
-    <a href="#checklist">Чек-лист</a>
   </div>
 </nav>
 
@@ -25,14 +30,18 @@
 </audio>
 
 <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
-  <span id="musicIcon">▶</span> Включить музыку
+  <span id="musicIcon">▶</span> Музыка
 </button>
 
 <header class="hero">
+  <div class="hero-glow"></div>
+
   <div class="hero-content">
-    <p class="badge">🇹🇭 21–30 августа · 9 ночей · 8 друзей · Phuket Squad 2026</p>
-    <h1>Phuket<br><span>Trip 2026</span></h1>
-    <p class="subtitle">Freedom Beach, Monkey Beach, Пхи-Пхи, Патонг, beach club и финальная BBQ-party.</p>
+    <p class="badge">🇹🇭 21–30 августа · 9 ночей · 8 друзей · Laguna / Bang Tao</p>
+    <h1>Phuket<br><span>Squad Trip</span></h1>
+    <p class="subtitle">
+      Пляжи, острова, ночной Патонг, beach clubs, морепродукты и финальная BBQ-party.
+    </p>
 
     <div class="countdown">
       <div><b id="d">00</b><span>дней</span></div>
@@ -41,38 +50,94 @@
       <div><b id="s">00</b><span>секунд</span></div>
     </div>
 
-    <a href="#days" class="btn">Смотреть маршрут</a>
+    <a href="#days" class="btn">Открыть маршрут</a>
   </div>
 </header>
 
 <section class="intro">
-  <h2>Не просто отпуск. Это история.</h2>
+  <h2>Коротко, ярко, по делу.</h2>
   <p>
-    21 августа прилет вечером, 30 августа вылет в 19:25.
-    Внутри — пляжи, джунгли, Пхи-Пхи, Monkey Beach, Freedom Beach,
-    ночной Патонг, beach club и финальная BBQ-party.
+    Вся важная информация теперь внутри событий: цены, что взять, Google Maps,
+    маршрут от виллы, советы и короткое описание места.
   </p>
 </section>
 
-<section id="today" class="today-section">
-  <h2>Режим “Сегодня”</h2>
-  <div class="today-card">
-    <p class="mini-title">Автоматически покажет актуальный день поездки</p>
-    <h3 id="todayTitle">До поездки</h3>
-    <p id="todayText">Сайт покажет события текущего дня, когда наступит период поездки.</p>
-    <div id="todayEvents" class="today-events"></div>
+<section id="weather">
+  <h2>Погода на Пхукете</h2>
+  <p class="section-subtitle">
+    Ближе к поездке можно подключить реальный API. Сейчас блок показывает ориентир для августа:
+    жарко, влажно, возможны короткие дожди.
+  </p>
+
+  <div class="weather-strip">
+    <div><b>21 Aug</b><span>🌦 30°C</span></div>
+    <div><b>22 Aug</b><span>🌤 31°C</span></div>
+    <div><b>23 Aug</b><span>🌦 30°C</span></div>
+    <div><b>24 Aug</b><span>🌧 29°C</span></div>
+    <div><b>25 Aug</b><span>🌤 31°C</span></div>
+    <div><b>26 Aug</b><span>🌦 30°C</span></div>
+    <div><b>27 Aug</b><span>🌊 30°C</span></div>
+    <div><b>28 Aug</b><span>☀️ 31°C</span></div>
+    <div><b>29 Aug</b><span>🌦 30°C</span></div>
+    <div><b>30 Aug</b><span>🌤 31°C</span></div>
   </div>
 </section>
 
-<section class="stats-section">
-  <h2>Phuket Squad Stats</h2>
-  <div class="trip-stats">
-    <div><b>8</b><span>участников</span></div>
-    <div><b>10</b><span>дней маршрута</span></div>
-    <div><b>7+</b><span>пляжей и локаций</span></div>
-    <div><b>3</b><span>тусовочных вечера</span></div>
-    <div><b>1</b><span>морской тур</span></div>
-    <div><b>∞</b><span>воспоминаний</span></div>
+<section id="money">
+  <h2>Конвертер ₸ → ฿</h2>
+  <p class="section-subtitle">
+    Быстрый расчет тенге в тайские баты. Курс примерный, перед поездкой можно обновить вручную в JS.
+  </p>
+
+  <div class="money-layout">
+    <div class="converter-card">
+      <label>Сумма в тенге</label>
+      <input id="kztInput" type="number" placeholder="Например 100000" oninput="convertKztToThb()">
+      <h3 id="bahtResult">≈ 0 ฿</h3>
+      <p>Примерный курс: 1 бат ≈ 16.3 ₸</p>
+    </div>
+
+    <div class="exchange-card">
+      <h3>Где менять деньги</h3>
+      <p>В аэропорту лучше менять только маленькую сумму на такси/SIM. Основные деньги лучше менять в городе.</p>
+
+      <div class="exchange-actions">
+        <a target="_blank" href="https://www.google.com/maps/search/money+exchange+near+Boat+Avenue+Phuket">Обменники рядом с Boat Avenue</a>
+        <a target="_blank" href="https://www.google.com/maps/search/SuperRich+Phuket">SuperRich Phuket</a>
+        <a target="_blank" href="https://www.google.com/maps/search/money+exchange+near+Bang+Tao+Phuket">Обменники Bang Tao</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <h2>Главные вайбы поездки</h2>
+
+  <div class="gallery-grid">
+    <div class="gallery-card big" style="background-image:url('https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1600&q=90')">
+      <h3>Phi Phi</h3>
+      <p>Бирюзовая вода и спидбот</p>
+    </div>
+
+    <div class="gallery-card" style="background-image:url('https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=90')">
+      <h3>Freedom Beach</h3>
+      <p>Белый песок</p>
+    </div>
+
+    <div class="gallery-card" style="background-image:url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=90')">
+      <h3>Bangla Road</h3>
+      <p>Ночная жизнь</p>
+    </div>
+
+    <div class="gallery-card" style="background-image:url('https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=1200&q=90')">
+      <h3>Elephants</h3>
+      <p>Джунгли и sanctuary</p>
+    </div>
+
+    <div class="gallery-card" style="background-image:url('https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=1200&q=90')">
+      <h3>Seafood</h3>
+      <p>Лобстеры и креветки</p>
+    </div>
   </div>
 </section>
 
@@ -91,148 +156,19 @@
 </section>
 
 <section id="squad">
-  <h2>Команда Phuket 2026</h2>
+  <h2>Phuket Squad</h2>
   <div class="squad-grid" id="squadGrid"></div>
-</section>
-
-<section id="budget">
-  <h2>Бюджет поездки</h2>
-  <div class="budget-box">
-    <div class="budget-head">
-      <div>
-        <p class="mini-title">Расчет на 8 человек</p>
-        <h3 id="totalBudget">$3770</h3>
-      </div>
-      <div>
-        <p class="mini-title">На человека</p>
-        <h3 id="perPerson">$471</h3>
-      </div>
-    </div>
-
-    <div class="budget-list">
-      <div><span>Вилла</span><b>$1200</b></div>
-      <div><span>Продукты</span><b>$500</b></div>
-      <div><span>Алкоголь</span><b>$400</b></div>
-      <div><span>Пхи-Пхи</span><b>$560</b></div>
-      <div><span>ATV + слоны</span><b>$320</b></div>
-      <div><span>Такси и трансфер</span><b>$250</b></div>
-      <div><span>Beach Club</span><b>$240</b></div>
-      <div><span>Прочее</span><b>$300</b></div>
-    </div>
-  </div>
-</section>
-
-<section id="map">
-  <h2>Карта локаций</h2>
-  <div class="location-grid">
-    <div>📍 Вилла · Раваи</div>
-    <div>🏖 Freedom Beach</div>
-    <div>🐒 Monkey Beach</div>
-    <div>🛕 Big Buddha</div>
-    <div>🌅 Promthep Cape</div>
-    <div>🎧 Bangla Road</div>
-    <div>🚤 Phi Phi Islands</div>
-    <div>🍤 Rawai Seafood Market</div>
-  </div>
-</section>
-
-<section id="tools">
-  <h2>Туристические инструменты</h2>
-
-  <div class="tools-grid">
-    <div class="tool-card">
-      <h3>💱 Конвертер валют</h3>
-      <p>Быстрый расчет долларов в баты.</p>
-      <input id="usdInput" type="number" placeholder="Сумма в $" oninput="convertCurrency()">
-      <h4 id="thbResult">≈ 0 ฿</h4>
-    </div>
-
-    <div class="tool-card">
-      <h3>🌦 Погода</h3>
-      <p>Август на Пхукете обычно жаркий и влажный. Лучше всегда иметь дождевик и SPF.</p>
-      <h4>29–32°C</h4>
-    </div>
-
-    <div class="tool-card">
-      <h3>🆘 Экстренные контакты</h3>
-      <p>Полиция: 191</p>
-      <p>Туристическая полиция: 1155</p>
-      <p>Скорая помощь: 1669</p>
-    </div>
-  </div>
-</section>
-
-<section id="guide">
-  <h2>Phuket Travel Guide</h2>
-  <p class="guide-subtitle">
-    Лучшие места Пхукета, примерные цены, советы и быстрые кнопки для Google Maps.
-  </p>
-
-  <div class="guide-grid" id="guideGrid"></div>
-</section>
-
-<section id="nearby">
-  <h2>Рядом с виллой</h2>
-  <p class="guide-subtitle">
-    База поездки: Pasak / Cherngtalay / Laguna Phuket. Удобно для Bang Tao, Boat Avenue и beach clubs.
-  </p>
-
-  <div class="nearby-grid">
-    <a target="_blank" href="https://www.google.com/maps/search/7-Eleven+near+Pasak+Paradise+Phuket">🏪 Ближайший 7-Eleven</a>
-    <a target="_blank" href="https://www.google.com/maps/search/Boat+Avenue+Phuket">🛍 Boat Avenue</a>
-    <a target="_blank" href="https://www.google.com/maps/search/Porto+de+Phuket">🍽 Porto de Phuket</a>
-    <a target="_blank" href="https://www.google.com/maps/search/Villa+Market+Laguna+Phuket">🛒 Villa Market</a>
-    <a target="_blank" href="https://www.google.com/maps/search/Bang+Tao+Beach+Phuket">🏖 Bang Tao Beach</a>
-    <a target="_blank" href="https://www.google.com/maps/search/Cafe+Del+Mar+Phuket">🎧 Cafe Del Mar</a>
-  </div>
-</section>
-
-<section id="prices">
-  <h2>Цены и ориентиры</h2>
-
-  <div class="price-grid">
-    <div class="price-card">
-      <h3>🏪 7-Eleven</h3>
-      <p>Вода: 10–20 бат</p>
-      <p>Тосты: 35–60 бат</p>
-      <p>Кола: 18–30 бат</p>
-      <p>SIM/пополнение: зависит от тарифа</p>
-    </div>
-
-    <div class="price-card">
-      <h3>🍜 Еда</h3>
-      <p>Pad Thai: 80–150 бат</p>
-      <p>Tom Yum: 120–250 бат</p>
-      <p>Кокос: 40–80 бат</p>
-      <p>Seafood-ужин: сильно зависит от веса</p>
-    </div>
-
-    <div class="price-card">
-      <h3>🚕 Такси</h3>
-      <p>Bang Tao → Patong: примерно 500–900 бат</p>
-      <p>Bang Tao → Old Town: примерно 500–800 бат</p>
-      <p>Bang Tao → Rawai: примерно 900–1300 бат</p>
-      <p>Лучше сравнивать Grab / Bolt / минивэн</p>
-    </div>
-
-    <div class="price-card">
-      <h3>🚤 Туры</h3>
-      <p>Phi Phi speedboat: часто 1800–3500 бат/чел</p>
-      <p>Maya Bay fee: уточнять у оператора</p>
-      <p>ATV: примерно 1200–2500 бат/чел</p>
-      <p>Andamanda: проверять актуальный билет</p>
-    </div>
-  </div>
 </section>
 
 <section id="checklist">
   <h2>Чек-лист</h2>
+
   <div class="checklist">
     <div>✅ Загранпаспорт</div>
     <div>✅ Страховка</div>
     <div>✅ SPF 50</div>
     <div>✅ Купальники</div>
-    <div>✅ Доллары наличкой</div>
+    <div>✅ Наличные</div>
     <div>✅ Powerbank</div>
     <div>✅ Чехол для воды</div>
     <div>✅ Одежда для ATV</div>
@@ -265,6 +201,9 @@
       <p id="eventDetailTime"></p>
       <h2 id="eventDetailTitle"></h2>
       <p id="eventDetailText"></p>
+
+      <div class="event-info-grid" id="eventInfoGrid"></div>
+      <div class="event-actions" id="eventActions"></div>
     </div>
   </div>
 </div>
@@ -280,22 +219,9 @@
       <div><b>Миссия</b><span id="personMission"></span></div>
     </div>
   </div>
-</div><div class="place-modal" id="placeModal">
-  <div class="place-box">
-    <button class="close" onclick="closePlaceModal()">×</button>
-    <div class="place-bg" id="placeBg"></div>
-    <div class="place-content">
-      <p id="placeTag"></p>
-      <h2 id="placeTitle"></h2>
-      <p id="placeText"></p>
-      <div class="place-actions" id="placeActions"></div>
-    </div>
-  </div>
 </div>
 
-
-
-<footer>Phuket Trip 2026 · Made for the squad</footer>
+<footer>🌴 Phuket Squad Trip 2026 · Made for the boys</footer>
 
 <script src="script.js"></script>
 </body>
