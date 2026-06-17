@@ -1,0 +1,85 @@
+<nav>
+  <div class="logo">PHUKET 2026</div>
+  <div>
+    <a href="#days">Маршрут</a>
+    <a href="#checklist">Чек-лист</a>
+  </div>
+</nav>
+
+<audio id="bgMusic" loop preload="auto">
+  <source src="https://drive.google.com/uc?export=download&id=1s2sTSYyjeUM20-YHSPkcUT6qtAixkPzH" type="audio/mpeg">
+</audio>
+
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+  <span id="musicIcon">▶</span> Включить музыку
+</button>
+
+<header class="hero">
+  <div class="hero-content">
+    <p class="badge">🇹🇭 21–30 августа · 9 ночей · 8 человек · Раваи</p>
+    <h1>Phuket<br><span>Trip 2026</span></h1>
+    <p class="subtitle">Freedom Beach, Monkey Beach, Пхи-Пхи, Патонг, beach club и финальная BBQ-party.</p>
+
+    <div class="countdown">
+      <div><b id="d">00</b><span>дней</span></div>
+      <div><b id="h">00</b><span>часов</span></div>
+      <div><b id="m">00</b><span>минут</span></div>
+      <div><b id="s">00</b><span>секунд</span></div>
+    </div>
+
+    <a href="#days" class="btn">Смотреть маршрут</a>
+  </div>
+</header>
+
+<section class="intro">
+  <h2>Не просто отпуск. Это история.</h2>
+  <p>
+    21 августа прилет вечером, 30 августа вылет в 19:25.
+    Внутри — пляжи, джунгли, Пхи-Пхи, Monkey Beach, Freedom Beach,
+    ночной Патонг, beach club и финальная BBQ-party.
+  </p>
+</section>
+
+<section id="days">
+  <h2>Маршрут по дням</h2>
+
+  <div class="filters">
+    <button onclick="filterDays('all', this)" class="active">Все</button>
+    <button onclick="filterDays('beach', this)">Пляжи</button>
+    <button onclick="filterDays('party', this)">Тусовки</button>
+    <button onclick="filterDays('food', this)">Еда</button>
+    <button onclick="filterDays('adventure', this)">Приключения</button>
+  </div>
+
+  <div class="cards" id="cards"></div>
+</section>
+
+<section id="checklist">
+  <h2>Чек-лист</h2>
+  <div class="checklist">
+    <div>✅ Загранпаспорт</div>
+    <div>✅ Страховка</div>
+    <div>✅ SPF 50</div>
+    <div>✅ Купальники</div>
+    <div>✅ Доллары наличкой</div>
+    <div>✅ Powerbank</div>
+    <div>✅ Чехол для воды</div>
+    <div>✅ Одежда для ATV</div>
+  </div>
+
+  <button class="download" onclick="downloadPlan()">Скачать маршрут TXT</button>
+</section>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal()">×</button>
+    <img id="modalImg">
+    <div class="modal-text">
+      <p id="modalDate"></p>
+      <h2 id="modalTitle"></h2>
+      <div id="modalEvents" class="event-list"></div>
+    </div>
+  </div>
+</div>
+
+<footer>Phuket Trip 2026 · Made for the squad</footer>
