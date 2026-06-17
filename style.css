@@ -445,4 +445,92 @@ footer {
   .countdown b {
     font-size: 28px;
   }
+
+  .event {
+  cursor: pointer;
+  transition: .25s;
+}
+
+.event:hover {
+  transform: scale(1.02);
+  background: rgba(255,255,255,.12);
+}
+
+.event-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  background: rgba(0,0,0,.9);
+  z-index: 40;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.event-detail {
+  width: min(900px, 100%);
+  min-height: 620px;
+  border-radius: 38px;
+  overflow: hidden;
+  position: relative;
+  background: #111;
+  box-shadow: 0 40px 120px rgba(0,0,0,.7);
+}
+
+.event-detail-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.event-detail-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.92), rgba(0,0,0,.2));
+}
+
+.event-detail-content {
+  position: absolute;
+  bottom: 0;
+  padding: 42px;
+  z-index: 2;
+}
+
+.event-detail-content p:first-child {
+  color: #ddd;
+  font-size: 18px;
+}
+
+.event-detail-content h2 {
+  font-size: clamp(42px, 7vw, 76px);
+  margin-bottom: 18px;
+}
+
+.event-detail-content p:last-child {
+  max-width: 760px;
+  font-size: 21px;
+  line-height: 1.5;
+  color: #e5e5e5;
+}
+
+.event-close {
+  z-index: 5;
+}
+
+@media (max-width: 600px) {
+  .event-detail {
+    min-height: 560px;
+    border-radius: 28px;
+  }
+
+  .event-detail-content {
+    padding: 26px;
+  }
+
+  .event-detail-content p:last-child {
+    font-size: 18px;
+  }
+}
 }
