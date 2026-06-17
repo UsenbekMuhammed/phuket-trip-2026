@@ -391,353 +391,6 @@ const days = [
   }
 ];
 
-const cards = document.getElementById("cards");
-
-function renderCards(filter = "all") {
-  cards.innerHTML = "";
-
-  const list = filter === "all"
-    ? days
-    : days.filter(day => day.cat.includes(filter));
-
-  list.forEach(day => {
-    const card = document.createElement("div");
-    card.className = "card";
-
-    card.innerHTML = `
-      <img src="${day.img}" alt="${day.title}">
-      <div class="card-text">
-        <span>${day.date}</span>
-        <h3>${day.title}</h3>
-        <p>${day.text}</p>
-      </div>
-    `;
-
-    card.onclick = () => openModal(day);
-    cards.appendChild(card);
-  });
-}
-
-function filterDays(type, button) {
-  document.querySelectorAll(".filters button").forEach(btn => btn.classList.remove("active"));
-  button.classList.add("active");
-  renderCards(type);
-}
-
-function openModal(day) {
-  document.getElementById("modal").style.display = "flex";
-  document.getElementById("modalImg").src = day.img;
-  document.getElementById("modalDate").innerText = day.date;
-  document.getElementById("modalTitle").innerText = day.title;
-
-  const list = document.getElementById("modalEvents");
-  list.innerHTML = "";
-
-  day.events.forEach(event => {
-    const item = document.createElement("div");
-    item.className = "event";
-    item.innerHTML = `
-      <img src="${event.img}" alt="${event.text}">
-      <div>
-        <b>${event.time}</b>
-        <span>${event.text}</span>
-      </div>
-    `;
-    item.onclick = () => openEventModal(event);
-    list.appendChild(item);
-  });
-}
-
-function closeModal() {
-  document.getElementById("modal").style.display = "none";
-}
-
-function updateCountdown() {
-  const tripDate = new Date("2026-08-21T17:45:00");
-  const now = new Date();
-  const diff = tripDate - now;
-
-  if (diff <= 0) {
-    document.getElementById("d").innerText = "00";
-    document.getElementById("h").innerText = "00";
-    document.getElementById("m").innerText = "00";
-    document.getElementById("s").innerText = "00";
-    return;
-  }
-
-  document.getElementById("d").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-  document.getElementById("h").innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  document.getElementById("m").innerText = Math.floor((diff / (1000 * 60)) % 60);
-  document.getElementById("s").innerText = Math.floor((diff / 1000) % 60);
-}
-
-function downloadPlan() {
-  let text = "PHUKET TRIP 2026\n";
-  text += "Arrival: 21.08.2026 17:45\n";
-  text += "Departure: 30.08.2026 19:25\n\n";
-
-  days.forEach(day => {
-    text += `${day.date} — ${day.title}\n`;
-    day.events.forEach(e => text += `- ${e.time} — ${e.text}\n`);
-    text += "\n";
-  });
-
-  const blob = new Blob([text], { type: "text/plain" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = "phuket-trip-2026.txt";
-  link.click();
-}
-// ===== MUSIC =====
-
-const music = document.getElementById("bgMusic");
-const musicBtn = document.getElementById("musicBtn");
-
-if (music) {
-  music.volume = 0.45;
-}
-
-function startMusic() {
-  if (!music || !musicBtn) return;
-
-  music.play()
-    .then(() => {
-      musicBtn.innerHTML = '<span id="musicIcon">⏸</span> I Got You';
-    })
-    .catch(() => {
-      musicBtn.innerHTML = '<span id="musicIcon">▶</span> Включить музыку';
-    });
-}
-
-function toggleMusic() {
-  if (!music || !musicBtn) return;
-
-  if (music.paused) {
-    music.play();
-    musicBtn.innerHTML = '<span id="musicIcon">⏸</span> I Got You';
-  } else {
-    music.pause();
-    musicBtn.innerHTML = '<span id="musicIcon">▶</span> Включить музыку';
-  }
-}
-
-// ===== START SITE =====
-
-window.addEventListener("load", startMusic);
-
-document.addEventListener("click", function firstClick() {
-  if (music && music.paused) startMusic();
-  document.removeEventListener("click", firstClick);
-});
-
-document.addEventListener("keydown", function(e) {
-  if (e.key === "Escape") closeModal();
-});
-
-renderCards();
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
-function getEventDescription(event) {
-  const text = event.text.toLowerCase();
-
-  if (text.includes("freedom beach")) return "Freedom Beach — один из самых красивых пляжей Пхукета: белый песок, бирюзовая вода, фото, кокосы и спокойный отдых.";
-  if (text.includes("monkey beach")) return "Monkey Beach — место на Пхи-Пхи, где можно увидеть обезьян. Главное: не кормить, не трогать и не подходить слишком близко.";
-  if (text.includes("big buddha")) return "Big Buddha — одна из главных точек Пхукета с панорамным видом на остров, море и джунгли.";
-  if (text.includes("bangla")) return "Bangla Road — центр ночной жизни Патонга: бары, музыка, неон, коктейли и атмосфера тусовки.";
-  if (text.includes("пхи") || text.includes("phi")) return "Пхи-Пхи — острова с бирюзовой водой, скалами, пляжами, снорклингом и красивыми бухтами.";
-  if (text.includes("promthep")) return "Promthep Cape — культовая точка для заката на Пхукете.";
-  if (text.includes("windmill")) return "Windmill Viewpoint — смотровая площадка рядом с Януи с красивым видом на море.";
-  if (text.includes("yanui")) return "Yanui Beach — маленький уютный пляж для каяков, снорклинга и спокойного купания.";
-  if (text.includes("cafe del mar") || text.includes("catch beach")) return "Beach Club day — luxury-день: daybeds, бассейн, коктейли, DJ и пляжный вайб.";
-  if (text.includes("rawai seafood")) return "Rawai Seafood Market — рынок свежих морепродуктов: лобстеры, креветки, рыба и рестораны напротив.";
-  if (text.includes("elephant")) return "Elephant Sanctuary — этичный формат знакомства со слонами без жестоких шоу.";
-  if (text.includes("atv")) return "ATV-тур — грязевые трассы, джунгли и приключение.";
-  if (text.includes("central") || text.includes("шопинг")) return "Central Festival — большой торговый центр для покупок, косметики, сувениров и брендов.";
-  if (text.includes("chillva") || text.includes("naka")) return "Ночной рынок — street food, роти, сатэ, манго, сувениры и атмосфера Пхукета.";
-  if (text.includes("вылет") || text.includes("аэропорт")) return "Финальный этап: аэропорт, Duty Free и возвращение домой.";
-
-  return "Красивая точка маршрута для фото, отдыха и воспоминаний всей компанией.";
-}
-
-function openEventModal(event) {
-  document.getElementById("eventModal").style.display = "flex";
-  document.getElementById("eventDetailBg").style.backgroundImage = `url('${event.img}')`;
-  document.getElementById("eventDetailTime").innerText = event.time;
-  document.getElementById("eventDetailTitle").innerText = event.text;
-  document.getElementById("eventDetailText").innerText = getEventDescription(event);
-}
-
-function closeEventModal() {
-  document.getElementById("eventModal").style.display = "none";
-}
-
-// ===== TODAY MODE =====
-
-function updateTodayMode() {
-  const todayTitle = document.getElementById("todayTitle");
-  const todayText = document.getElementById("todayText");
-  const todayEvents = document.getElementById("todayEvents");
-
-  if (!todayTitle || !todayText || !todayEvents) return;
-
-  const now = new Date();
-  const todayString = now.toLocaleDateString("ru-RU", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric"
-  });
-
-  const currentDay = days.find(day => day.date === todayString);
-
-  todayEvents.innerHTML = "";
-
-  if (currentDay) {
-    todayTitle.innerText = currentDay.title;
-    todayText.innerText = currentDay.text;
-
-    currentDay.events.forEach(event => {
-      const item = document.createElement("div");
-      item.innerHTML = `<b>${event.time}</b> — ${event.text}`;
-      item.onclick = () => openEventModal(event);
-      todayEvents.appendChild(item);
-    });
-  } else {
-    todayTitle.innerText = "До поездки";
-    todayText.innerText = "Когда наступит 21–30 августа 2026, здесь автоматически появится программа текущего дня.";
-    todayEvents.innerHTML = `
-      <div><b>21.08.2026</b> — старт поездки и прилет на Пхукет</div>
-      <div><b>30.08.2026</b> — финальный день и вылет домой</div>
-    `;
-  }
-}
-
-updateTodayMode();
-
-
-// ===== KZT -> THB =====
-
-function convertKztToThb() {
-
-  const rate = 15;
-
-  const value = Number(
-    document.getElementById("kztInput").value
-  );
-
-  if (!value) {
-    document.getElementById("bahtResult").innerHTML =
-      "≈ 0 ฿";
-    return;
-  }
-
-  const result = value / rate;
-
-  document.getElementById("bahtResult").innerHTML =
-    "≈ " + result.toFixed(0) + " ฿";
-}
-
-// ===== SQUAD PROFILES =====
-
-const squad = [
-  {
-    icon: "🧭",
-    name: "Жан",
-    role: "Капитан трипа",
-    place: "Promthep Cape",
-    mission: "Держать команду вместе"
-  },
-  {
-    icon: "💰",
-    name: "Алихан",
-    role: "Министр финансов",
-    place: "Central Festival",
-    mission: "Следить за бюджетом"
-  },
-  {
-    icon: "📍",
-    name: "Алишер",
-    role: "Навигатор",
-    place: "Big Buddha",
-    mission: "Не дать никому потеряться"
-  },
-  {
-    icon: "📸",
-    name: "Мухаммед",
-    role: "Контент-мейкер",
-    place: "Freedom Beach",
-    mission: "Снимать лучший контент"
-  },
-  {
-    icon: "🥩",
-    name: "Адилет",
-    role: "BBQ-мастер",
-    place: "Вилла",
-    mission: "Отвечать за финальный гриль"
-  },
-  {
-    icon: "🎧",
-    name: "Султан",
-    role: "Главный DJ",
-    place: "Bangla Road",
-    mission: "Держать вайб"
-  },
-  {
-    icon: "📷",
-    name: "Ерлан",
-    role: "Фотограф",
-    place: "Phi Phi Islands",
-    mission: "Поймать лучшие кадры"
-  },
-  {
-    icon: "🎉",
-    name: "Самат",
-    role: "Министр развлечений",
-    place: "Beach Club",
-    mission: "Делать каждый день веселее"
-  }
-];
-
-function renderSquad() {
-  const grid = document.getElementById("squadGrid");
-  if (!grid) return;
-
-  grid.innerHTML = "";
-
-  squad.forEach(person => {
-    const card = document.createElement("div");
-    card.className = "person";
-    card.innerHTML = `
-      ${person.icon}
-      <h3>${person.name}</h3>
-      <p>${person.role}</p>
-    `;
-    card.onclick = () => openPersonModal(person);
-    grid.appendChild(card);
-  });
-}
-
-function openPersonModal(person) {
-  document.getElementById("personModal").style.display = "flex";
-  document.getElementById("personIcon").innerText = person.icon;
-  document.getElementById("personName").innerText = person.name;
-  document.getElementById("personRole").innerText = person.role;
-  document.getElementById("personPlace").innerText = person.place;
-  document.getElementById("personMission").innerText = person.mission;
-}
-
-function closePersonModal() {
-  document.getElementById("personModal").style.display = "none";
-}
-
-document.getElementById("personModal")?.addEventListener("click", function(e) {
-  if (e.target.id === "personModal") closePersonModal();
-});
-
-renderSquad();
-
-// ===== PHUKET TRAVEL GUIDE =====
-
 const villaLocation = "New 3BR Chalet-Style Villa Pasak Paradise 3 Private Pool Laguna Phuket";
 const cards = document.getElementById("cards");
 
@@ -745,8 +398,12 @@ function googleMapsLink(query) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
-function googleRouteLink(destination) {
+function googleRouteFromVilla(destination) {
   return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(villaLocation)}&destination=${encodeURIComponent(destination)}&travelmode=driving`;
+}
+
+function googleRouteFromMe(destination) {
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=driving`;
 }
 
 function youtubeLink(query) {
@@ -757,109 +414,111 @@ function getEventInfo(event) {
   const text = event.text.toLowerCase();
 
   const base = {
+    location: event.text + " Phuket",
     price: "500–1500 бат",
     take: "Вода, наличные, телефон, powerbank",
-    location: event.text,
     tip: "Уточнить время и дорогу заранее."
   };
 
   if (text.includes("freedom beach")) return {
-    price: "Вход/проход 100–200 бат, такси зависит от района",
-    take: "SPF, полотенце, вода, наличные",
     location: "Freedom Beach Phuket",
+    price: "Вход/проход 100–200 бат, такси отдельно",
+    take: "SPF, полотенце, вода, наличные",
     tip: "Лучше ехать утром или после 14:00."
   };
 
   if (text.includes("monkey beach")) return {
+    location: "Monkey Beach Phi Phi",
     price: "Обычно входит в тур Пхи-Пхи",
     take: "Очки убрать, еду не держать, телефон крепко",
-    location: "Monkey Beach Phi Phi",
     tip: "Обезьян не кормить и не трогать."
   };
 
   if (text.includes("big buddha")) return {
+    location: "Big Buddha Phuket",
     price: "Вход обычно бесплатный",
     take: "Закрытые плечи/колени, вода",
-    location: "Big Buddha Phuket",
     tip: "Перед поездкой проверить, открыт ли объект."
   };
 
   if (text.includes("пхи") || text.includes("phi") || text.includes("maya")) return {
+    location: "Phi Phi Islands Thailand",
     price: "Тур часто 1800–3500 бат/чел",
     take: "SPF, купальные вещи, полотенце, наличные",
-    location: "Phi Phi Islands Thailand",
     tip: "Maya Bay может закрываться сезонно — уточнять у туроператора."
   };
 
   if (text.includes("bangla") || text.includes("illuzion") || text.includes("sugar")) return {
+    location: "Bangla Road Patong Phuket",
     price: "Коктейли 200–500 бат, клуб зависит от входа/депозита",
     take: "Наличные, телефон, договориться о точке встречи",
-    location: "Bangla Road Patong Phuket",
     tip: "Ехать всей компанией и держаться вместе."
   };
 
   if (text.includes("rawai seafood") || text.includes("seafood")) return {
+    location: "Rawai Seafood Market Phuket",
     price: "Цена зависит от веса: креветки/рыба/лобстеры + готовка",
     take: "Наличные, умение торговаться",
-    location: "Rawai Seafood Market Phuket",
     tip: "Сначала торговаться на рынке, потом отдавать готовить напротив."
   };
 
   if (text.includes("cafe del mar") || text.includes("catch beach")) return {
+    location: text.includes("cafe") ? "Cafe Del Mar Phuket" : "Catch Beach Club Phuket",
     price: "Зависит от daybed/deposit, напитки и еда отдельно",
     take: "Купальные вещи, стильный beach look, карта/наличные",
-    location: text.includes("cafe") ? "Cafe Del Mar Phuket" : "Catch Beach Club Phuket",
     tip: "Лучше бронировать заранее."
   };
 
   if (text.includes("yanui")) return {
-    price: "Пляж бесплатно, каяки оплачиваются отдельно",
-    take: "SPF, маска, вода, наличные",
     location: "Yanui Beach Phuket",
+    price: "Пляж бесплатно, каяки отдельно",
+    take: "SPF, маска, вода, наличные",
     tip: "Хорошо совместить с Windmill Viewpoint."
   };
 
   if (text.includes("windmill")) return {
+    location: "Windmill Viewpoint Phuket",
     price: "Бесплатно",
     take: "Телефон/камера, вода",
-    location: "Windmill Viewpoint Phuket",
     tip: "Отличное место для фото и заката."
   };
 
   if (text.includes("central")) return {
+    location: "Central Phuket",
     price: "По желанию: еда, шопинг, сувениры",
     take: "Карта, наличные, список покупок",
-    location: "Central Phuket",
     tip: "Хороший вариант переждать жару."
   };
 
   if (text.includes("chillva") || text.includes("naka")) return {
+    location: text.includes("chillva") ? "Chillva Market Phuket" : "Naka Weekend Market Phuket",
     price: "Street food обычно 50–200 бат за позицию",
     take: "Наличные, пустой желудок",
-    location: text.includes("chillva") ? "Chillva Market Phuket" : "Naka Weekend Market Phuket",
     tip: "Лучше идти вечером и пробовать разную еду."
   };
 
   if (text.includes("elephant")) return {
+    location: "Elephant Sanctuary Phuket",
     price: "Обычно 2000–3500 бат/чел, зависит от программы",
     take: "Одежда, которую не жалко, полотенце",
-    location: "Elephant Sanctuary Phuket",
-    tip: "Выбирать только ethical sanctuary без катания на слонах."
+    tip: "Выбирать ethical sanctuary без катания на слонах."
   };
 
   if (text.includes("atv")) return {
+    location: "ATV Phuket",
     price: "Обычно 1200–2500 бат/чел",
     take: "Грязная одежда, закрытая обувь, вода",
-    location: "ATV Phuket",
     tip: "После тура лучше сразу ехать в душ."
   };
 
-  return base;
-}
+  if (text.includes("7-eleven") || text.includes("7/11")) return {
+    location: "7-Eleven near Pasak Paradise Phuket",
+    price: "Вода 10–20 бат, тосты 35–60 бат",
+    take: "Наличные или карта",
+    tip: "Для быстрых покупок лучше искать ближайший 7-Eleven на карте."
+  };
 
-function getEventDescription(event) {
-  const info = getEventInfo(event);
-  return `${event.text}. ${info.tip}`;
+  return base;
 }
 
 function renderCards(filter = "all") {
@@ -929,26 +588,20 @@ function openEventModal(event) {
   document.getElementById("eventDetailBg").style.backgroundImage = `url('${event.img}')`;
   document.getElementById("eventDetailTime").innerText = event.time;
   document.getElementById("eventDetailTitle").innerText = event.text;
-  document.getElementById("eventDetailText").innerText = getEventDescription(event);
+  document.getElementById("eventDetailText").innerText = `${event.text}. ${info.tip}`;
 
-  const infoGrid = document.getElementById("eventInfoGrid");
-  const actions = document.getElementById("eventActions");
+  document.getElementById("eventInfoGrid").innerHTML = `
+    <div><b>📍 Локация</b><span>${info.location}</span></div>
+    <div><b>💰 Цены</b><span>${info.price}</span></div>
+    <div><b>🎒 Что взять</b><span>${info.take}</span></div>
+  `;
 
-  if (infoGrid) {
-    infoGrid.innerHTML = `
-      <div><b>📍 Локация</b><span>${info.location}</span></div>
-      <div><b>💰 Цены</b><span>${info.price}</span></div>
-      <div><b>🎒 Что взять</b><span>${info.take}</span></div>
-    `;
-  }
-
-  if (actions) {
-    actions.innerHTML = `
-      <a href="${googleMapsLink(info.location)}" target="_blank">📍 Google Maps</a>
-      <a href="${googleRouteLink(info.location)}" target="_blank">🧭 Маршрут от виллы</a>
-      <a href="${youtubeLink(info.location)}" target="_blank">🎥 YouTube обзор</a>
-    `;
-  }
+  document.getElementById("eventActions").innerHTML = `
+    <a href="${googleMapsLink(info.location)}" target="_blank">📍 Google Maps</a>
+    <a href="${googleRouteFromMe(info.location)}" target="_blank">🧭 Маршрут от меня</a>
+    <a href="${googleRouteFromVilla(info.location)}" target="_blank">🏠 Маршрут от виллы</a>
+    <a href="${youtubeLink(info.location)}" target="_blank">🎥 YouTube</a>
+  `;
 }
 
 function closeEventModal() {
@@ -1021,10 +674,10 @@ function startMusic() {
 
   music.play()
     .then(() => {
-      musicBtn.innerHTML = '<span id="musicIcon">⏸</span> I Got You';
+      musicBtn.innerHTML = "⏸ I Got You";
     })
     .catch(() => {
-      musicBtn.innerHTML = '<span id="musicIcon">▶</span> Музыка';
+      musicBtn.innerHTML = "▶ Музыка";
     });
 }
 
@@ -1033,10 +686,10 @@ function toggleMusic() {
 
   if (music.paused) {
     music.play();
-    musicBtn.innerHTML = '<span id="musicIcon">⏸</span> I Got You';
+    musicBtn.innerHTML = "⏸ I Got You";
   } else {
     music.pause();
-    musicBtn.innerHTML = '<span id="musicIcon">▶</span> Музыка';
+    musicBtn.innerHTML = "▶ Музыка";
   }
 }
 
