@@ -571,3 +571,65 @@ function openEventModal(event) {
 function closeEventModal() {
   document.getElementById("eventModal").style.display = "none";
 }
+
+// ===== TODAY MODE =====
+
+function updateTodayMode() {
+  const todayTitle = document.getElementById("todayTitle");
+  const todayText = document.getElementById("todayText");
+  const todayEvents = document.getElementById("todayEvents");
+
+  if (!todayTitle || !todayText || !todayEvents) return;
+
+  const now = new Date();
+  const todayString = now.toLocaleDateString("ru-RU", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  });
+
+  const currentDay = days.find(day => day.date === todayString);
+
+  todayEvents.innerHTML = "";
+
+  if (currentDay) {
+    todayTitle.innerText = currentDay.title;
+    todayText.innerText = currentDay.text;
+
+    currentDay.events.forEach(event => {
+      const item = document.createElement("div");
+      item.innerHTML = `<b>${event.time}</b> — ${event.text}`;
+      item.onclick = () => openEventModal(event);
+      todayEvents.appendChild(item);
+    });
+  } else {
+    todayTitle.innerText = "До поездки";
+    todayText.innerText = "Когда наступит 21–30 августа 2026, здесь автоматически появится программа текущего дня.";
+    todayEvents.innerHTML = `
+      <div><b>21.08.2026</b> — старт поездки и прилет на Пхукет</div>
+      <div><b>30.08.2026</b> — финальный день и вылет домой</div>
+    `;
+  }
+}
+
+updateTodayMode();
+
+
+// ===== CURRENCY CONVERTER =====
+
+function convertCurrency() {
+  const input = document.getElementById("usdInput");
+  const result = document.getElementById("thbResult");
+
+  if (!input || !result) return;
+
+  const usd = Number(input.value);
+  const rate = 36;
+
+  if (!usd) {
+    result.innerText = "≈ 0 ฿";
+    return;
+  }
+
+  result.innerText = `≈ ${Math.round(usd * rate).toLocaleString()} ฿`;
+}
