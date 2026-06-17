@@ -92,16 +92,7 @@
 
 <section id="squad">
   <h2>Команда Phuket 2026</h2>
-  <div class="squad-grid">
-    <div class="person">🧭 <h3>Жан</h3><p>Капитан трипа</p></div>
-    <div class="person">💰 <h3>Алихан</h3><p>Министр финансов</p></div>
-    <div class="person">📍 <h3>Алишер</h3><p>Навигатор</p></div>
-    <div class="person">📸 <h3>Мухаммед</h3><p>Контент-мейкер</p></div>
-    <div class="person">🥩 <h3>Адилет</h3><p>BBQ-мастер</p></div>
-    <div class="person">🎧 <h3>Султан</h3><p>Главный DJ</p></div>
-    <div class="person">📷 <h3>Ерлан</h3><p>Фотограф</p></div>
-    <div class="person">🎉 <h3>Самат</h3><p>Министр развлечений</p></div>
-  </div>
+  <div class="squad-grid" id="squadGrid"></div>
 </section>
 
 <section id="budget">
@@ -211,6 +202,19 @@
       <p id="eventDetailTime"></p>
       <h2 id="eventDetailTitle"></h2>
       <p id="eventDetailText"></p>
+    </div>
+  </div>
+</div>
+
+<div class="person-modal" id="personModal">
+  <div class="person-detail">
+    <button class="close" onclick="closePersonModal()">×</button>
+    <div class="person-big-icon" id="personIcon">👤</div>
+    <h2 id="personName"></h2>
+    <p id="personRole"></p>
+    <div class="person-info">
+      <div><b>Любимое место</b><span id="personPlace"></span></div>
+      <div><b>Миссия</b><span id="personMission"></span></div>
     </div>
   </div>
 </div>
