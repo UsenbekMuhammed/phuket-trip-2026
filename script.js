@@ -402,8 +402,25 @@ function googleRouteFromVilla(destination) {
   return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(villaLocation)}&destination=${encodeURIComponent(destination)}&travelmode=driving`;
 }
 
-function googleRouteFromMe(destination) {
-  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=driving`;
+function openRouteFromMe(destination) {
+  if (!navigator.geolocation) {
+    window.open(googleRouteFromVilla(destination), "_blank");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    function(position) {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
+      const url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${encodeURIComponent(destination)}&travelmode=driving`;
+      window.open(url, "_blank");
+    },
+    function() {
+      const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=driving`;
+      window.open(url, "_blank");
+    }
+  );
 }
 
 function youtubeLink(query) {
@@ -598,7 +615,7 @@ function openEventModal(event) {
 
   document.getElementById("eventActions").innerHTML = `
     <a href="${googleMapsLink(info.location)}" target="_blank">📍 Google Maps</a>
-    <a href="${googleRouteFromMe(info.location)}" target="_blank">🧭 Маршрут от меня</a>
+    <button onclick="openRouteFromMe('${info.location.replace(/'/g, "\\'")}')">🧭 Маршрут от меня</button>
     <a href="${googleRouteFromVilla(info.location)}" target="_blank">🏠 Маршрут от виллы</a>
     <a href="${youtubeLink(info.location)}" target="_blank">🎥 YouTube</a>
   `;
