@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Phuket Trip 2026</title>
-
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -13,7 +12,10 @@
 <nav>
   <div class="logo">PHUKET 2026</div>
   <div>
+    <a href="#today">Сегодня</a>
     <a href="#days">Маршрут</a>
+    <a href="#squad">Команда</a>
+    <a href="#budget">Бюджет</a>
     <a href="#checklist">Чек-лист</a>
   </div>
 </nav>
@@ -28,7 +30,7 @@
 
 <header class="hero">
   <div class="hero-content">
-    <p class="badge">🇹🇭 21–30 августа · 9 ночей · 8 человек · Раваи</p>
+    <p class="badge">🇹🇭 21–30 августа · 9 ночей · 8 друзей · Phuket Squad 2026</p>
     <h1>Phuket<br><span>Trip 2026</span></h1>
     <p class="subtitle">Freedom Beach, Monkey Beach, Пхи-Пхи, Патонг, beach club и финальная BBQ-party.</p>
 
@@ -52,6 +54,28 @@
   </p>
 </section>
 
+<section id="today" class="today-section">
+  <h2>Режим “Сегодня”</h2>
+  <div class="today-card">
+    <p class="mini-title">Автоматически покажет актуальный день поездки</p>
+    <h3 id="todayTitle">До поездки</h3>
+    <p id="todayText">Сайт покажет события текущего дня, когда наступит период поездки.</p>
+    <div id="todayEvents" class="today-events"></div>
+  </div>
+</section>
+
+<section class="stats-section">
+  <h2>Phuket Squad Stats</h2>
+  <div class="trip-stats">
+    <div><b>8</b><span>участников</span></div>
+    <div><b>10</b><span>дней маршрута</span></div>
+    <div><b>7+</b><span>пляжей и локаций</span></div>
+    <div><b>3</b><span>тусовочных вечера</span></div>
+    <div><b>1</b><span>морской тур</span></div>
+    <div><b>∞</b><span>воспоминаний</span></div>
+  </div>
+</section>
+
 <section id="days">
   <h2>Маршрут по дням</h2>
 
@@ -66,6 +90,87 @@
   <div class="cards" id="cards"></div>
 </section>
 
+<section id="squad">
+  <h2>Команда Phuket 2026</h2>
+  <div class="squad-grid">
+    <div class="person">🧭 <h3>Жан</h3><p>Капитан трипа</p></div>
+    <div class="person">💰 <h3>Алихан</h3><p>Министр финансов</p></div>
+    <div class="person">📍 <h3>Алишер</h3><p>Навигатор</p></div>
+    <div class="person">📸 <h3>Мухаммед</h3><p>Контент-мейкер</p></div>
+    <div class="person">🥩 <h3>Адилет</h3><p>BBQ-мастер</p></div>
+    <div class="person">🎧 <h3>Султан</h3><p>Главный DJ</p></div>
+    <div class="person">📷 <h3>Ерлан</h3><p>Фотограф</p></div>
+    <div class="person">🎉 <h3>Самат</h3><p>Министр развлечений</p></div>
+  </div>
+</section>
+
+<section id="budget">
+  <h2>Бюджет поездки</h2>
+  <div class="budget-box">
+    <div class="budget-head">
+      <div>
+        <p class="mini-title">Расчет на 8 человек</p>
+        <h3 id="totalBudget">$3770</h3>
+      </div>
+      <div>
+        <p class="mini-title">На человека</p>
+        <h3 id="perPerson">$471</h3>
+      </div>
+    </div>
+
+    <div class="budget-list">
+      <div><span>Вилла</span><b>$1200</b></div>
+      <div><span>Продукты</span><b>$500</b></div>
+      <div><span>Алкоголь</span><b>$400</b></div>
+      <div><span>Пхи-Пхи</span><b>$560</b></div>
+      <div><span>ATV + слоны</span><b>$320</b></div>
+      <div><span>Такси и трансфер</span><b>$250</b></div>
+      <div><span>Beach Club</span><b>$240</b></div>
+      <div><span>Прочее</span><b>$300</b></div>
+    </div>
+  </div>
+</section>
+
+<section id="map">
+  <h2>Карта локаций</h2>
+  <div class="location-grid">
+    <div>📍 Вилла · Раваи</div>
+    <div>🏖 Freedom Beach</div>
+    <div>🐒 Monkey Beach</div>
+    <div>🛕 Big Buddha</div>
+    <div>🌅 Promthep Cape</div>
+    <div>🎧 Bangla Road</div>
+    <div>🚤 Phi Phi Islands</div>
+    <div>🍤 Rawai Seafood Market</div>
+  </div>
+</section>
+
+<section id="tools">
+  <h2>Туристические инструменты</h2>
+
+  <div class="tools-grid">
+    <div class="tool-card">
+      <h3>💱 Конвертер валют</h3>
+      <p>Быстрый расчет долларов в баты.</p>
+      <input id="usdInput" type="number" placeholder="Сумма в $" oninput="convertCurrency()">
+      <h4 id="thbResult">≈ 0 ฿</h4>
+    </div>
+
+    <div class="tool-card">
+      <h3>🌦 Погода</h3>
+      <p>Август на Пхукете обычно жаркий и влажный. Лучше всегда иметь дождевик и SPF.</p>
+      <h4>29–32°C</h4>
+    </div>
+
+    <div class="tool-card">
+      <h3>🆘 Экстренные контакты</h3>
+      <p>Полиция: 191</p>
+      <p>Туристическая полиция: 1155</p>
+      <p>Скорая помощь: 1669</p>
+    </div>
+  </div>
+</section>
+
 <section id="checklist">
   <h2>Чек-лист</h2>
   <div class="checklist">
@@ -77,6 +182,10 @@
     <div>✅ Powerbank</div>
     <div>✅ Чехол для воды</div>
     <div>✅ Одежда для ATV</div>
+    <div>✅ Аптечка</div>
+    <div>✅ Дождевик</div>
+    <div>✅ Очки</div>
+    <div>✅ Легкая рубашка</div>
   </div>
 
   <button class="download" onclick="downloadPlan()">Скачать маршрут TXT</button>
