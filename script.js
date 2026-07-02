@@ -644,22 +644,44 @@ function updateCountdown() {
   document.getElementById("s").innerText = Math.floor((diff / 1000) % 60);
 }
 
-function convertKztToThb() {
-  const input = document.getElementById("kztInput");
-  const result = document.getElementById("bahtResult");
+let thbToKztRate = 14.25;
+
+async function loadCurrencyRate() {
+  const rateText = document.getElementById("rateText");
+
+  try {
+    const response = await fetch("https://open.er-api.com/v6/latest/THB");
+    const data = await response.json();
+
+    if (data && data.rates && data.rates.KZT) {
+      thbToKztRate = data.rates.KZT;
+      rateText.innerText = `Текущий курс: 1 ฿ ≈ ${thbToKztRate.toFixed(2)} ₸`;
+    } else {
+      rateText.innerText = `Курс по умолчанию: 1 ฿ ≈ ${thbToKztRate} ₸`;
+    }
+  } catch (error) {
+    rateText.innerText = `Курс по умолчанию: 1 ฿ ≈ ${thbToKztRate} ₸`;
+  }
+}
+
+function convertThbToKzt() {
+  const input = document.getElementById("thbInput");
+  const result = document.getElementById("kztResult");
 
   if (!input || !result) return;
 
-  const rate = 16.3;
-  const value = Number(input.value);
+  const thb = Number(input.value);
 
-  if (!value) {
-    result.innerText = "≈ 0 ฿";
+  if (!thb) {
+    result.innerText = "≈ 0 ₸";
     return;
   }
 
-  result.innerText = `≈ ${Math.round(value / rate).toLocaleString()} ฿`;
+  const kzt = thb * thbToKztRate;
+  result.innerText = `≈ ${Math.round(kzt).toLocaleString("ru-RU")} ₸`;
 }
+
+loadCurrencyRate();
 
 function downloadPlan() {
   let text = "PHUKET TRIP 2026\n";
