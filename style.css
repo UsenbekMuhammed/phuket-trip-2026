@@ -9,10 +9,36 @@ html {
 
 body {
   margin: 0;
-  background: #050505;
-  color: white;
+  color: #10232f;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   overflow-x: hidden;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255, 210, 138, .55), transparent 28%),
+    radial-gradient(circle at 80% 20%, rgba(114, 198, 255, .55), transparent 30%),
+    linear-gradient(180deg, #f7fbff 0%, #dff7f6 42%, #fff2d5 100%);
+}
+
+body::before {
+  content: "🌴";
+  position: fixed;
+  right: -20px;
+  top: 120px;
+  font-size: 180px;
+  opacity: .08;
+  transform: rotate(-18deg);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: "🌊";
+  position: fixed;
+  left: -25px;
+  bottom: 80px;
+  font-size: 170px;
+  opacity: .08;
+  pointer-events: none;
+  z-index: 0;
 }
 
 img {
@@ -28,21 +54,28 @@ nav {
   justify-content: space-between;
   align-items: center;
   z-index: 100;
-  background: rgba(0,0,0,.45);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.55);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-bottom: 1px solid rgba(255,255,255,.55);
+  box-shadow: 0 10px 40px rgba(0, 70, 90, .08);
 }
 
 .logo {
   font-weight: 900;
+  color: #063142;
 }
 
 nav a {
-  color: white;
+  color: #063142;
   text-decoration: none;
   margin-left: 20px;
-  opacity: .8;
+  opacity: .78;
+  font-weight: 700;
+}
+
+nav a:hover {
+  opacity: 1;
 }
 
 .music-btn {
@@ -53,37 +86,52 @@ nav a {
   border: none;
   padding: 14px 20px;
   border-radius: 50px;
-  background: white;
-  color: black;
-  font-weight: 800;
+  background: #063142;
+  color: white;
+  font-weight: 900;
   cursor: pointer;
-  box-shadow: 0 20px 50px rgba(0,0,0,.4);
+  box-shadow: 0 20px 50px rgba(0,0,0,.22);
 }
 
 .hero {
   min-height: 100vh;
   background:
-    linear-gradient(to bottom, rgba(0,0,0,.1), #050505 92%),
+    linear-gradient(to bottom, rgba(255,255,255,.08), rgba(247,251,255,.88) 88%),
     url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=90")
     center/cover;
   display: grid;
   place-items: center;
   text-align: center;
   padding: 110px 20px 80px;
+  position: relative;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, #f7fbff);
 }
 
 .hero-content {
   width: 100%;
   max-width: 980px;
+  position: relative;
+  z-index: 2;
 }
 
 .badge {
   display: inline-block;
   padding: 10px 18px;
   border-radius: 50px;
-  background: rgba(255,255,255,.12);
-  backdrop-filter: blur(10px);
-  color: #eee;
+  background: rgba(255,255,255,.55);
+  backdrop-filter: blur(14px);
+  color: #063142;
+  font-weight: 800;
+  box-shadow: 0 18px 50px rgba(0, 70, 90, .12);
 }
 
 .hero h1 {
@@ -91,10 +139,12 @@ nav a {
   line-height: .85;
   letter-spacing: -6px;
   margin: 20px 0;
+  color: #062331;
+  text-shadow: 0 18px 60px rgba(255,255,255,.45);
 }
 
 .hero h1 span {
-  background: linear-gradient(90deg, #fff, #72c6ff, #ffd28a);
+  background: linear-gradient(90deg, #063142, #00a6b2, #ff9f1c);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -102,10 +152,11 @@ nav a {
 
 .subtitle {
   font-size: clamp(18px, 3vw, 25px);
-  color: #ddd;
+  color: #17465a;
   max-width: 760px;
   margin: auto;
   line-height: 1.35;
+  font-weight: 600;
 }
 
 .countdown {
@@ -120,10 +171,12 @@ nav a {
 .money-box,
 .person,
 .checklist div {
-  border-radius: 26px;
-  background: rgba(255,255,255,.09);
-  border: 1px solid rgba(255,255,255,.12);
-  backdrop-filter: blur(14px);
+  border-radius: 28px;
+  background: rgba(255,255,255,.58);
+  border: 1px solid rgba(255,255,255,.65);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 24px 70px rgba(0, 92, 115, .13);
 }
 
 .countdown div {
@@ -133,29 +186,41 @@ nav a {
 .countdown b {
   font-size: 34px;
   display: block;
+  color: #062331;
 }
 
 .countdown span {
-  color: #ccc;
+  color: #346072;
+  font-weight: 700;
 }
 
 .btn,
 .download {
   display: inline-block;
   padding: 15px 28px;
-  background: white;
-  color: black;
+  background: #063142;
+  color: white;
   border-radius: 50px;
   text-decoration: none;
   border: none;
-  font-weight: 800;
+  font-weight: 900;
   cursor: pointer;
+  box-shadow: 0 18px 50px rgba(0, 70, 90, .2);
+  transition: .25s;
+}
+
+.btn:hover,
+.download:hover {
+  transform: translateY(-3px);
+  background: #00a6b2;
 }
 
 section {
   max-width: 1200px;
   margin: auto;
   padding: 80px 24px;
+  position: relative;
+  z-index: 1;
 }
 
 h2 {
@@ -163,13 +228,15 @@ h2 {
   letter-spacing: -3px;
   margin: 0 0 25px;
   line-height: .95;
+  color: #063142;
 }
 
 .intro p {
   font-size: clamp(18px, 3vw, 23px);
-  color: #bbb;
+  color: #315d6e;
   line-height: 1.5;
   max-width: 850px;
+  font-weight: 600;
 }
 
 .money-box {
@@ -181,25 +248,33 @@ h2 {
 
 .money-box p,
 .money-box span {
-  color: #ccc;
+  color: #315d6e;
   line-height: 1.5;
+  font-weight: 600;
 }
 
 .money-box input {
   width: 100%;
   padding: 18px;
   border-radius: 18px;
-  border: 1px solid rgba(255,255,255,.15);
-  background: rgba(0,0,0,.35);
-  color: white;
+  border: 1px solid rgba(6,49,66,.12);
+  background: rgba(255,255,255,.75);
+  color: #063142;
   font-size: 20px;
   outline: none;
   margin: 12px 0;
+  font-weight: 800;
+}
+
+.money-box input:focus {
+  border-color: #00a6b2;
+  box-shadow: 0 0 0 4px rgba(0,166,178,.12);
 }
 
 .money-box h3 {
   font-size: 38px;
   margin: 10px 0;
+  color: #063142;
 }
 
 .mini-actions {
@@ -210,12 +285,16 @@ h2 {
 }
 
 .mini-actions a {
-  color: black;
-  background: white;
+  color: white;
+  background: #063142;
   padding: 11px 16px;
   border-radius: 50px;
   text-decoration: none;
-  font-weight: 800;
+  font-weight: 900;
+}
+
+.mini-actions a:hover {
+  background: #00a6b2;
 }
 
 .filters {
@@ -229,15 +308,17 @@ h2 {
   padding: 12px 18px;
   border: none;
   border-radius: 50px;
-  background: #1c1c1e;
-  color: white;
+  background: rgba(255,255,255,.62);
+  color: #063142;
   cursor: pointer;
+  font-weight: 900;
+  box-shadow: 0 14px 35px rgba(0, 92, 115, .08);
 }
 
 .filters button:hover,
 .filters button.active {
-  background: white;
-  color: black;
+  background: #063142;
+  color: white;
 }
 
 .cards {
@@ -252,8 +333,9 @@ h2 {
   overflow: hidden;
   position: relative;
   cursor: pointer;
-  background: #111;
+  background: white;
   transition: .35s;
+  box-shadow: 0 28px 80px rgba(0, 92, 115, .18);
 }
 
 .card:hover {
@@ -270,7 +352,7 @@ h2 {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,.92), transparent);
+  background: linear-gradient(to top, rgba(6,49,66,.92), rgba(6,49,66,.08));
 }
 
 .card-text {
@@ -281,18 +363,21 @@ h2 {
 }
 
 .card-text span {
-  color: #ddd;
+  color: rgba(255,255,255,.85);
+  font-weight: 700;
 }
 
 .card-text h3 {
   font-size: 28px;
   margin: 8px 0;
   line-height: 1;
+  color: white;
 }
 
 .card-text p {
-  color: #ccc;
+  color: rgba(255,255,255,.82);
   line-height: 1.4;
+  font-weight: 600;
 }
 
 .squad-grid,
@@ -311,18 +396,20 @@ h2 {
 
 .person:hover {
   transform: translateY(-8px);
-  background: rgba(255,255,255,.14);
+  background: rgba(255,255,255,.75);
 }
 
 .person h3 {
   font-size: 28px;
   margin: 16px 0 6px;
+  color: #063142;
 }
 
 .person p {
-  color: #ccc;
+  color: #315d6e;
   margin: 0;
   font-size: 16px;
+  font-weight: 700;
 }
 
 .checklist {
@@ -331,6 +418,8 @@ h2 {
 
 .checklist div {
   padding: 20px;
+  color: #063142;
+  font-weight: 800;
 }
 
 .modal,
@@ -339,8 +428,10 @@ h2 {
   position: fixed;
   inset: 0;
   display: none;
-  background: rgba(0,0,0,.86);
-  z-index: 80;
+  background: rgba(6, 49, 66, .62);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 200;
   justify-content: center;
   align-items: center;
   padding: 20px;
@@ -351,9 +442,11 @@ h2 {
   width: min(900px, 100%);
   max-height: 90vh;
   overflow: auto;
-  background: #111;
+  background: rgba(255,255,255,.88);
+  border: 1px solid rgba(255,255,255,.65);
   border-radius: 34px;
   position: relative;
+  box-shadow: 0 40px 120px rgba(0, 50, 70, .28);
 }
 
 .close {
@@ -365,10 +458,11 @@ h2 {
   height: 42px;
   border-radius: 50%;
   background: white;
-  color: black;
+  color: #063142;
   font-size: 28px;
   cursor: pointer;
   z-index: 5;
+  box-shadow: 0 14px 35px rgba(0,0,0,.14);
 }
 
 .modal-box > img {
@@ -382,7 +476,12 @@ h2 {
 }
 
 .modal-text p {
-  color: #aaa;
+  color: #315d6e;
+  font-weight: 700;
+}
+
+.modal-text h2 {
+  color: #063142;
 }
 
 .event-list {
@@ -397,15 +496,15 @@ h2 {
   align-items: center;
   padding: 12px;
   border-radius: 22px;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.58);
+  border: 1px solid rgba(6,49,66,.08);
   cursor: pointer;
   transition: .25s;
 }
 
 .event:hover {
   transform: scale(1.02);
-  background: rgba(255,255,255,.12);
+  background: white;
 }
 
 .event img {
@@ -418,10 +517,13 @@ h2 {
 .event b {
   display: block;
   margin-bottom: 5px;
+  color: #00a6b2;
+  font-weight: 900;
 }
 
 .event span {
-  color: #ddd;
+  color: #315d6e;
+  font-weight: 700;
 }
 
 .event-detail {
@@ -431,6 +533,7 @@ h2 {
   overflow: hidden;
   position: relative;
   background: #111;
+  box-shadow: 0 40px 120px rgba(0, 50, 70, .28);
 }
 
 .event-detail-bg {
@@ -444,7 +547,7 @@ h2 {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,.94), rgba(0,0,0,.2));
+  background: linear-gradient(to top, rgba(6,49,66,.95), rgba(6,49,66,.15));
 }
 
 .event-detail-content {
@@ -455,10 +558,15 @@ h2 {
   width: 100%;
 }
 
+.event-detail-content h2 {
+  color: white;
+}
+
 .event-detail-content p {
-  color: #eee;
+  color: #eefcff;
   font-size: 19px;
   line-height: 1.5;
+  font-weight: 600;
 }
 
 .event-info-grid {
@@ -471,7 +579,8 @@ h2 {
 .event-info-grid div {
   padding: 18px;
   border-radius: 22px;
-  background: rgba(255,255,255,.12);
+  background: rgba(255,255,255,.14);
+  backdrop-filter: blur(12px);
 }
 
 .event-info-grid b,
@@ -479,9 +588,14 @@ h2 {
   display: block;
 }
 
+.event-info-grid b {
+  color: #ffd28a;
+}
+
 .event-info-grid span {
-  color: #ddd;
+  color: white;
   margin-top: 6px;
+  font-weight: 600;
 }
 
 .event-actions {
@@ -491,13 +605,21 @@ h2 {
   margin-top: 24px;
 }
 
-.event-actions a {
+.event-actions a,
+.event-actions button {
   text-decoration: none;
-  color: black;
+  color: #063142;
   background: white;
   padding: 12px 18px;
   border-radius: 50px;
-  font-weight: 800;
+  font-weight: 900;
+  border: none;
+  cursor: pointer;
+}
+
+.event-actions a:hover,
+.event-actions button:hover {
+  background: #ffd28a;
 }
 
 .person-detail {
@@ -507,6 +629,15 @@ h2 {
 
 .person-big-icon {
   font-size: 90px;
+}
+
+.person-detail h2 {
+  color: #063142;
+}
+
+.person-detail p {
+  color: #315d6e;
+  font-weight: 700;
 }
 
 .person-info {
@@ -519,7 +650,7 @@ h2 {
 .person-info div {
   padding: 22px;
   border-radius: 24px;
-  background: rgba(255,255,255,.08);
+  background: rgba(255,255,255,.62);
 }
 
 .person-info b,
@@ -527,15 +658,40 @@ h2 {
   display: block;
 }
 
+.person-info b {
+  color: #063142;
+}
+
 .person-info span {
   margin-top: 8px;
-  color: #ccc;
+  color: #315d6e;
+  font-weight: 700;
 }
 
 footer {
   text-align: center;
-  color: #777;
+  color: #315d6e;
   padding: 60px 20px 90px;
+  font-weight: 800;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+section,
+.card,
+.money-box,
+.person,
+.checklist div {
+  animation: fadeUp .8s ease both;
 }
 
 @media (max-width: 1000px) {
@@ -558,6 +714,12 @@ footer {
 
   nav a {
     display: none;
+  }
+
+  .music-btn {
+    right: 14px;
+    bottom: 14px;
+    padding: 12px 16px;
   }
 
   .hero h1 {
@@ -591,7 +753,7 @@ footer {
   }
 
   .event-detail {
-    min-height: 620px;
+    min-height: 650px;
     border-radius: 28px;
   }
 
@@ -608,15 +770,4 @@ footer {
   .person-modal {
     padding: 10px;
   }
-}
-
-.event-actions button {
-  text-decoration: none;
-  color: black;
-  background: white;
-  padding: 12px 18px;
-  border-radius: 50px;
-  font-weight: 800;
-  border: none;
-  cursor: pointer;
 }
