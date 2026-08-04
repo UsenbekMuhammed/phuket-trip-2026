@@ -391,7 +391,12 @@ const days = [
   }
 ];
 
+// Обновлённый адрес виллы
 const villaLocation = "The Regent Villa Pasak, Phuket, Thailand";
+
+// Ссылка на общий альбом Google Фото
+const galleryLink = "https://photos.app.goo.gl/XHzDK3m8nmuULbam7";
+
 const cards = document.getElementById("cards");
 
 function googleMapsLink(query) {
@@ -773,6 +778,21 @@ function openPersonModal(person) {
 
 function closePersonModal() {
   document.getElementById("personModal").style.display = "none";
+}
+
+// Копирование ссылки на галерею в буфер обмена
+function copyGalleryLink(button) {
+  navigator.clipboard.writeText(galleryLink)
+    .then(() => {
+      const original = button.innerText;
+      button.innerText = "Скопировано ✓";
+      setTimeout(() => {
+        button.innerText = original;
+      }, 2000);
+    })
+    .catch(() => {
+      window.prompt("Скопируй ссылку вручную:", galleryLink);
+    });
 }
 
 document.addEventListener("keydown", function(e) {
