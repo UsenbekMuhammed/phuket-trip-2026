@@ -391,7 +391,7 @@ const days = [
   }
 ];
 
-const villaLocation = "New 3BR Chalet-Style Villa Pasak Paradise 3 Private Pool Laguna Phuket";
+const villaLocation = "2838+X83, Choeng Thale, Thalang District, Phuket 83110, Thailand";
 const cards = document.getElementById("cards");
 
 function googleMapsLink(query) {
