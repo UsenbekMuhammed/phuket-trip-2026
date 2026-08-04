@@ -170,7 +170,8 @@ nav a:hover {
 .countdown div,
 .money-box,
 .person,
-.checklist div {
+.checklist div,
+.gallery-box {
   border-radius: 28px;
   background: rgba(255,255,255,.58);
   border: 1px solid rgba(255,255,255,.65);
@@ -213,6 +214,24 @@ nav a:hover {
 .download:hover {
   transform: translateY(-3px);
   background: #00a6b2;
+}
+
+.btn-outline {
+  display: inline-block;
+  padding: 15px 28px;
+  background: transparent;
+  color: #063142;
+  border-radius: 50px;
+  border: 2px solid #063142;
+  font-weight: 900;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.btn-outline:hover {
+  background: #063142;
+  color: white;
+  transform: translateY(-3px);
 }
 
 section {
@@ -410,6 +429,38 @@ h2 {
   margin: 0;
   font-size: 16px;
   font-weight: 700;
+}
+
+.gallery-box {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 40px;
+}
+
+.gallery-icon {
+  font-size: 70px;
+  flex-shrink: 0;
+}
+
+.gallery-text h3 {
+  font-size: 30px;
+  margin: 0 0 12px;
+  color: #063142;
+}
+
+.gallery-text p {
+  color: #315d6e;
+  line-height: 1.5;
+  font-weight: 600;
+  margin: 0 0 22px;
+  max-width: 650px;
+}
+
+.gallery-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
 }
 
 .checklist {
@@ -690,7 +741,8 @@ section,
 .card,
 .money-box,
 .person,
-.checklist div {
+.checklist div,
+.gallery-box {
   animation: fadeUp .8s ease both;
 }
 
@@ -704,6 +756,15 @@ section,
   .checklist,
   .event-info-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gallery-box {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .gallery-actions {
+    justify-content: center;
   }
 }
 
