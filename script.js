@@ -391,7 +391,7 @@ const days = [
   }
 ];
 
-const villaLocation = "2838+X83, Choeng Thale, Thalang District, Phuket 83110, Thailand";
+const villaLocation = "The Regent Villa Pasak, Phuket, Thailand";
 const cards = document.getElementById("cards");
 
 function googleMapsLink(query) {
