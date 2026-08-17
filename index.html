@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 
 <body>
@@ -75,16 +76,23 @@
 
 <section class="intro reveal">
   <span class="eyebrow">/ 00 — О сайте</span>
-  <h2>Не просто отпуск.<br>Это история.</h2>
+  <h2 class="split-text">Не просто отпуск.<br>Это история.</h2>
   <p>
     Внутри маршрута: цены, советы, что взять с собой, Google Maps,
     маршрут от текущей геолокации и маршрут от виллы.
   </p>
 </section>
 
+<div class="marquee-band">
+  <div class="marquee-track">
+    <span>BLUE TREE · JAMES BOND ISLAND · BANG TAO · PATONG · PROMTHEP CAPE · BEACH CLUB ·&nbsp;</span>
+    <span>BLUE TREE · JAMES BOND ISLAND · BANG TAO · PATONG · PROMTHEP CAPE · BEACH CLUB ·&nbsp;</span>
+  </div>
+</div>
+
 <section id="money" class="reveal">
   <span class="eyebrow">/ 01 — Деньги</span>
-  <h2>Конвертер ฿ → ₸</h2>
+  <h2 class="split-text">Конвертер ฿ → ₸</h2>
   <div class="money-box">
     <div>
       <p>Введите сумму в батах</p>
@@ -107,7 +115,7 @@
 
 <section id="days" class="reveal">
   <span class="eyebrow">/ 02 — Маршрут</span>
-  <h2>10 дней<br>по острову</h2>
+  <h2 class="split-text">10 дней<br>по острову</h2>
 
   <div class="filters">
     <button onclick="filterDays('all', this)" class="active">Все</button>
@@ -122,13 +130,13 @@
 
 <section id="squad" class="reveal">
   <span class="eyebrow">/ 03 — Команда</span>
-  <h2>Phuket Squad</h2>
+  <h2 class="split-text">Phuket Squad</h2>
   <div class="squad-grid" id="squadGrid"></div>
 </section>
 
 <section id="gallery" class="reveal">
   <span class="eyebrow">/ 04 — Фото</span>
-  <h2>Галерея</h2>
+  <h2 class="split-text">Галерея</h2>
   <div class="gallery-box">
     <div class="gallery-icon">📸</div>
     <div class="gallery-text">
@@ -147,7 +155,7 @@
 
 <section id="checklist" class="reveal">
   <span class="eyebrow">/ 05 — Сборы</span>
-  <h2>Чек-лист</h2>
+  <h2 class="split-text">Чек-лист</h2>
   <div class="checklist">
     <div>Загранпаспорт</div>
     <div>Страховка</div>
@@ -204,6 +212,15 @@
     </div>
   </div>
 </div>
+
+<section class="space-finale">
+  <canvas id="spaceCanvas"></canvas>
+  <div class="space-content reveal">
+    <span class="eyebrow">/ 06 — Домой</span>
+    <h2 class="split-text">10 дней<br>останутся с нами</h2>
+    <p class="space-sub">Пока мы летим домой — этот сайт продолжает жить здесь, среди тропических звёзд.</p>
+  </div>
+</section>
 
 <footer>
   <div class="footer-title">PHUKET / 2026</div>
