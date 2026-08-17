@@ -534,7 +534,7 @@ function getEventInfo(event) {
   };
 
   if (text.includes("7-eleven") || text.includes("7/11")) return {
-    location: "7-Eleven near Pasak Paradise Phuket",
+    location: "7-Eleven near The Regent Villa Pasak Phuket",
     price: "Вода 10–20 бат, тосты 35–60 бат",
     take: "Наличные или карта",
     tip: "Для быстрых покупок лучше искать ближайший 7-Eleven на карте."
@@ -634,7 +634,9 @@ function closeEventModal() {
 }
 
 function updateCountdown() {
-  const tripDate = new Date("2026-08-21T17:45:00");
+  // Указываем часовой пояс Пхукета (UTC+7) явно — иначе у гостей
+  // из других стран отсчёт "врал" бы на разницу поясов
+  const tripDate = new Date("2026-08-21T17:45:00+07:00");
   const now = new Date();
   const diff = tripDate - now;
 
@@ -801,11 +803,33 @@ function copyGalleryLink(button) {
     });
 }
 
+// === Мобильное бургер-меню ===
+const burgerBtn = document.getElementById("burgerBtn");
+const navLinks = document.getElementById("navLinks");
+
+function toggleMobileMenu() {
+  if (!burgerBtn || !navLinks) return;
+  burgerBtn.classList.toggle("open");
+  navLinks.classList.toggle("open");
+}
+
+function closeMobileMenu() {
+  if (!burgerBtn || !navLinks) return;
+  burgerBtn.classList.remove("open");
+  navLinks.classList.remove("open");
+}
+
+// Закрываем меню, когда переходим по ссылке
+navLinks?.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", closeMobileMenu);
+});
+
 document.addEventListener("keydown", function(e) {
   if (e.key === "Escape") {
     closeModal();
     closeEventModal();
     closePersonModal();
+    closeMobileMenu();
   }
 });
 
