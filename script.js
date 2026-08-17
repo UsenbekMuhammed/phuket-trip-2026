@@ -591,7 +591,10 @@ function renderCards(filter = "all") {
     card.className = "card reveal reveal-stagger";
     card.style.setProperty("--stagger-index", index);
 
+    const dayNumber = String(days.indexOf(day) + 1).padStart(2, "0");
+
     card.innerHTML = `
+      <span class="card-num">${dayNumber}</span>
       <img src="${day.img}" alt="${day.title}">
       <div class="card-text">
         <span>${day.date}</span>
@@ -839,7 +842,78 @@ function copyGalleryLink(button) {
     });
 }
 
-// === Мобильное бургер-меню ===
+// === Кастомный курсор ===
+const cursorDot = document.getElementById("cursorDot");
+const cursorRing = document.getElementById("cursorRing");
+const isFinePointer = window.matchMedia("(pointer: fine)").matches;
+
+if (isFinePointer && cursorDot && cursorRing) {
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
+  document.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursorDot.style.left = `${mouseX}px`;
+    cursorDot.style.top = `${mouseY}px`;
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.18;
+    ringY += (mouseY - ringY) * 0.18;
+    cursorRing.style.left = `${ringX}px`;
+    cursorRing.style.top = `${ringY}px`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Курсор увеличивается над кликабельными элементами
+  document.addEventListener("mouseover", (e) => {
+    if (e.target.closest("a, button, .card, .person, .event, .magnetic")) {
+      cursorRing.classList.add("hovering");
+    }
+  });
+
+  document.addEventListener("mouseout", (e) => {
+    if (e.target.closest("a, button, .card, .person, .event, .magnetic")) {
+      cursorRing.classList.remove("hovering");
+    }
+  });
+}
+
+// === Magnetic-эффект на кнопках ===
+if (isFinePointer) {
+  document.addEventListener("mousemove", (e) => {
+    document.querySelectorAll(".magnetic").forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+
+      if (dist < 120) {
+        const strength = (120 - dist) / 120;
+        const moveX = (e.clientX - centerX) * 0.25 * strength;
+        const moveY = (e.clientY - centerY) * 0.25 * strength;
+        el.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      } else {
+        el.style.transform = "translate(0, 0)";
+      }
+    });
+  });
+}
+
+// === Свечение, следующее за курсором в hero ===
+const heroGlow = document.getElementById("heroGlow");
+const heroSection = document.querySelector(".hero");
+
+if (heroGlow && heroSection) {
+  heroSection.addEventListener("mousemove", (e) => {
+    const rect = heroSection.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    heroGlow.style.transform = `translate(${x - 250}px, ${y - 250}px)`;
+  });
+}
 const burgerBtn = document.getElementById("burgerBtn");
 const navLinks = document.getElementById("navLinks");
 
