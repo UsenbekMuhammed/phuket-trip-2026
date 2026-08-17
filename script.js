@@ -549,9 +549,10 @@ function renderCards(filter = "all") {
 
   const list = filter === "all" ? days : days.filter(day => day.cat.includes(filter));
 
-  list.forEach(day => {
+  list.forEach((day, index) => {
     const card = document.createElement("div");
-    card.className = "card";
+    card.className = "card reveal reveal-stagger";
+    card.style.setProperty("--stagger-index", index);
 
     card.innerHTML = `
       <img src="${day.img}" alt="${day.title}">
@@ -565,6 +566,8 @@ function renderCards(filter = "all") {
     card.onclick = () => openModal(day);
     cards.appendChild(card);
   });
+
+  observeRevealTargets();
 }
 
 function filterDays(type, button) {
@@ -754,9 +757,10 @@ function renderSquad() {
 
   grid.innerHTML = "";
 
-  squad.forEach(person => {
+  squad.forEach((person, index) => {
     const card = document.createElement("div");
-    card.className = "person";
+    card.className = "person reveal reveal-stagger";
+    card.style.setProperty("--stagger-index", index);
     card.innerHTML = `
       ${person.icon}
       <h3>${person.name}</h3>
@@ -765,6 +769,8 @@ function renderSquad() {
     card.onclick = () => openPersonModal(person);
     grid.appendChild(card);
   });
+
+  observeRevealTargets();
 }
 
 function openPersonModal(person) {
@@ -818,7 +824,75 @@ document.addEventListener("click", function firstClick() {
 
 window.addEventListener("load", startMusic);
 
+// === Scroll-reveal: элементы плавно появляются, когда доскроллил до них ===
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
+);
+
+function observeRevealTargets() {
+  document.querySelectorAll(".reveal:not(.is-visible)").forEach(el => {
+    revealObserver.observe(el);
+  });
+}
+
+// Чек-лист тоже участвует в reveal-эффекте
+document.querySelectorAll(".checklist div").forEach((el, index) => {
+  el.classList.add("reveal", "reveal-stagger");
+  el.style.setProperty("--stagger-index", index);
+});
+
+// Money-box и gallery-box тоже мягко появляются
+document.querySelectorAll(".money-box, .gallery-box").forEach(el => {
+  el.classList.add("reveal");
+});
+
+// === Параллакс на фоне hero ===
+const heroBg = document.getElementById("heroBg");
+let parallaxTicking = false;
+
+function updateParallax() {
+  if (!heroBg) return;
+  const scrolled = window.scrollY;
+  // Фон двигается медленнее контента — создаёт эффект глубины
+  heroBg.style.transform = `translateY(${scrolled * 0.35}px)`;
+  parallaxTicking = false;
+}
+
+function onScrollParallax() {
+  if (!parallaxTicking) {
+    requestAnimationFrame(updateParallax);
+    parallaxTicking = true;
+  }
+}
+
+// === Прогресс-бар скролла ===
+const scrollProgressBar = document.getElementById("scrollProgress");
+
+function updateScrollProgress() {
+  if (!scrollProgressBar) return;
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  scrollProgressBar.style.width = `${progress}%`;
+}
+
+window.addEventListener("scroll", () => {
+  onScrollParallax();
+  updateScrollProgress();
+}, { passive: true });
+
 renderCards();
 renderSquad();
 updateCountdown();
+observeRevealTargets();
+updateParallax();
+updateScrollProgress();
 setInterval(updateCountdown, 1000);
