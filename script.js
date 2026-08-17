@@ -1,24 +1,24 @@
 const days = [
   {
     date: "21.08.2026",
-    title: "День 1: Прилет и заселение",
+    title: "День 1: Прилет и заселение в Банг Тао",
     cat: "food",
     img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1600&q=90",
-    text: "Прилет вечером, минивэн до виллы, заселение и легкий ужин.",
+    text: "Прилет в 18:00, трансфер на север острова в Банг Тао, заселение и легкий ужин.",
     events: [
       {
-        time: "17:45",
+        time: "18:00",
         text: "Прилет на Пхукет",
         img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "19:00",
+        time: "19:15",
         text: "Паспортный контроль, багаж, обмен денег и SIM-карты",
         img: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=900&q=90"
       },
       {
         time: "20:00",
-        text: "Минивэн до района Раваи",
+        text: "Трансфер в Банг Тао (~40-45 минут от аэропорта)",
         img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=900&q=90"
       },
       {
@@ -35,10 +35,10 @@ const days = [
   },
   {
     date: "22.08.2026",
-    title: "День 2: Най Харн и seafood",
-    cat: "beach food",
-    img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=90",
-    text: "Закуп продуктов, пляж Най Харн и королевский ужин на Rawai Seafood Market.",
+    title: "День 2: Знакомство с районом и Blue Tree",
+    cat: "beach adventure food",
+    img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1600&q=90",
+    text: "Закуп продуктов, аквапарк Blue Tree Phuket рядом с виллой и закат на пляже Банг Тао.",
     events: [
       {
         time: "09:00",
@@ -47,28 +47,28 @@ const days = [
       },
       {
         time: "10:30",
-        text: "Makro или Big C: закуп воды, льда, завтраков и BBQ-продуктов",
+        text: "Villa Market или Boat Avenue: закуп воды, льда, завтраков и BBQ-продуктов",
         img: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "12:30",
-        text: "Пляж Най Харн: купание, чилл, фото",
-        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=90"
+        time: "12:00",
+        text: "Blue Tree Phuket: вейкборд, слайды, флоатинг-бары, лагуна",
+        img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "15:30",
-        text: "Обед в пляжном кафе",
+        time: "15:00",
+        text: "Обед на территории Blue Tree",
         img: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "17:00",
-        text: "Rawai Seafood Market: лобстеры, креветки, рыба и торг",
-        img: "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=900&q=90"
+        time: "17:30",
+        text: "Пляж Банг Тао: закат, купание (смотрим на флаги — не сезон, море бывает неспокойным)",
+        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "18:30",
-        text: "Огромный seafood-ужин всей компанией",
-        img: "https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&w=900&q=90"
+        time: "19:30",
+        text: "Ужин в Cherngtalay",
+        img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=90"
       }
     ]
   },
@@ -77,15 +77,15 @@ const days = [
     title: "День 3: Big Buddha и Old Town",
     cat: "adventure food",
     img: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1600&q=90",
-    text: "Big Buddha, Wat Chalong, Old Phuket Town и ужин в Raya.",
+    text: "Выезд на юг острова: Big Buddha, Wat Chalong, Old Phuket Town и ужин в Raya.",
     events: [
       {
-        time: "09:30",
-        text: "Завтрак на вилле",
+        time: "09:00",
+        text: "Завтрак на вилле и выезд на юг острова (утром обычно сухо)",
         img: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "11:15",
+        time: "11:00",
         text: "Big Buddha и панорама острова",
         img: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=900&q=90"
       },
@@ -105,18 +105,62 @@ const days = [
         img: "https://images.unsplash.com/photo-1599639668273-b3503150d8b1?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "18:30",
-        text: "Ужин в Raya",
+        time: "19:00",
+        text: "Ужин в Raya, возвращение в Банг Тао",
         img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=90"
       }
     ]
   },
   {
     date: "24.08.2026",
-    title: "День 4: Джунгли и ATV",
+    title: "День 4: James Bond Island и Phang Nga Bay",
+    cat: "beach adventure",
+    img: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1600&q=90",
+    text: "Не сезон — открытое море к Пхи-Пхи может штормить, поэтому едем в защищённый залив Phang Nga: спокойная вода почти всегда.",
+    events: [
+      {
+        time: "07:00",
+        text: "Ранний подъем и проверка погоды/волн",
+        img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=90"
+      },
+      {
+        time: "08:00",
+        text: "Трансфер на причал (тур с бесплатной отменой/переносом на случай непогоды)",
+        img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=90"
+      },
+      {
+        time: "10:00",
+        text: "James Bond Island (Khao Phing Kan) и бухта Phang Nga",
+        img: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=90"
+      },
+      {
+        time: "12:00",
+        text: "Каякинг по мангровым пещерам (hongs)",
+        img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=90"
+      },
+      {
+        time: "13:30",
+        text: "Обед на плавучей деревне Koh Panyi",
+        img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=90"
+      },
+      {
+        time: "16:00",
+        text: "Снорклинг у островов бухты",
+        img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=90"
+      },
+      {
+        time: "20:00",
+        text: "Возвращение в Банг Тао, доставка еды и кино на вилле",
+        img: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=900&q=90"
+      }
+    ]
+  },
+  {
+    date: "25.08.2026",
+    title: "День 5: Джунгли, ATV и слоны",
     cat: "adventure",
     img: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1600&q=90",
-    text: "Квадроциклы, джунгли, Elephant Sanctuary и тайский массаж.",
+    text: "Квадроциклы, джунгли, Elephant Sanctuary и тайский массаж — отличный план даже если пойдет дождь.",
     events: [
       {
         time: "09:00",
@@ -125,7 +169,7 @@ const days = [
       },
       {
         time: "10:45",
-        text: "ATV-тур по грязевым трассам",
+        text: "ATV-тур по грязевым трассам (в дождь даже веселее)",
         img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=90"
       },
       {
@@ -135,42 +179,32 @@ const days = [
       },
       {
         time: "14:30",
-        text: "Elephant Sanctuary",
+        text: "Elephant Sanctuary (ethical, без катания на слонах)",
         img: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=900&q=90"
       },
       {
         time: "19:00",
-        text: "Тайский массаж",
+        text: "Тайский массаж рядом с виллой в Банг Тао",
         img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=900&q=90"
       }
     ]
   },
   {
-    date: "25.08.2026",
-    title: "День 5: Януи, Windmill и Патонг",
+    date: "26.08.2026",
+    title: "День 6: Отдых и Патонг вечером",
     cat: "beach party",
     img: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1600&q=90",
-    text: "Yanui Beach, каяки, Windmill Viewpoint, пре-пати и Bangla Road.",
+    text: "Спокойный день у бассейна виллы, вечером выезд в Патонг на тусовку.",
     events: [
       {
-        time: "10:00",
-        text: "Поздний завтрак",
-        img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=900&q=90"
-      },
-      {
-        time: "11:30",
-        text: "Yanui Beach: каяки и снорклинг",
-        img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=90"
+        time: "11:00",
+        text: "Поздний завтрак и день у бассейна виллы",
+        img: "https://images.unsplash.com/photo-1543352634-a1c51d9f1fa7?auto=format&fit=crop&w=900&q=90"
       },
       {
         time: "14:00",
-        text: "Обед у пляжа",
+        text: "Обед на вилле или рядом",
         img: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=900&q=90"
-      },
-      {
-        time: "16:30",
-        text: "Windmill Viewpoint рядом с Януи",
-        img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=90"
       },
       {
         time: "20:00",
@@ -178,7 +212,12 @@ const days = [
         img: "https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "22:45",
+        time: "21:00",
+        text: "Трансфер в Патонг (~35-40 минут от Банг Тао)",
+        img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=900&q=90"
+      },
+      {
+        time: "22:30",
         text: "Bangla Road, бары и коктейли",
         img: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=900&q=90"
       },
@@ -190,11 +229,11 @@ const days = [
     ]
   },
   {
-    date: "26.08.2026",
-    title: "День 6: Freedom Beach и закат",
-    cat: "beach",
+    date: "27.08.2026",
+    title: "День 7: Западное побережье и закат на Promthep",
+    cat: "beach adventure",
     img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=90",
-    text: "День после Патонга: сон, Freedom Beach и закат на Promthep Cape.",
+    text: "Камала, смотровая Laem Singh, Сурин Бич и легендарный закат на мысе Promthep Cape.",
     events: [
       {
         time: "12:00",
@@ -202,82 +241,38 @@ const days = [
         img: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "13:00",
+        time: "13:30",
         text: "Легкий бранч на вилле",
-        img: "https://images.unsplash.com/photo-1543352634-a1c51d9f1fa7?auto=format&fit=crop&w=900&q=90"
+        img: "https://images.unsplash.com/photo-1494859802809-d069c3b71a8a?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "13:30",
-        text: "Выезд на Freedom Beach",
+        time: "14:30",
+        text: "Пляж Камала и смотровая Laem Singh Viewpoint",
         img: "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "14:00",
-        text: "Белый песок, купание, фото и кокосы",
+        time: "16:00",
+        text: "Сурин Бич: белый песок и виллы у моря",
         img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "17:45",
-        text: "Promthep Cape: закат над океаном",
+        time: "18:00",
+        text: "Promthep Cape: закат над океаном (самая южная точка острова)",
         img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "19:15",
+        time: "19:30",
         text: "Ужин в Promthep Cape Restaurant",
         img: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=900&q=90"
       }
     ]
   },
   {
-    date: "27.08.2026",
-    title: "День 7: Пхи-Пхи и Monkey Beach",
-    cat: "beach adventure",
-    img: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1600&q=90",
-    text: "Спидбот на Пхи-Пхи, Maya Bay, Monkey Beach и снорклинг.",
-    events: [
-      {
-        time: "07:00",
-        text: "Ранний подъем и проверка погоды",
-        img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=90"
-      },
-      {
-        time: "08:00",
-        text: "Трансфер на причал",
-        img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=90"
-      },
-      {
-        time: "10:00",
-        text: "Острова Пхи-Пхи и Maya Bay",
-        img: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=90"
-      },
-      {
-        time: "11:30",
-        text: "Monkey Beach: смотрим обезьян, не кормим и не трогаем",
-        img: "https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?auto=format&fit=crop&w=900&q=90"
-      },
-      {
-        time: "13:00",
-        text: "Обед на пляже",
-        img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=90"
-      },
-      {
-        time: "14:30",
-        text: "Снорклинг и бирюзовая вода",
-        img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=90"
-      },
-      {
-        time: "19:30",
-        text: "Доставка еды и кино на вилле",
-        img: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=900&q=90"
-      }
-    ]
-  },
-  {
     date: "28.08.2026",
-    title: "День 8: Beach Club Luxury",
+    title: "День 8: Beach Club в Банг Тао",
     cat: "beach party food",
-    img: "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1600&q=90",
-    text: "Cafe Del Mar / Catch Beach Club, daybeds, коктейли, DJ и красивый ужин.",
+    img: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=90",
+    text: "Xana Beach Club или Catch Beach Club Bangtao — daybeds, DJ и коктейли в 5-10 минутах от виллы.",
     events: [
       {
         time: "10:00",
@@ -286,7 +281,7 @@ const days = [
       },
       {
         time: "12:00",
-        text: "Cafe Del Mar Phuket или Catch Beach Club",
+        text: "Xana Beach Club или Catch Beach Club Bangtao",
         img: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=90"
       },
       {
@@ -300,22 +295,22 @@ const days = [
         img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "19:00",
-        text: "Ужин в Boat Avenue или рядом с клубом",
+        time: "19:30",
+        text: "Ужин рядом с клубом в Банг Тао",
         img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=90"
       }
     ]
   },
   {
     date: "29.08.2026",
-    title: "День 9: Шопинг и рынок",
+    title: "День 9: Шопинг и рынки",
     cat: "food",
     img: "https://images.unsplash.com/photo-1523906630133-f6934a1ab2b9?auto=format&fit=crop&w=1600&q=90",
-    text: "Central Festival, Chillva или Naka Market, street food, сувениры и манго домой.",
+    text: "Central Phuket Floresta, Chillva или Naka Market, street food и сувениры домой.",
     events: [
       {
         time: "11:00",
-        text: "Central Festival",
+        text: "Central Phuket Floresta (~15 минут от Банг Тао)",
         img: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=90"
       },
       {
@@ -329,12 +324,12 @@ const days = [
         img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "16:30",
+        time: "17:00",
         text: "Chillva Market или Naka Weekend Market",
         img: "https://images.unsplash.com/photo-1523906630133-f6934a1ab2b9?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "17:00",
+        time: "17:30",
         text: "Street food: сатэ, роти, жареное мороженое",
         img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=90"
       },
@@ -373,7 +368,7 @@ const days = [
         img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=90"
       },
       {
-        time: "15:00",
+        time: "15:30",
         text: "Минивэн в аэропорт Пхукета",
         img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=900&q=90"
       },
@@ -440,6 +435,48 @@ function getEventInfo(event) {
     price: "500–1500 бат",
     take: "Вода, наличные, телефон, powerbank",
     tip: "Уточнить время и дорогу заранее."
+  };
+
+  if (text.includes("blue tree")) return {
+    location: "Blue Tree Phuket",
+    price: "Вход обычно 500–900 бат, отдельные активности (вейкборд, слайды) — по прайсу",
+    take: "Купальник, полотенце, вода, наличные/карта",
+    tip: "Отличный вариант в дождливый день — часть зон крытые."
+  };
+
+  if (text.includes("james bond") || text.includes("phang nga") || text.includes("panyi") || text.includes("hong")) return {
+    location: "James Bond Island Phang Nga Bay",
+    price: "Тур часто 1800–3000 бат/чел",
+    take: "SPF, вода, наличные, что-то от дождя (иногда моросит)",
+    tip: "В несезон это более спокойный вариант, чем открытое море к Пхи-Пхи."
+  };
+
+  if (text.includes("xana") || text.includes("catch beach club bangtao") || (text.includes("catch") && text.includes("bangtao"))) return {
+    location: "Xana Beach Club Phuket",
+    price: "Зависит от daybed/deposit, напитки и еда отдельно",
+    take: "Купальные вещи, стильный beach look, карта/наличные",
+    tip: "В Банг Тао — рядом с виллой, лучше бронировать daybed заранее."
+  };
+
+  if (text.includes("камала") || text.includes("kamala")) return {
+    location: "Kamala Beach Phuket",
+    price: "Пляж бесплатно, шезлонги 100–200 бат",
+    take: "SPF, вода, наличные",
+    tip: "Смотровая Laem Singh рядом — можно совместить в один заезд."
+  };
+
+  if (text.includes("laem singh")) return {
+    location: "Laem Singh Viewpoint Phuket",
+    price: "Бесплатно",
+    take: "Телефон/камера, удобная обувь",
+    tip: "Смотровая площадка прямо у дороги, отличные виды на бухту."
+  };
+
+  if (text.includes("сурин") || text.includes("surin")) return {
+    location: "Surin Beach Phuket",
+    price: "Пляж бесплатно, рестораны у моря — от 300 бат",
+    take: "SPF, вода, наличные",
+    tip: "Красивый закат и хорошие рестораны прямо на пляже."
   };
 
   if (text.includes("freedom beach")) return {
@@ -743,14 +780,13 @@ function toggleMusic() {
 }
 
 const squad = [
-  { icon: "🧭", name: "Жан", role: "Капитан трипа", place: "Promthep Cape", mission: "Держать команду вместе" },
-  { icon: "💰", name: "Алихан", role: "Министр финансов", place: "Central Festival", mission: "Следить за бюджетом" },
+  { icon: "🧭", name: "Мага", role: "Капитан трипа", place: "Promthep Cape", mission: "Держать команду вместе" },
+  { icon: "💰", name: "Алихан", role: "Министр финансов", place: "Central Phuket Floresta", mission: "Следить за бюджетом" },
   { icon: "📍", name: "Алишер", role: "Навигатор", place: "Big Buddha", mission: "Не дать никому потеряться" },
-  { icon: "📸", name: "Мухаммед", role: "Контент-мейкер", place: "Freedom Beach", mission: "Снимать лучший контент" },
-  { icon: "🥩", name: "Адилет", role: "BBQ-мастер", place: "Вилла", mission: "Отвечать за финальный гриль" },
-  { icon: "🎧", name: "Султан", role: "Главный DJ", place: "Bangla Road", mission: "Держать вайб" },
-  { icon: "📷", name: "Ерлан", role: "Фотограф", place: "Phi Phi Islands", mission: "Поймать лучшие кадры" },
-  { icon: "🎉", name: "Самат", role: "Министр развлечений", place: "Beach Club", mission: "Делать каждый день веселее" }
+  { icon: "📸", name: "Муха", role: "Контент-мейкер", place: "Xana Beach Club", mission: "Снимать лучший контент" },
+  { icon: "🥩", name: "Адилет", role: "BBQ-мастер", place: "Вилла в Банг Тао", mission: "Отвечать за финальный гриль" },
+  { icon: "🎧", name: "Диас", role: "Главный DJ", place: "Bangla Road", mission: "Держать вайб" },
+  { icon: "🎉", name: "Даулетбек", role: "Министр развлечений", place: "James Bond Island", mission: "Делать каждый день веселее" }
 ];
 
 function renderSquad() {
