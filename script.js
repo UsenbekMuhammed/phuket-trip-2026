@@ -958,6 +958,24 @@ document.addEventListener("click", function firstClick() {
 
 window.addEventListener("load", startMusic);
 
+// === Split-text: разбиваем заголовки на слова для покадрового появления ===
+function splitHeadings() {
+  document.querySelectorAll(".split-text").forEach(heading => {
+    if (heading.dataset.split) return;
+    heading.dataset.split = "true";
+
+    const html = heading.innerHTML;
+    const lines = html.split(/<br\s*\/?>/i);
+
+    heading.innerHTML = lines.map(line => {
+      const words = line.trim().split(/\s+/).filter(Boolean);
+      return words.map((word, i) => {
+        return `<span class="word" style="--word-index:${i}"><span>${word}</span></span>`;
+      }).join(" ");
+    }).join("<br>");
+  });
+}
+
 // === Scroll-reveal: элементы плавно появляются, когда доскроллил до них ===
 const revealObserver = new IntersectionObserver(
   (entries) => {
@@ -1022,6 +1040,134 @@ window.addEventListener("scroll", () => {
   onScrollParallax();
   updateScrollProgress();
 }, { passive: true });
+
+splitHeadings();
+observeRevealTargets();
+
+// === 3D-tilt карточек при наведении курсора ===
+if (isFinePointer) {
+  document.addEventListener("mousemove", (e) => {
+    const hovered = e.target.closest(".card, .person");
+    document.querySelectorAll(".card, .person").forEach(el => {
+      if (el !== hovered) return;
+      const rect = el.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width - 0.5;
+      const py = (e.clientY - rect.top) / rect.height - 0.5;
+      el.style.transform = `perspective(800px) rotateY(${px * 10}deg) rotateX(${-py * 10}deg)`;
+    });
+  });
+
+  document.addEventListener("mouseout", (e) => {
+    const left = e.target.closest(".card, .person");
+    if (left) left.style.transform = "";
+  });
+}
+
+// === Финальная 3D-сцена: полёт сквозь тропический космос ===
+function initSpaceScene() {
+  const canvas = document.getElementById("spaceCanvas");
+  if (!canvas || typeof THREE === "undefined") return;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(70, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+  camera.position.z = 6;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+
+  // Звёздное поле в цветах сайта: коралл, бирюза, тёплый белый
+  const starCount = 2200;
+  const positions = new Float32Array(starCount * 3);
+  const colors = new Float32Array(starCount * 3);
+  const palette = [
+    [1, 0.36, 0.22],
+    [0.09, 0.89, 0.77],
+    [0.96, 0.95, 0.93]
+  ];
+
+  for (let i = 0; i < starCount; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * 60;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 60;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 60;
+    const c = palette[Math.floor(Math.random() * palette.length)];
+    colors[i * 3] = c[0];
+    colors[i * 3 + 1] = c[1];
+    colors[i * 3 + 2] = c[2];
+  }
+
+  const starGeo = new THREE.BufferGeometry();
+  starGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  starGeo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+  const starMat = new THREE.PointsMaterial({ size: 0.1, vertexColors: true, transparent: true, opacity: 0.9 });
+  const stars = new THREE.Points(starGeo, starMat);
+  scene.add(stars);
+
+  // "Тропическая планета" — светящийся коралловый шар
+  const planetGeo = new THREE.SphereGeometry(1.3, 48, 48);
+  const planetMat = new THREE.MeshStandardMaterial({
+    color: 0xff5b39,
+    emissive: 0x2a0f06,
+    roughness: 0.55,
+    metalness: 0.15
+  });
+  const planet = new THREE.Mesh(planetGeo, planetMat);
+  planet.position.set(2.4, 0.4, -4);
+  scene.add(planet);
+
+  const tealLight = new THREE.PointLight(0x17e3c4, 3, 60);
+  tealLight.position.set(-6, 3, 4);
+  scene.add(tealLight);
+  scene.add(new THREE.AmbientLight(0x404040, 1.4));
+
+  // Бумажный самолётик — символ полета домой
+  const planeGroup = new THREE.Group();
+  const bodyGeo = new THREE.ConeGeometry(0.16, 0.9, 4);
+  const bodyMat = new THREE.MeshStandardMaterial({ color: 0xf4f2ed, flatShading: true, roughness: 0.4 });
+  const body = new THREE.Mesh(bodyGeo, bodyMat);
+  body.rotation.x = Math.PI / 2;
+  planeGroup.add(body);
+  planeGroup.position.set(-3, -1, -2);
+  scene.add(planeGroup);
+
+  let mouseX = 0, mouseY = 0;
+  window.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX / window.innerWidth - 0.5;
+    mouseY = e.clientY / window.innerHeight - 0.5;
+  });
+
+  let t = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    t += 0.0025;
+
+    stars.rotation.y += 0.0006;
+    stars.rotation.x += 0.0002;
+
+    planet.rotation.y += 0.002;
+
+    planeGroup.position.x = -3 + Math.sin(t * 2) * 3.4;
+    planeGroup.position.y = -1 + Math.cos(t * 3) * 0.6;
+    planeGroup.rotation.z = Math.cos(t * 2) * 0.3;
+    planeGroup.rotation.y = Math.sin(t * 2) * 0.4;
+
+    camera.position.x += (mouseX * 1.4 - camera.position.x) * 0.03;
+    camera.position.y += (-mouseY * 1.4 - camera.position.y) * 0.03;
+    camera.lookAt(0, 0, 0);
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener("resize", () => {
+    if (!canvas.clientWidth || !canvas.clientHeight) return;
+    camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+  });
+}
+
+window.addEventListener("load", initSpaceScene);
 
 renderCards();
 renderSquad();
