@@ -441,133 +441,152 @@ function getEventInfo(event) {
     location: "Blue Tree Phuket",
     price: "Вход обычно 500–900 бат, отдельные активности (вейкборд, слайды) — по прайсу",
     take: "Купальник, полотенце, вода, наличные/карта",
-    tip: "Отличный вариант в дождливый день — часть зон крытые."
+    tip: "Рейтинг 4.5 (162 отзыва), открыто ежедневно 6:00–00:00. Раньше был аквапарком, сейчас скорее lifestyle-комплекс: бассейн, кафе, спа, магазины — можно провести полдня, даже если не любите воду.",
+    rating: "4.5 ★ · 162 отзыва",
+    hours: "Ежедневно 6:00–00:00"
   };
 
-  if (text.includes("james bond") || text.includes("phang nga") || text.includes("panyi") || text.includes("hong")) return {
+  if (text.includes("james bond") || text.includes("phang nga") || text.includes("hong")) return {
     location: "James Bond Island Phang Nga Bay",
     price: "Тур часто 1800–3000 бат/чел",
     take: "SPF, вода, наличные, что-то от дождя (иногда моросит)",
-    tip: "В несезон это более спокойный вариант, чем открытое море к Пхи-Пхи."
+    tip: "Рейтинг залива 4.7 (428 отзывов) — путешественники называют его \"тем самым Таиландом из буклетов\": известняковые скалы, пещеры-hong и изумрудная вода. В несезон это спокойнее, чем открытое море к Пхи-Пхи.",
+    rating: "4.7 ★ · 428 отзывов"
   };
 
-  if (text.includes("xana") || text.includes("catch beach club bangtao") || (text.includes("catch") && text.includes("bangtao"))) return {
-    location: "Xana Beach Club Phuket",
-    price: "Зависит от daybed/deposit, напитки и еда отдельно",
+  if (text.includes("panyi")) return {
+    location: "Ko Panyi (плавучая деревня) Phang Nga",
+    price: "Обычно входит в тур по заливу Phang Nga",
+    take: "Наличные на сувениры и обед, вода",
+    tip: "Рейтинг 4.4 (36 отзывов). Целая деревня на сваях над водой — можно зайти в местную школу и посмотреть на жизнь общины, не только сделать фото.",
+    rating: "4.4 ★ · 36 отзывов"
+  };
+
+  if (text.includes("xana")) return {
+    location: "XANA Beach Club, Bang Tao",
+    price: "Открыто, но по факту заказ еды/напитков от 300–500 бат/чел, ежедневно 10:00–21:00",
     take: "Купальные вещи, стильный beach look, карта/наличные",
-    tip: "В Банг Тао — рядом с виллой, лучше бронировать daybed заранее."
+    tip: "Рейтинг 4.3 (1131 отзыв). Отзывы хвалят закат над Андаманским морем и DJ-атмосферу — но многие пишут, что выбор еды скромный, если приходить именно ради еды, а не вайба у моря.",
+    rating: "4.3 ★ · 1131 отзыв",
+    hours: "Ежедневно 10:00–21:00"
+  };
+
+  if (text.includes("catch beach") || (text.includes("catch") && text.includes("bangtao"))) return {
+    location: "Catch Beach Club, Bang Tao",
+    price: "Есть минимальный чек/депозит на лежак, ежедневно 7:30–00:00",
+    take: "Купальные вещи, стильный beach look, карта/наличные",
+    tip: "Рейтинг 4.2 (2171 отзыв). В отзывах часто хвалят закатные виды, фаер-шоу вечером и живую сакс-музыку днём — но по выходным лучше бронировать лежак заранее.",
+    rating: "4.2 ★ · 2171 отзыв",
+    hours: "Ежедневно 7:30–00:00"
   };
 
   if (text.includes("камала") || text.includes("kamala")) return {
     location: "Kamala Beach Phuket",
     price: "Пляж бесплатно, шезлонги 100–200 бат",
     take: "SPF, вода, наличные",
-    tip: "Смотровая Laem Singh рядом — можно совместить в один заезд."
+    tip: "Рейтинг 4.4 (3879 отзывов). Просторнее и спокойнее Патонга, но есть предупреждения о сильных течениях — купаться между красными флагами, вечером в море после заката не заходить.",
+    rating: "4.4 ★ · 3879 отзывов"
   };
 
   if (text.includes("laem singh")) return {
-    location: "Laem Singh Viewpoint Phuket",
+    location: "Laem Sing Viewpoint Phuket",
     price: "Бесплатно",
     take: "Телефон/камера, удобная обувь",
-    tip: "Смотровая площадка прямо у дороги, отличные виды на бухту."
+    tip: "Рейтинг 4.7 (1812 отзывов). Смотровая прямо у дороги над пляжем Laem Sing — по отзывам, закат здесь может быть перекрыт деревьями, так что для чистого заката лучше спуститься к самому пляжу.",
+    rating: "4.7 ★ · 1812 отзывов"
   };
 
   if (text.includes("сурин") || text.includes("surin")) return {
     location: "Surin Beach Phuket",
     price: "Пляж бесплатно, рестораны у моря — от 300 бат",
     take: "SPF, вода, наличные",
-    tip: "Красивый закат и хорошие рестораны прямо на пляже."
+    tip: "Рейтинг 4.5 (3117 отзывов). Многие пишут, что Сурин красивее и спокойнее, чем Банг Тао и Камала — белый песок, тень от деревьев, кофейный трак на пляже.",
+    rating: "4.5 ★ · 3117 отзывов"
   };
 
-  if (text.includes("freedom beach")) return {
-    location: "Freedom Beach Phuket",
-    price: "Вход/проход 100–200 бат, такси отдельно",
-    take: "SPF, полотенце, вода, наличные",
-    tip: "Лучше ехать утром или после 14:00."
-  };
-
-  if (text.includes("monkey beach")) return {
-    location: "Monkey Beach Phi Phi",
-    price: "Обычно входит в тур Пхи-Пхи",
-    take: "Очки убрать, еду не держать, телефон крепко",
-    tip: "Обезьян не кормить и не трогать."
+  if (text.includes("bang tao")) return {
+    location: "Bang Tao Beach Phuket",
+    price: "Пляж бесплатно, шезлонг ~100 бат, массаж на пляже ~400 бат",
+    take: "SPF, вода, наличные",
+    tip: "Рейтинг 4.5 (2829 отзывов) — один из лучших пляжей острова для заката. В несезон волны сильнее у части пляжа — выбирайте участок ближе к северу, где спокойнее.",
+    rating: "4.5 ★ · 2829 отзывов"
   };
 
   if (text.includes("big buddha")) return {
-    location: "Big Buddha Phuket",
-    price: "Вход обычно бесплатный",
-    take: "Закрытые плечи/колени, вода",
-    tip: "Перед поездкой проверить, открыт ли объект."
+    location: "Phuket Big Buddha",
+    price: "Вход бесплатный (донейшн приветствуется)",
+    take: "Закрытые плечи/колени (дают накидки на входе), вода",
+    tip: "Рейтинг 4.6 (39 023 отзыва!) — одна из самых культовых точек острова. 45-метровая мраморная статуя и панорама на весь Пхукет с холма Nakkerd. Лучше приезжать утром — меньше людей и жары.",
+    rating: "4.6 ★ · 39 023 отзыва",
+    hours: "Ежедневно 6:00–18:30"
   };
 
-  if (text.includes("пхи") || text.includes("phi") || text.includes("maya")) return {
-    location: "Phi Phi Islands Thailand",
-    price: "Тур часто 1800–3500 бат/чел",
-    take: "SPF, купальные вещи, полотенце, наличные",
-    tip: "Maya Bay может закрываться сезонно — уточнять у туроператора."
-  };
-
-  if (text.includes("bangla") || text.includes("illuzion") || text.includes("sugar")) return {
-    location: "Bangla Road Patong Phuket",
-    price: "Коктейли 200–500 бат, клуб зависит от входа/депозита",
-    take: "Наличные, телефон, договориться о точке встречи",
-    tip: "Ехать всей компанией и держаться вместе."
-  };
-
-  if (text.includes("rawai seafood") || text.includes("seafood")) return {
-    location: "Rawai Seafood Market Phuket",
-    price: "Цена зависит от веса: креветки/рыба/лобстеры + готовка",
-    take: "Наличные, умение торговаться",
-    tip: "Сначала торговаться на рынке, потом отдавать готовить напротив."
-  };
-
-  if (text.includes("cafe del mar") || text.includes("catch beach")) return {
-    location: text.includes("cafe") ? "Cafe Del Mar Phuket" : "Catch Beach Club Phuket",
-    price: "Зависит от daybed/deposit, напитки и еда отдельно",
-    take: "Купальные вещи, стильный beach look, карта/наличные",
-    tip: "Лучше бронировать заранее."
-  };
-
-  if (text.includes("yanui")) return {
-    location: "Yanui Beach Phuket",
-    price: "Пляж бесплатно, каяки отдельно",
-    take: "SPF, маска, вода, наличные",
-    tip: "Хорошо совместить с Windmill Viewpoint."
-  };
-
-  if (text.includes("windmill")) return {
-    location: "Windmill Viewpoint Phuket",
-    price: "Бесплатно",
-    take: "Телефон/камера, вода",
-    tip: "Отличное место для фото и заката."
-  };
-
-  if (text.includes("central")) return {
-    location: "Central Phuket",
-    price: "По желанию: еда, шопинг, сувениры",
-    take: "Карта, наличные, список покупок",
-    tip: "Хороший вариант переждать жару."
-  };
-
-  if (text.includes("chillva") || text.includes("naka")) return {
-    location: text.includes("chillva") ? "Chillva Market Phuket" : "Naka Weekend Market Phuket",
-    price: "Street food обычно 50–200 бат за позицию",
-    take: "Наличные, пустой желудок",
-    tip: "Лучше идти вечером и пробовать разную еду."
+  if (text.includes("wat chalong") || text.includes("чалонг")) return {
+    location: "Wat Chalong Phuket",
+    price: "Вход бесплатный",
+    take: "Закрытые плечи/колени, наличные на пожертвование",
+    tip: "Рейтинг 4.6 (17 312 отзывов) — крупнейший и самый почитаемый храм острова. Стоит закладывать 1.5-2 часа: золотая пагода с сотнями статуй Будды впечатляет не меньше самого храма.",
+    rating: "4.6 ★ · 17 312 отзывов",
+    hours: "Ежедневно 8:00–17:00"
   };
 
   if (text.includes("elephant")) return {
-    location: "Elephant Sanctuary Phuket",
-    price: "Обычно 2000–3500 бат/чел, зависит от программы",
-    take: "Одежда, которую не жалко, полотенце",
-    tip: "Выбирать ethical sanctuary без катания на слонах."
+    location: "Phuket Elephant Sanctuary",
+    price: "От ~2500 бат/чел в зависимости от программы (полдня/весь день)",
+    take: "Одежда, которую не жалко, полотенце, средство от комаров",
+    tip: "Рейтинг 4.8 (3196 отзывов) — реально этичный санктуарий: без катания, кормление и прогулка на расстоянии, у каждого слона свой погонщик. Многие отмечают, что это один из лучших дней всей поездки.",
+    rating: "4.8 ★ · 3196 отзывов",
+    hours: "Ежедневно 9:00–17:00"
   };
 
   if (text.includes("atv")) return {
     location: "ATV Phuket",
     price: "Обычно 1200–2500 бат/чел",
     take: "Грязная одежда, закрытая обувь, вода",
-    tip: "После тура лучше сразу ехать в душ."
+    tip: "После тура лучше сразу ехать в душ — трассы грязевые и это часть удовольствия."
+  };
+
+  if (text.includes("bangla") || text.includes("illuzion") || text.includes("sugar")) return {
+    location: "Bangla Road Patong Phuket",
+    price: "Коктейли 200–500 бат, клуб зависит от входа/депозита",
+    take: "Наличные, телефон, договориться о точке встречи",
+    tip: "Рейтинг 4.4 (1577 отзывов). Вечером улица закрывается для машин и превращается в сплошной поток баров и музыки — многие советуют пробовать уличную еду между барами, а не только пить.",
+    rating: "4.4 ★ · 1577 отзывов"
+  };
+
+  if (text.includes("promthep") || text.includes("промтеп")) return {
+    location: "Promthep Cape Phuket",
+    price: "Бесплатно",
+    take: "Телефон/камера, что-то тёплое — на мысе часто ветрено",
+    tip: "Рейтинг 4.7 (18 703 отзыва) — легендарная точка заката острова, самая южная оконечность Пхукета. Рядом маяк-музей и небольшой храм на холме.",
+    rating: "4.7 ★ · 18 703 отзыва"
+  };
+
+  if (text.includes("central")) return {
+    location: "Central Phuket",
+    price: "По желанию: еда, шопинг, сувениры",
+    take: "Карта, наличные, список покупок",
+    tip: "Рейтинг 4.6 (24 805 отзывов), ежедневно 10:00–22:00. Состоит из двух зон — Festival и Floresta, между ними легко потеряться на пару часов в жаркий день.",
+    rating: "4.6 ★ · 24 805 отзывов",
+    hours: "Ежедневно 10:00–22:00"
+  };
+
+  if (text.includes("chillva")) return {
+    location: "Chillva Market Phuket",
+    price: "Street food обычно 50–200 бат за позицию",
+    take: "Наличные, пустой желудок",
+    tip: "Рейтинг 4.4 (10 202 отзыва), открыто по будням/выходным 17:00–23:00, по воскресеньям закрыто. Атмосфера контейнерного ночного рынка с живой музыкой — хорошо идти большой компанией.",
+    rating: "4.4 ★ · 10 202 отзыва",
+    hours: "Пн–Сб 17:00–23:00, вс закрыто"
+  };
+
+  if (text.includes("naka")) return {
+    location: "Naka Weekend Market Phuket",
+    price: "Street food и шопинг, бюджетно",
+    take: "Наличные, готовность торговаться",
+    tip: "Рейтинг 4.4 (11 929 отзывов). Работает только по выходным (сб-вс 16:00–22:00) — по отзывам, отдельного внимания стоит фудкорт с местными десертами.",
+    rating: "4.4 ★ · 11 929 отзывов",
+    hours: "Сб–Вс 16:00–22:00"
   };
 
   if (text.includes("7-eleven") || text.includes("7/11")) return {
@@ -655,10 +674,19 @@ function openEventModal(event) {
   document.getElementById("eventDetailTitle").innerText = event.text;
   document.getElementById("eventDetailText").innerText = `${event.text}. ${info.tip}`;
 
+  const ratingBlock = info.rating
+    ? `<div><b>⭐ Рейтинг</b><span>${info.rating}</span></div>`
+    : "";
+  const hoursBlock = info.hours
+    ? `<div><b>🕒 Часы работы</b><span>${info.hours}</span></div>`
+    : "";
+
   document.getElementById("eventInfoGrid").innerHTML = `
     <div><b>📍 Локация</b><span>${info.location}</span></div>
     <div><b>💰 Цены</b><span>${info.price}</span></div>
     <div><b>🎒 Что взять</b><span>${info.take}</span></div>
+    ${ratingBlock}
+    ${hoursBlock}
   `;
 
   document.getElementById("eventActions").innerHTML = `
