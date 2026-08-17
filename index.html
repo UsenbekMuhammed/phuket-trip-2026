@@ -4,39 +4,61 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Phuket Trip 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<div class="grain"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
 <div class="scroll-progress" id="scrollProgress"></div>
 
 <nav>
-  <div class="logo">PHUKET 2026</div>
-  <div class="nav-links" id="navLinks">
-    <a href="#money">Валюта</a>
-    <a href="#days">Маршрут</a>
-    <a href="#squad">Команда</a>
-    <a href="#gallery">Галерея</a>
-    <a href="#checklist">Чек-лист</a>
-  </div>
+  <div class="logo">PHUKET<span>/2026</span></div>
   <button class="burger" id="burgerBtn" aria-label="Меню" onclick="toggleMobileMenu()">
-    <span></span><span></span><span></span>
+    <span></span><span></span>
   </button>
 </nav>
+
+<div class="nav-overlay" id="navLinks">
+  <div class="nav-overlay-links">
+    <a href="#money" data-index="01">Валюта</a>
+    <a href="#days" data-index="02">Маршрут</a>
+    <a href="#squad" data-index="03">Команда</a>
+    <a href="#gallery" data-index="04">Галерея</a>
+    <a href="#checklist" data-index="05">Чек-лист</a>
+  </div>
+  <div class="nav-overlay-footer">Phuket Trip · 21&ndash;30.08.2026</div>
+</div>
 
 <audio id="bgMusic" loop preload="auto">
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<button class="music-btn" id="musicBtn" onclick="toggleMusic()">▶ Музыка</button>
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()"><span>▶</span> Музыка</button>
 
 <header class="hero">
   <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-glow" id="heroGlow"></div>
+
+  <div class="marquee-top">
+    <div class="marquee-track">
+      <span>BANG TAO — PHUKET · 21&ndash;30 АВГУСТА 2026 · 7 ДРУЗЕЙ · НЕ СЕЗОН, ЗАТО СВОБОДНО ·&nbsp;</span>
+      <span>BANG TAO — PHUKET · 21&ndash;30 АВГУСТА 2026 · 7 ДРУЗЕЙ · НЕ СЕЗОН, ЗАТО СВОБОДНО ·&nbsp;</span>
+    </div>
+  </div>
+
   <div class="hero-content">
-    <p class="badge">🇹🇭 21–30 августа · 9 ночей · 7 друзей · Phuket Squad</p>
-    <h1>Phuket<br><span>Trip 2026</span></h1>
-    <p class="subtitle">Bang Tao, Blue Tree, James Bond Island, Патонг, beach club и финальная BBQ-party.</p>
+    <h1 class="hero-title">
+      <span class="fill">PHUKET</span>
+      <span class="outline">TRIP</span>
+    </h1>
+    <p class="subtitle">Bang Tao · Blue Tree · James Bond Island · Патонг · beach club и финальная BBQ-party.</p>
 
     <div class="countdown">
       <div><b id="d">00</b><span>дней</span></div>
@@ -45,12 +67,15 @@
       <div><b id="s">00</b><span>секунд</span></div>
     </div>
 
-    <a href="#days" class="btn">Смотреть маршрут</a>
+    <a href="#days" class="btn magnetic">Смотреть маршрут</a>
   </div>
+
+  <div class="scroll-hint">Скролль вниз</div>
 </header>
 
 <section class="intro reveal">
-  <h2>Не просто отпуск. Это история.</h2>
+  <span class="eyebrow">/ 00 — О сайте</span>
+  <h2>Не просто отпуск.<br>Это история.</h2>
   <p>
     Внутри маршрута: цены, советы, что взять с собой, Google Maps,
     маршрут от текущей геолокации и маршрут от виллы.
@@ -58,6 +83,7 @@
 </section>
 
 <section id="money" class="reveal">
+  <span class="eyebrow">/ 01 — Деньги</span>
   <h2>Конвертер ฿ → ₸</h2>
   <div class="money-box">
     <div>
@@ -80,7 +106,8 @@
 </section>
 
 <section id="days" class="reveal">
-  <h2>Маршрут по дням</h2>
+  <span class="eyebrow">/ 02 — Маршрут</span>
+  <h2>10 дней<br>по острову</h2>
 
   <div class="filters">
     <button onclick="filterDays('all', this)" class="active">Все</button>
@@ -94,11 +121,13 @@
 </section>
 
 <section id="squad" class="reveal">
+  <span class="eyebrow">/ 03 — Команда</span>
   <h2>Phuket Squad</h2>
   <div class="squad-grid" id="squadGrid"></div>
 </section>
 
 <section id="gallery" class="reveal">
+  <span class="eyebrow">/ 04 — Фото</span>
   <h2>Галерея</h2>
   <div class="gallery-box">
     <div class="gallery-icon">📸</div>
@@ -109,31 +138,32 @@
         добавлять могут все, скачивать в оригинальном качестве тоже могут все.
       </p>
       <div class="gallery-actions">
-        <a href="https://photos.app.goo.gl/XHzDK3m8nmuULbam7" target="_blank" class="btn">Открыть галерею</a>
-        <button type="button" class="btn-outline" onclick="copyGalleryLink(this)">Скопировать ссылку</button>
+        <a href="https://photos.app.goo.gl/XHzDK3m8nmuULbam7" target="_blank" class="btn magnetic">Открыть галерею</a>
+        <button type="button" class="btn-outline magnetic" onclick="copyGalleryLink(this)">Скопировать ссылку</button>
       </div>
     </div>
   </div>
 </section>
 
 <section id="checklist" class="reveal">
+  <span class="eyebrow">/ 05 — Сборы</span>
   <h2>Чек-лист</h2>
   <div class="checklist">
-    <div>✅ Загранпаспорт</div>
-    <div>✅ Страховка</div>
-    <div>✅ SPF 50</div>
-    <div>✅ Купальники</div>
-    <div>✅ Наличные</div>
-    <div>✅ Powerbank</div>
-    <div>✅ Чехол для воды</div>
-    <div>✅ Одежда для ATV</div>
-    <div>✅ Аптечка</div>
-    <div>✅ Дождевик</div>
-    <div>✅ Очки</div>
-    <div>✅ Легкая рубашка</div>
+    <div>Загранпаспорт</div>
+    <div>Страховка</div>
+    <div>SPF 50</div>
+    <div>Купальники</div>
+    <div>Наличные</div>
+    <div>Powerbank</div>
+    <div>Чехол для воды</div>
+    <div>Одежда для ATV</div>
+    <div>Аптечка</div>
+    <div>Дождевик</div>
+    <div>Очки</div>
+    <div>Легкая рубашка</div>
   </div>
 
-  <button class="download" onclick="downloadPlan()">Скачать маршрут TXT</button>
+  <button class="download magnetic" onclick="downloadPlan()">Скачать маршрут TXT</button>
 </section>
 
 <div class="modal" id="modal">
@@ -175,7 +205,10 @@
   </div>
 </div>
 
-<footer>Phuket Trip 2026 · Made for the squad</footer>
+<footer>
+  <div class="footer-title">PHUKET / 2026</div>
+  <div class="footer-sub">Made for the squad</div>
+</footer>
 
 <script src="script.js"></script>
 </body>
