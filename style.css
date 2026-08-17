@@ -89,6 +89,41 @@ nav a:hover {
   opacity: 1;
 }
 
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  z-index: 110;
+}
+
+.burger span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  border-radius: 3px;
+  background: #063142;
+  transition: .3s;
+}
+
+.burger.open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.burger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
 .music-btn {
   position: fixed;
   right: 24px;
@@ -804,8 +839,41 @@ footer {
     padding: 16px 20px;
   }
 
-  nav a {
-    display: none;
+  .burger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(280px, 80vw);
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 100px 30px 30px;
+    transform: translateX(100%);
+    transition: transform .35s ease;
+    box-shadow: -20px 0 60px rgba(0,0,0,.15);
+    z-index: 105;
+  }
+
+  .nav-links.open {
+    transform: translateX(0);
+  }
+
+  .nav-links a {
+    display: block;
+    margin: 0;
+    padding: 14px 0;
+    font-size: 20px;
+    border-bottom: 1px solid rgba(6,49,66,.08);
+    width: 100%;
   }
 
   .music-btn {
