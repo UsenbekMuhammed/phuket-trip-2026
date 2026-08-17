@@ -9,6 +9,8 @@
 
 <body>
 
+<div class="scroll-progress" id="scrollProgress"></div>
+
 <nav>
   <div class="logo">PHUKET 2026</div>
   <div>
@@ -27,6 +29,7 @@
 <button class="music-btn" id="musicBtn" onclick="toggleMusic()">▶ Музыка</button>
 
 <header class="hero">
+  <div class="hero-bg" id="heroBg"></div>
   <div class="hero-content">
     <p class="badge">🇹🇭 21–30 августа · 9 ночей · 8 друзей · Phuket Squad</p>
     <h1>Phuket<br><span>Trip 2026</span></h1>
@@ -43,7 +46,7 @@
   </div>
 </header>
 
-<section class="intro">
+<section class="intro reveal">
   <h2>Не просто отпуск. Это история.</h2>
   <p>
     Внутри маршрута: цены, советы, что взять с собой, Google Maps,
@@ -51,7 +54,7 @@
   </p>
 </section>
 
-<section id="money">
+<section id="money" class="reveal">
   <h2>Конвертер ฿ → ₸</h2>
   <div class="money-box">
     <div>
@@ -73,7 +76,7 @@
   </div>
 </section>
 
-<section id="days">
+<section id="days" class="reveal">
   <h2>Маршрут по дням</h2>
 
   <div class="filters">
@@ -87,12 +90,12 @@
   <div class="cards" id="cards"></div>
 </section>
 
-<section id="squad">
+<section id="squad" class="reveal">
   <h2>Phuket Squad</h2>
   <div class="squad-grid" id="squadGrid"></div>
 </section>
 
-<section id="gallery">
+<section id="gallery" class="reveal">
   <h2>Галерея</h2>
   <div class="gallery-box">
     <div class="gallery-icon">📸</div>
@@ -110,7 +113,7 @@
   </div>
 </section>
 
-<section id="checklist">
+<section id="checklist" class="reveal">
   <h2>Чек-лист</h2>
   <div class="checklist">
     <div>✅ Загранпаспорт</div>
