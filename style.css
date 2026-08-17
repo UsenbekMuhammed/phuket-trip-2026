@@ -41,6 +41,17 @@ body::after {
   z-index: 0;
 }
 
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 0%;
+  background: linear-gradient(90deg, #063142, #00a6b2, #ff9f1c);
+  z-index: 300;
+  transition: width .1s ease-out;
+}
+
 img {
   max-width: 100%;
 }
@@ -95,15 +106,23 @@ nav a:hover {
 
 .hero {
   min-height: 100vh;
-  background:
-    linear-gradient(to bottom, rgba(255,255,255,.08), rgba(247,251,255,.88) 88%),
-    url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=90")
-    center/cover;
   display: grid;
   place-items: center;
   text-align: center;
   padding: 110px 20px 80px;
   position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: -60px;
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,.08), rgba(247,251,255,.88) 88%),
+    url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=90")
+    center/cover;
+  will-change: transform;
+  z-index: 0;
 }
 
 .hero::after {
@@ -365,6 +384,11 @@ h2 {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform .6s ease;
+}
+
+.card:hover img {
+  transform: scale(1.08);
 }
 
 .card:after {
@@ -737,13 +761,20 @@ footer {
   }
 }
 
-section,
-.card,
-.money-box,
-.person,
-.checklist div,
-.gallery-box {
-  animation: fadeUp .8s ease both;
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Карточки внутри одной секции появляются с небольшой задержкой друг за другом */
+.reveal-stagger.is-visible {
+  transition-delay: calc(var(--stagger-index, 0) * 70ms);
 }
 
 @media (max-width: 1000px) {
