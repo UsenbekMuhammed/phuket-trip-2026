@@ -451,6 +451,30 @@ function youtubeLink(query) {
   return `https://www.youtube.com/results?search_query=${encodeURIComponent(query + " Phuket travel guide")}`;
 }
 
+// === Кастомные line-иконки (вместо эмодзи) ===
+const icons = {
+  pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+  tag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12 12 3h6a3 3 0 0 1 3 3v6l-9 9-9-9Z"/><circle cx="16" cy="8" r="1.3" fill="currentColor" stroke="none"/></svg>',
+  backpack: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 8V6a4 4 0 0 1 8 0v2"/><rect x="5" y="8" width="14" height="13" rx="3"/><path d="M9 12h6M9 16h6"/></svg>',
+  star: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m12 3 2.6 5.9 6.4.6-4.8 4.3 1.4 6.2L12 16.9 6.4 20l1.4-6.2-4.8-4.3 6.4-.6L12 3Z"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>',
+  ticket: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 8 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-8Z"/><path d="M10 6v2M10 16v2M10 11v2"/></svg>',
+  camera: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8h3l2-2h6l2 2h3v11H4Z"/><circle cx="12" cy="13.5" r="3.5"/></svg>',
+  shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 5 6v6c0 4.4 3 7.6 7 9 4-1.4 7-4.6 7-9V6l-7-3Z"/></svg>',
+  globe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></svg>',
+  cross: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 8v8M8 12h8"/></svg>',
+  flame: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21c4 0 6-2.5 6-6 0-3-2-4.5-2-4.5.5 2-1 3-1 3 .5-4-3-6-3-9-2 2-4 5-4 8.5 0 1-1 1.5-2 1-1 1.5-1 4 .5 5.5C7 21 9 21 12 21Z"/></svg>',
+  hospital: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="7" width="16" height="14" rx="1.5"/><path d="M9 3h6v4H9z"/><path d="M12 11v6M9 14h6"/></svg>',
+  flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 21V4"/><path d="M5 5h13l-3 4 3 4H5"/></svg>',
+  route: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="6" cy="6" r="2.3"/><circle cx="18" cy="18" r="2.3"/><path d="M6 8.3C6 13 9 11 12 14s2 3.7 6 3.7"/></svg>',
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/></svg>',
+  play: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" stroke="none"/></svg>'
+};
+
+function ic(name) {
+  return `<span class="icn">${icons[name] || ""}</span>`;
+}
+
 function getYourGuideLink(query) {
   return `https://www.getyourguide.com/s/?q=${encodeURIComponent(query)}`;
 }
@@ -657,7 +681,8 @@ function renderCards(filter = "all") {
 
   list.forEach((day, index) => {
     const card = document.createElement("div");
-    card.className = "card reveal reveal-stagger";
+    const bentoClass = index % 6 === 0 ? "card--big" : index % 6 === 3 ? "card--wide" : "";
+    card.className = `card reveal reveal-stagger ${bentoClass}`.trim();
     card.style.setProperty("--stagger-index", index);
 
     const dayNumber = String(days.indexOf(day) + 1).padStart(2, "0");
@@ -728,32 +753,32 @@ function openEventModal(event) {
   document.getElementById("eventDetailText").innerText = `${event.text}. ${info.tip}`;
 
   const ratingBlock = info.rating
-    ? `<div><b>⭐ Рейтинг</b><span>${info.rating}</span></div>`
+    ? `<div><b>${ic("star")} Рейтинг</b><span>${info.rating}</span></div>`
     : "";
   const hoursBlock = info.hours
-    ? `<div><b>🕒 Часы работы</b><span>${info.hours}</span></div>`
+    ? `<div><b>${ic("clock")} Часы работы</b><span>${info.hours}</span></div>`
     : "";
 
   document.getElementById("eventInfoGrid").innerHTML = `
-    <div><b>📍 Локация</b><span>${info.location}</span></div>
-    <div><b>💰 Цены</b><span>${info.price}</span></div>
-    <div><b>🎒 Что взять</b><span>${info.take}</span></div>
+    <div><b>${ic("pin")} Локация</b><span>${info.location}</span></div>
+    <div><b>${ic("tag")} Цены</b><span>${info.price}</span></div>
+    <div><b>${ic("backpack")} Что взять</b><span>${info.take}</span></div>
     ${ratingBlock}
     ${hoursBlock}
   `;
 
   const bookingButtons = info.bookingQuery
     ? `
-      <a href="${getYourGuideLink(info.bookingQuery)}" target="_blank">🎫 GetYourGuide</a>
-      <a href="${viatorLink(info.bookingQuery)}" target="_blank">🎫 Viator</a>
+      <a href="${getYourGuideLink(info.bookingQuery)}" target="_blank">${ic("ticket")} GetYourGuide</a>
+      <a href="${viatorLink(info.bookingQuery)}" target="_blank">${ic("ticket")} Viator</a>
     `
     : "";
 
   document.getElementById("eventActions").innerHTML = `
-    <a href="${googleMapsLink(info.location)}" target="_blank">📍 Google Maps</a>
-    <button onclick="openRouteFromMe('${info.location.replace(/'/g, "\\'")}')">🧭 Маршрут от меня</button>
-    <a href="${googleRouteFromVilla(info.location)}" target="_blank">🏠 Маршрут от виллы</a>
-    <a href="${youtubeLink(info.location)}" target="_blank">🎥 YouTube</a>
+    <a href="${googleMapsLink(info.location)}" target="_blank">${ic("pin")} Google Maps</a>
+    <button onclick="openRouteFromMe('${info.location.replace(/'/g, "\\'")}')">${ic("route")} Маршрут от меня</button>
+    <a href="${googleRouteFromVilla(info.location)}" target="_blank">${ic("home")} Маршрут от виллы</a>
+    <a href="${youtubeLink(info.location)}" target="_blank">${ic("play")} YouTube</a>
     ${bookingButtons}
   `;
 }
@@ -1608,6 +1633,77 @@ if (budgetClearBtn) {
     }
   });
 }
+
+// === Ripple-эффект на кнопках при клике ===
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".btn, .btn-outline, .download");
+  if (!btn) return;
+
+  const rect = btn.getBoundingClientRect();
+  const ripple = document.createElement("span");
+  const size = Math.max(rect.width, rect.height);
+
+  ripple.className = "ripple";
+  ripple.style.width = ripple.style.height = `${size}px`;
+  ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+  ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+
+  btn.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 650);
+});
+
+// === Мини-загрузки между разделами (как переход между уровнями в игре) ===
+function createSectionLoader(targetId, label) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+
+  let triggered = false;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !triggered) {
+        triggered = true;
+        observer.disconnect();
+        showSectionLoader(label);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  observer.observe(target);
+}
+
+function showSectionLoader(label) {
+  const loader = document.createElement("div");
+  loader.className = "section-loader";
+  loader.innerHTML = `
+    <div class="section-loader-label">${label}</div>
+    <div class="section-loader-number">0%</div>
+  `;
+  document.body.appendChild(loader);
+
+  requestAnimationFrame(() => loader.classList.add("visible"));
+
+  const numberEl = loader.querySelector(".section-loader-number");
+  let progress = 0;
+  const duration = 550;
+  const start = performance.now();
+
+  function tick(now) {
+    progress = Math.min(100, Math.round(((now - start) / duration) * 100));
+    numberEl.textContent = `${progress}%`;
+
+    if (progress < 100) {
+      requestAnimationFrame(tick);
+    } else {
+      loader.classList.remove("visible");
+      setTimeout(() => loader.remove(), 400);
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
+createSectionLoader("days", "ЗАГРУЗКА МАРШРУТА");
+createSectionLoader("spaceFinale", "ВХОД В КОСМОС");
 
 renderCards();
 renderSquad();
