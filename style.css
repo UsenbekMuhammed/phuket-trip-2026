@@ -11,6 +11,7 @@
   --font-display: "Space Grotesk", sans-serif;
   --font-body: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
+  --duotone: grayscale(0.9) sepia(0.35) hue-rotate(320deg) saturate(2.4) brightness(0.72) contrast(1.08);
 }
 
 * {
@@ -37,6 +38,41 @@ img {
 
 a {
   color: inherit;
+}
+
+.section-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 350;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .35s ease, visibility 0s .35s;
+}
+
+.section-loader.visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .35s ease, visibility 0s;
+}
+
+.section-loader-label {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: .15em;
+  color: var(--muted);
+}
+
+.section-loader-number {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 10vw, 100px);
+  font-weight: 700;
+  color: var(--coral);
 }
 
 /* ===== Preloader ===== */
@@ -443,6 +479,31 @@ nav {
   font-size: 15px;
   cursor: pointer;
   transition: background .25s, color .25s, transform .25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 91, 57, .45);
+  transform: scale(0);
+  animation: rippleAnim .6s ease-out;
+  pointer-events: none;
+}
+
+@keyframes rippleAnim {
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.money-box input:focus,
+.budget-form input:focus,
+.budget-form select:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(23, 227, 196, .15);
 }
 
 .btn:hover,
@@ -596,6 +657,24 @@ h2 {
   margin-bottom: 4px;
 }
 
+.icn {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+}
+
+.icn-lg {
+  width: 56px;
+  height: 56px;
+  color: var(--coral);
+}
+
+.icn svg {
+  width: 100%;
+  height: 100%;
+}
+
 /* ===== Money ===== */
 .money-box {
   display: grid;
@@ -629,10 +708,6 @@ h2 {
   font-size: 18px;
   outline: none;
   margin: 14px 0;
-}
-
-.money-box input:focus {
-  border-color: var(--teal);
 }
 
 .money-box h3 {
@@ -697,14 +772,24 @@ h2 {
 /* ===== Day cards ===== */
 .cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 220px;
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
 }
 
+.card.card--big {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.card.card--wide {
+  grid-column: span 2;
+}
+
 .card {
-  height: 440px;
+  height: auto;
   overflow: hidden;
   position: relative;
   cursor: pointer;
@@ -728,13 +813,13 @@ h2 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(.4) brightness(.75);
+  filter: var(--duotone);
   transition: transform .7s ease, filter .5s ease;
 }
 
 .card:hover img {
   transform: scale(1.08);
-  filter: grayscale(0) brightness(.85);
+  filter: var(--duotone) brightness(1.15) saturate(1.6);
 }
 
 .card:after {
@@ -971,11 +1056,6 @@ h2 {
   outline: none;
 }
 
-.budget-form input:focus,
-.budget-form select:focus {
-  border-color: var(--teal);
-}
-
 .budget-summary {
   display: flex;
   gap: 1px;
@@ -1206,7 +1286,7 @@ h2 {
   width: 100%;
   height: 360px;
   object-fit: cover;
-  filter: grayscale(.3) brightness(.8);
+  filter: var(--duotone);
 }
 
 .modal-text {
@@ -1249,7 +1329,7 @@ h2 {
   width: 120px;
   height: 86px;
   object-fit: cover;
-  filter: grayscale(.4) brightness(.75);
+  filter: var(--duotone);
 }
 
 .event b {
@@ -1280,7 +1360,7 @@ h2 {
   inset: 0;
   background-size: cover;
   background-position: center;
-  filter: grayscale(.3) brightness(.6);
+  filter: var(--duotone);
 }
 
 .event-detail-bg::after {
@@ -1545,6 +1625,16 @@ footer {
 @media (max-width: 1000px) {
   .cards {
     grid-template-columns: 1fr;
+  }
+
+  .card.card--big,
+  .card.card--wide {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .cards {
+    grid-auto-rows: 380px;
   }
 
   .money-box {
