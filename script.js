@@ -427,8 +427,13 @@ function googleRouteFromVilla(destination) {
 }
 
 function openRouteFromMe(destination) {
+  // Открываем вкладку СРАЗУ, синхронно в момент клика — иначе мобильные браузеры
+  // (особенно Safari/iOS) блокируют window.open(), вызванный позже, внутри
+  // асинхронного колбэка геолокации, как всплывающее окно
+  const newTab = window.open("", "_blank");
+
   if (!navigator.geolocation) {
-    window.open(googleRouteFromVilla(destination), "_blank");
+    if (newTab) newTab.location = googleRouteFromVilla(destination);
     return;
   }
 
@@ -438,11 +443,19 @@ function openRouteFromMe(destination) {
       const lng = position.coords.longitude;
 
       const url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${encodeURIComponent(destination)}&travelmode=driving`;
-      window.open(url, "_blank");
+      if (newTab) {
+        newTab.location = url;
+      } else {
+        window.open(url, "_blank");
+      }
     },
     function() {
       const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=driving`;
-      window.open(url, "_blank");
+      if (newTab) {
+        newTab.location = url;
+      } else {
+        window.open(url, "_blank");
+      }
     }
   );
 }
@@ -1868,7 +1881,13 @@ function initRouteMap() {
   const mapEl = document.getElementById("leafletMap");
   if (!mapEl || typeof L === "undefined") return;
 
-  const map = L.map("leafletMap", { scrollWheelZoom: false }).setView([7.98, 98.33], 10);
+  const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+  const map = L.map("leafletMap", {
+    scrollWheelZoom: false,
+    dragging: !isTouchDevice,
+    tap: true
+  }).setView([7.98, 98.33], 10);
 
   const streets = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "© OpenStreetMap contributors",
