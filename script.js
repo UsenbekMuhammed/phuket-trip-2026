@@ -451,6 +451,14 @@ function youtubeLink(query) {
   return `https://www.youtube.com/results?search_query=${encodeURIComponent(query + " Phuket travel guide")}`;
 }
 
+function getYourGuideLink(query) {
+  return `https://www.getyourguide.com/s/?q=${encodeURIComponent(query)}`;
+}
+
+function viatorLink(query) {
+  return `https://www.viator.com/searchResults/all?text=${encodeURIComponent(query)}`;
+}
+
 function getEventInfo(event) {
   const text = event.text.toLowerCase();
 
@@ -467,7 +475,8 @@ function getEventInfo(event) {
     take: "Купальник, полотенце, вода, наличные/карта",
     tip: "Рейтинг 4.5 (162 отзыва), открыто ежедневно 6:00–00:00. Раньше был аквапарком, сейчас скорее lifestyle-комплекс: бассейн, кафе, спа, магазины — можно провести полдня, даже если не любите воду.",
     rating: "4.5 ★ · 162 отзыва",
-    hours: "Ежедневно 6:00–00:00"
+    hours: "Ежедневно 6:00–00:00",
+    bookingQuery: "Blue Tree Phuket water park ticket"
   };
 
   if (text.includes("james bond") || text.includes("phang nga") || text.includes("hong")) return {
@@ -475,7 +484,8 @@ function getEventInfo(event) {
     price: "Тур часто 1800–3000 бат/чел",
     take: "SPF, вода, наличные, что-то от дождя (иногда моросит)",
     tip: "Рейтинг залива 4.7 (428 отзывов) — путешественники называют его \"тем самым Таиландом из буклетов\": известняковые скалы, пещеры-hong и изумрудная вода. В несезон это спокойнее, чем открытое море к Пхи-Пхи.",
-    rating: "4.7 ★ · 428 отзывов"
+    rating: "4.7 ★ · 428 отзывов",
+    bookingQuery: "James Bond Island Phang Nga Bay tour Phuket"
   };
 
   if (text.includes("panyi")) return {
@@ -560,14 +570,16 @@ function getEventInfo(event) {
     take: "Одежда, которую не жалко, полотенце, средство от комаров",
     tip: "Рейтинг 4.8 (3196 отзывов) — реально этичный санктуарий: без катания, кормление и прогулка на расстоянии, у каждого слона свой погонщик. Многие отмечают, что это один из лучших дней всей поездки.",
     rating: "4.8 ★ · 3196 отзывов",
-    hours: "Ежедневно 9:00–17:00"
+    hours: "Ежедневно 9:00–17:00",
+    bookingQuery: "Phuket Elephant Sanctuary ethical half day"
   };
 
   if (text.includes("atv")) return {
     location: "ATV Phuket",
     price: "Обычно 1200–2500 бат/чел",
     take: "Грязная одежда, закрытая обувь, вода",
-    tip: "После тура лучше сразу ехать в душ — трассы грязевые и это часть удовольствия."
+    tip: "После тура лучше сразу ехать в душ — трассы грязевые и это часть удовольствия.",
+    bookingQuery: "ATV quad bike jungle tour Phuket"
   };
 
   if (text.includes("bangla") || text.includes("illuzion") || text.includes("sugar")) return {
@@ -730,11 +742,19 @@ function openEventModal(event) {
     ${hoursBlock}
   `;
 
+  const bookingButtons = info.bookingQuery
+    ? `
+      <a href="${getYourGuideLink(info.bookingQuery)}" target="_blank">🎫 GetYourGuide</a>
+      <a href="${viatorLink(info.bookingQuery)}" target="_blank">🎫 Viator</a>
+    `
+    : "";
+
   document.getElementById("eventActions").innerHTML = `
     <a href="${googleMapsLink(info.location)}" target="_blank">📍 Google Maps</a>
     <button onclick="openRouteFromMe('${info.location.replace(/'/g, "\\'")}')">🧭 Маршрут от меня</button>
     <a href="${googleRouteFromVilla(info.location)}" target="_blank">🏠 Маршрут от виллы</a>
     <a href="${youtubeLink(info.location)}" target="_blank">🎥 YouTube</a>
+    ${bookingButtons}
   `;
 }
 
@@ -1238,6 +1258,70 @@ function initSpaceScene() {
 
 window.addEventListener("load", initSpaceScene);
 
+// === Мини-разговорник на тайском ===
+const phraseGroups = [
+  {
+    title: "Основное",
+    phrases: [
+      { ru: "Привет", thai: "สวัสดี", latin: "савадии" },
+      { ru: "Спасибо", thai: "ขอบคุณ", latin: "кхоп кхун" },
+      { ru: "Да / Нет", thai: "ใช่ / ไม่ใช่", latin: "чай / май чай" },
+      { ru: "Извините", thai: "ขอโทษ", latin: "кхо тхот" },
+      { ru: "Ничего страшного", thai: "ไม่เป็นไร", latin: "май пен рай" },
+      { ru: "Не понимаю", thai: "ไม่เข้าใจ", latin: "май кхао тяй" }
+    ]
+  },
+  {
+    title: "Еда",
+    phrases: [
+      { ru: "Вкусно!", thai: "อร่อยมาก", latin: "арой мак" },
+      { ru: "Не остро", thai: "ไม่เผ็ด", latin: "май пхет" },
+      { ru: "Немного остро", thai: "เผ็ดนิดหน่อย", latin: "пхет нит ной" },
+      { ru: "Воду, пожалуйста", thai: "ขอน้ำ", latin: "кхо нам" },
+      { ru: "Счёт, пожалуйста", thai: "เช็คบิล", latin: "чек бин" }
+    ]
+  },
+  {
+    title: "Шоппинг и торг",
+    phrases: [
+      { ru: "Сколько стоит?", thai: "เท่าไหร่", latin: "тао рай" },
+      { ru: "Слишком дорого", thai: "แพงไป", latin: "пхэнг пай" },
+      { ru: "Можно скидку?", thai: "ลดได้ไหม", latin: "лот дай май" }
+    ]
+  },
+  {
+    title: "Транспорт и экстренное",
+    phrases: [
+      { ru: "Где туалет?", thai: "ห้องน้ำอยู่ไหน", latin: "хонг нам ю най" },
+      { ru: "Отвезите сюда (показать телефон)", thai: "ไปที่นี่", latin: "пай тхи ни" },
+      { ru: "Помогите!", thai: "ช่วยด้วย", latin: "чуай дуай" },
+      { ru: "Мне нужен врач", thai: "ฉันต้องการหมอ", latin: "чан тонг кан мо" },
+      { ru: "Вызовите полицию", thai: "เรียกตำรวจ", latin: "риак тамруат" },
+      { ru: "Иностранец (как вас назовут)", thai: "ฝรั่ง", latin: "фаранг" }
+    ]
+  }
+];
+
+function renderPhrasebook() {
+  const container = document.getElementById("phraseGroups");
+  if (!container) return;
+
+  container.innerHTML = phraseGroups.map(group => `
+    <div class="phrase-group">
+      <div class="phrase-group-title">${group.title}</div>
+      <div class="phrase-grid">
+        ${group.phrases.map(p => `
+          <div class="phrase-card">
+            <div class="phrase-ru">${p.ru}</div>
+            <span class="phrase-thai">${p.thai}</span>
+            <span class="phrase-latin">— ${p.latin}</span>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `).join("");
+}
+
 // === Интерактивный чек-лист с прогрессом (сохраняется в localStorage) ===
 const checklistItems = [
   "Загранпаспорт", "Страховка", "SPF 50", "Купальники",
@@ -1434,6 +1518,7 @@ renderCards();
 renderSquad();
 renderChecklist();
 renderBudget();
+renderPhrasebook();
 loadWeather();
 updateCountdown();
 observeRevealTargets();
