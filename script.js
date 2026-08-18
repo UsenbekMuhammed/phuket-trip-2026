@@ -970,6 +970,48 @@ if (isFinePointer && cursorDot && cursorRing) {
   });
 }
 
+// === След за курсором: тающие частицы в цветах сайта ===
+const trailCanvas = document.getElementById("cursorTrailCanvas");
+
+if (isFinePointer && trailCanvas) {
+  const ctx = trailCanvas.getContext("2d");
+  let trailPoints = [];
+  const trailColors = ["255,91,57", "23,227,196", "244,242,237"];
+
+  function resizeTrailCanvas() {
+    trailCanvas.width = window.innerWidth;
+    trailCanvas.height = window.innerHeight;
+  }
+  resizeTrailCanvas();
+  window.addEventListener("resize", resizeTrailCanvas);
+
+  document.addEventListener("mousemove", (e) => {
+    trailPoints.push({
+      x: e.clientX,
+      y: e.clientY,
+      life: 1,
+      color: trailColors[Math.floor(Math.random() * trailColors.length)]
+    });
+    if (trailPoints.length > 40) trailPoints.shift();
+  });
+
+  function drawTrail() {
+    requestAnimationFrame(drawTrail);
+    ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+
+    trailPoints.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 3 * p.life, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.color},${p.life * 0.5})`;
+      ctx.fill();
+      p.life -= 0.04;
+    });
+
+    trailPoints = trailPoints.filter(p => p.life > 0);
+  }
+  drawTrail();
+}
+
 // === Magnetic-эффект на кнопках ===
 if (isFinePointer) {
   document.addEventListener("mousemove", (e) => {
@@ -1155,7 +1197,8 @@ if (isFinePointer) {
 // === Финальная 3D-сцена: полёт сквозь тропический космос ===
 function initSpaceScene() {
   const canvas = document.getElementById("spaceCanvas");
-  if (!canvas || typeof THREE === "undefined") return;
+  const section = document.getElementById("spaceFinale");
+  if (!canvas || !section || typeof THREE === "undefined") return;
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(70, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
@@ -1178,7 +1221,7 @@ function initSpaceScene() {
   for (let i = 0; i < starCount; i++) {
     positions[i * 3] = (Math.random() - 0.5) * 60;
     positions[i * 3 + 1] = (Math.random() - 0.5) * 60;
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 60;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 90 - 20;
     const c = palette[Math.floor(Math.random() * palette.length)];
     colors[i * 3] = c[0];
     colors[i * 3 + 1] = c[1];
@@ -1192,6 +1235,34 @@ function initSpaceScene() {
   const stars = new THREE.Points(starGeo, starMat);
   scene.add(stars);
 
+  // "Тропический мусор" в тоннеле — пальмовые листья, разлетающиеся вокруг пути полёта
+  const debrisGroup = new THREE.Group();
+  const debrisCount = 70;
+  const debrisPalette = [0xff5b39, 0x17e3c4, 0xf4f2ed];
+
+  for (let i = 0; i < debrisCount; i++) {
+    const leafGeo = new THREE.PlaneGeometry(0.6 + Math.random() * 0.8, 0.2 + Math.random() * 0.3);
+    const leafMat = new THREE.MeshStandardMaterial({
+      color: debrisPalette[i % debrisPalette.length],
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.55,
+      roughness: 0.6
+    });
+    const leaf = new THREE.Mesh(leafGeo, leafMat);
+
+    const angle = Math.random() * Math.PI * 2;
+    const radius = 3 + Math.random() * 4;
+    leaf.position.set(
+      Math.cos(angle) * radius,
+      Math.sin(angle) * radius,
+      -Math.random() * 80
+    );
+    leaf.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+    debrisGroup.add(leaf);
+  }
+  scene.add(debrisGroup);
+
   // "Тропическая планета" — светящийся коралловый шар
   const planetGeo = new THREE.SphereGeometry(1.3, 48, 48);
   const planetMat = new THREE.MeshStandardMaterial({
@@ -1201,7 +1272,7 @@ function initSpaceScene() {
     metalness: 0.15
   });
   const planet = new THREE.Mesh(planetGeo, planetMat);
-  planet.position.set(2.4, 0.4, -4);
+  planet.position.set(2.4, 0.4, -20);
   scene.add(planet);
 
   const tealLight = new THREE.PointLight(0x17e3c4, 3, 60);
@@ -1209,14 +1280,13 @@ function initSpaceScene() {
   scene.add(tealLight);
   scene.add(new THREE.AmbientLight(0x404040, 1.4));
 
-  // Бумажный самолётик — символ полета домой
+  // Бумажный самолётик — символ полета домой, летит перед камерой
   const planeGroup = new THREE.Group();
   const bodyGeo = new THREE.ConeGeometry(0.16, 0.9, 4);
   const bodyMat = new THREE.MeshStandardMaterial({ color: 0xf4f2ed, flatShading: true, roughness: 0.4 });
   const body = new THREE.Mesh(bodyGeo, bodyMat);
   body.rotation.x = Math.PI / 2;
   planeGroup.add(body);
-  planeGroup.position.set(-3, -1, -2);
   scene.add(planeGroup);
 
   let mouseX = 0, mouseY = 0;
@@ -1225,24 +1295,48 @@ function initSpaceScene() {
     mouseY = e.clientY / window.innerHeight - 0.5;
   });
 
-  let t = 0;
+  // === Прогресс прокрутки секции: 0 (только зашли) → 1 (полностью пролистали) ===
+  let targetProgress = 0;
+  let currentProgress = 0;
+
+  function updateSpaceProgress() {
+    const rect = section.getBoundingClientRect();
+    const total = rect.height - window.innerHeight;
+    if (total <= 0) {
+      targetProgress = 0;
+      return;
+    }
+    const scrolled = -rect.top;
+    targetProgress = Math.min(1, Math.max(0, scrolled / total));
+  }
+
+  window.addEventListener("scroll", updateSpaceProgress, { passive: true });
+  updateSpaceProgress();
+
   function animate() {
     requestAnimationFrame(animate);
-    t += 0.0025;
 
-    stars.rotation.y += 0.0006;
-    stars.rotation.x += 0.0002;
+    // Плавно подтягиваем текущее значение к целевому — крутишь назад, летит назад
+    currentProgress += (targetProgress - currentProgress) * 0.08;
 
-    planet.rotation.y += 0.002;
+    const depth = currentProgress * 60;
 
-    planeGroup.position.x = -3 + Math.sin(t * 2) * 3.4;
-    planeGroup.position.y = -1 + Math.cos(t * 3) * 0.6;
-    planeGroup.rotation.z = Math.cos(t * 2) * 0.3;
-    planeGroup.rotation.y = Math.sin(t * 2) * 0.4;
+    stars.position.z = depth * 0.3;
+    stars.rotation.y = currentProgress * 1.2;
+
+    debrisGroup.position.z = depth;
+    debrisGroup.rotation.z = currentProgress * 0.8;
+
+    planet.position.z = -20 + depth;
+    planet.rotation.y = currentProgress * 3;
+
+    planeGroup.position.set(0, -0.3, -3 + depth * 0.05);
+    planeGroup.rotation.y = Math.sin(currentProgress * 8) * 0.3;
+    planeGroup.rotation.z = Math.cos(currentProgress * 6) * 0.25;
 
     camera.position.x += (mouseX * 1.4 - camera.position.x) * 0.03;
     camera.position.y += (-mouseY * 1.4 - camera.position.y) * 0.03;
-    camera.lookAt(0, 0, 0);
+    camera.lookAt(0, 0, planeGroup.position.z - 2);
 
     renderer.render(scene, camera);
   }
@@ -1253,6 +1347,7 @@ function initSpaceScene() {
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    updateSpaceProgress();
   });
 }
 
