@@ -13,6 +13,11 @@
 
 <body>
 
+<div class="preloader" id="preloader">
+  <div class="preloader-number" id="preloaderNumber">0</div>
+  <div class="preloader-label">PHUKET / 2026</div>
+</div>
+
 <div class="grain"></div>
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
@@ -28,11 +33,14 @@
 
 <div class="nav-overlay" id="navLinks">
   <div class="nav-overlay-links">
-    <a href="#money" data-index="01">Валюта</a>
-    <a href="#days" data-index="02">Маршрут</a>
-    <a href="#squad" data-index="03">Команда</a>
-    <a href="#gallery" data-index="04">Галерея</a>
-    <a href="#checklist" data-index="05">Чек-лист</a>
+    <a href="#weather" data-index="01">Погода</a>
+    <a href="#money" data-index="02">Валюта</a>
+    <a href="#days" data-index="03">Маршрут</a>
+    <a href="#squad" data-index="04">Команда</a>
+    <a href="#gallery" data-index="05">Галерея</a>
+    <a href="#checklist" data-index="06">Чек-лист</a>
+    <a href="#budget" data-index="07">Бюджет</a>
+    <a href="#emergency" data-index="08">SOS</a>
   </div>
   <div class="nav-overlay-footer">Phuket Trip · 21&ndash;30.08.2026</div>
 </div>
@@ -90,8 +98,23 @@
   </div>
 </div>
 
+<section id="weather" class="reveal">
+  <span class="eyebrow">/ 01 — Погода</span>
+  <h2 class="split-text">Пхукет<br>прямо сейчас</h2>
+  <div class="weather-box" id="weatherBox">
+    <div class="weather-main">
+      <div class="weather-icon" id="weatherIcon">🌤️</div>
+      <div>
+        <div class="weather-temp" id="weatherTemp">—°C</div>
+        <div class="weather-desc" id="weatherDesc">Загрузка...</div>
+      </div>
+    </div>
+    <div class="weather-details" id="weatherDetails"></div>
+  </div>
+</section>
+
 <section id="money" class="reveal">
-  <span class="eyebrow">/ 01 — Деньги</span>
+  <span class="eyebrow">/ 02 — Деньги</span>
   <h2 class="split-text">Конвертер ฿ → ₸</h2>
   <div class="money-box">
     <div>
@@ -114,7 +137,7 @@
 </section>
 
 <section id="days" class="reveal">
-  <span class="eyebrow">/ 02 — Маршрут</span>
+  <span class="eyebrow">/ 03 — Маршрут</span>
   <h2 class="split-text">10 дней<br>по острову</h2>
 
   <div class="filters">
@@ -129,13 +152,13 @@
 </section>
 
 <section id="squad" class="reveal">
-  <span class="eyebrow">/ 03 — Команда</span>
+  <span class="eyebrow">/ 04 — Команда</span>
   <h2 class="split-text">Phuket Squad</h2>
   <div class="squad-grid" id="squadGrid"></div>
 </section>
 
 <section id="gallery" class="reveal">
-  <span class="eyebrow">/ 04 — Фото</span>
+  <span class="eyebrow">/ 05 — Фото</span>
   <h2 class="split-text">Галерея</h2>
   <div class="gallery-box">
     <div class="gallery-icon">📸</div>
@@ -154,24 +177,96 @@
 </section>
 
 <section id="checklist" class="reveal">
-  <span class="eyebrow">/ 05 — Сборы</span>
+  <span class="eyebrow">/ 06 — Сборы</span>
   <h2 class="split-text">Чек-лист</h2>
-  <div class="checklist">
-    <div>Загранпаспорт</div>
-    <div>Страховка</div>
-    <div>SPF 50</div>
-    <div>Купальники</div>
-    <div>Наличные</div>
-    <div>Powerbank</div>
-    <div>Чехол для воды</div>
-    <div>Одежда для ATV</div>
-    <div>Аптечка</div>
-    <div>Дождевик</div>
-    <div>Очки</div>
-    <div>Легкая рубашка</div>
+
+  <div class="checklist-progress">
+    <div class="checklist-progress-bar" id="checklistProgressBar"></div>
   </div>
+  <div class="checklist-progress-label" id="checklistProgressLabel">0 из 12 собрано</div>
+
+  <div class="checklist" id="checklistGrid"></div>
 
   <button class="download magnetic" onclick="downloadPlan()">Скачать маршрут TXT</button>
+</section>
+
+<section id="budget" class="reveal">
+  <span class="eyebrow">/ 07 — Бюджет</span>
+  <h2 class="split-text">Общие<br>расходы</h2>
+  <p class="section-note">
+    Считает локально в твоём браузере — не общее для всей команды.
+    Если хочешь честный общий учёт, лучше продублировать итог в общий чат.
+  </p>
+
+  <div class="budget-box">
+    <form class="budget-form" id="budgetForm">
+      <input type="text" id="budgetDesc" placeholder="За что платили (напр. Такси)" required>
+      <select id="budgetPayer">
+        <option value="Мага">Мага</option>
+        <option value="Алихан">Алихан</option>
+        <option value="Адилет">Адилет</option>
+        <option value="Муха">Муха</option>
+        <option value="Алишер">Алишер</option>
+        <option value="Диас">Диас</option>
+        <option value="Даулетбек">Даулетбек</option>
+      </select>
+      <input type="number" id="budgetAmount" placeholder="Сумма ฿" min="0" required>
+      <button type="submit" class="btn magnetic">Добавить</button>
+    </form>
+
+    <div class="budget-summary">
+      <div class="budget-total">
+        <span>Всего потрачено</span>
+        <b id="budgetTotal">0 ฿</b>
+      </div>
+      <div class="budget-per-person">
+        <span>На человека (÷7)</span>
+        <b id="budgetPerPerson">0 ฿</b>
+      </div>
+    </div>
+
+    <div class="budget-list" id="budgetList"></div>
+    <button type="button" class="btn-outline magnetic" id="budgetClear">Очистить всё</button>
+  </div>
+</section>
+
+<section id="emergency" class="reveal">
+  <span class="eyebrow">/ 08 — На всякий случай</span>
+  <h2 class="split-text">Экстренные<br>контакты</h2>
+
+  <div class="emergency-grid">
+    <div class="emergency-card">
+      <b>🚓 Полиция Таиланда</b>
+      <span class="emergency-number">191</span>
+      <p>Общий номер полиции по всей стране.</p>
+    </div>
+    <div class="emergency-card">
+      <b>🌐 Туристическая полиция</b>
+      <span class="emergency-number">1155</span>
+      <p>Говорят по-английски, специально для туристов — звонить в первую очередь при проблемах.</p>
+    </div>
+    <div class="emergency-card">
+      <b>🚑 Скорая помощь</b>
+      <span class="emergency-number">1669</span>
+      <p>Бесплатный вызов скорой по всему Таиланду.</p>
+    </div>
+    <div class="emergency-card">
+      <b>🚒 Пожарная служба</b>
+      <span class="emergency-number">199</span>
+    </div>
+    <div class="emergency-card wide">
+      <b>🏥 Bangkok Hospital Phuket</b>
+      <span class="emergency-number">+66 76 254 425</span>
+      <p>Круглосуточно · рейтинг 4.5 (3617 отзывов) · крупнейшая частная больница острова, англоговорящий персонал. ~25 мин от виллы в Банг Тао.</p>
+      <a href="https://www.google.com/maps/search/?api=1&query=Bangkok+Hospital+Phuket" target="_blank">📍 Открыть в Google Maps</a>
+    </div>
+    <div class="emergency-card wide">
+      <b>🇰🇿 Посольство Казахстана в Таиланде</b>
+      <span class="emergency-number">+66 2 254 3043</span>
+      <p>Bldg P23, 20 этаж, 11/2 Soi Sukhumvit 23, Бангкок. Пн, Вт, Чт, Пт: 9:00–12:30, 14:30–16:30. Ср, Сб, Вс — закрыто. Ближайшее консульское учреждение — не в Пхукете, а в Бангкоке.</p>
+      <a href="https://www.google.com/maps/search/?api=1&query=Embassy+of+Kazakhstan+Bangkok" target="_blank">📍 Открыть в Google Maps</a>
+    </div>
+  </div>
 </section>
 
 <div class="modal" id="modal">
@@ -216,7 +311,7 @@
 <section class="space-finale">
   <canvas id="spaceCanvas"></canvas>
   <div class="space-content reveal">
-    <span class="eyebrow">/ 06 — Домой</span>
+    <span class="eyebrow">/ 09 — Домой</span>
     <h2 class="split-text">10 дней<br>останутся с нами</h2>
     <p class="space-sub">Пока мы летим домой — этот сайт продолжает жить здесь, среди тропических звёзд.</p>
   </div>
