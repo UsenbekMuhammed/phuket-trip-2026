@@ -660,6 +660,69 @@ function getEventInfo(event) {
 }
 
 // Проверяем, совпадает ли дата карточки с сегодняшним днём по времени Пхукета (UTC+7)
+// === Прогресс выполнения событий внутри дня (localStorage) ===
+function getDayProgressState(dateStr) {
+  try {
+    return JSON.parse(localStorage.getItem(`dayProgress:${dateStr}`) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveDayProgressState(dateStr, arr) {
+  localStorage.setItem(`dayProgress:${dateStr}`, JSON.stringify(arr));
+}
+
+function getDayProgressCount(day) {
+  const state = getDayProgressState(day.date);
+  const checked = state.filter(Boolean).length;
+  return { checked, total: day.events.length };
+}
+
+// === Погода на конкретную дату (Open-Meteo, прогноз до 16 дней вперёд) ===
+let dailyForecastCache = null;
+
+async function fetchDailyForecast() {
+  if (dailyForecastCache) return dailyForecastCache;
+
+  try {
+    const url = "https://api.open-meteo.com/v1/forecast?latitude=8.00&longitude=98.29&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code&timezone=Asia%2FBangkok&forecast_days=16";
+    const response = await fetch(url);
+    const data = await response.json();
+    dailyForecastCache = data.daily;
+    return dailyForecastCache;
+  } catch {
+    return null;
+  }
+}
+
+async function loadDayWeather(dateStr, dayNumber) {
+  const chip = document.getElementById(`weatherChip-${dayNumber}`);
+  if (!chip) return;
+
+  const daily = await fetchDailyForecast();
+  if (!daily) {
+    chip.innerHTML = `${ic("clock")} прогноз недоступен`;
+    return;
+  }
+
+  const [day, month, year] = dateStr.split(".").map(Number);
+  const isoTarget = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+  const idx = daily.time.indexOf(isoTarget);
+
+  if (idx === -1) {
+    chip.innerHTML = `${ic("clock")} дата вне горизонта прогноза (>16 дней)`;
+    return;
+  }
+
+  const [icon] = weatherCodeMap[daily.weather_code[idx]] || ["🌤️"];
+  const max = Math.round(daily.temperature_2m_max[idx]);
+  const min = Math.round(daily.temperature_2m_min[idx]);
+  const rain = daily.precipitation_probability_max[idx];
+
+  chip.innerHTML = `${icon} ${max}° / ${min}° · дождь ${rain}%`;
+}
+
 function isTripDayToday(dateStr) {
   const [day, month, year] = dateStr.split(".").map(Number);
 
@@ -673,35 +736,50 @@ function isTripDayToday(dateStr) {
   );
 }
 
-function renderCards(filter = "all") {
+let currentDayFilter = "all";
+
+function renderCards(filter = currentDayFilter) {
+  currentDayFilter = filter;
   if (!cards) return;
   cards.innerHTML = "";
 
   const list = filter === "all" ? days : days.filter(day => day.cat.includes(filter));
 
-  list.forEach((day, index) => {
-    const card = document.createElement("div");
-    const bentoClass = index % 6 === 0 ? "card--big" : index % 6 === 3 ? "card--wide" : "";
-    card.className = `card reveal reveal-stagger ${bentoClass}`.trim();
-    card.style.setProperty("--stagger-index", index);
-
+  list.forEach((day) => {
     const dayNumber = String(days.indexOf(day) + 1).padStart(2, "0");
     const isToday = isTripDayToday(day.date);
-    if (isToday) card.classList.add("card-today");
+    const progress = getDayProgressCount(day);
+
+    const item = document.createElement("div");
+    item.className = "timeline-item reveal";
+
+    const dot = document.createElement("div");
+    dot.className = "timeline-dot" + (progress.checked === progress.total && progress.total > 0 ? " done" : "");
+
+    const card = document.createElement("div");
+    card.className = "card" + (isToday ? " card-today" : "");
 
     card.innerHTML = `
-      <span class="card-num">${dayNumber}</span>
+      <span class="card-progress-badge">${progress.checked}/${progress.total}</span>
       ${isToday ? '<span class="today-badge">Сегодня</span>' : ""}
-      <img src="${day.img}" alt="${day.title}">
-      <div class="card-text">
-        <span>${day.date}</span>
+      <div class="card-photo">
+        <span class="card-num">${dayNumber}</span>
+        <img src="${day.img}" alt="${day.title}" loading="lazy" decoding="async">
+      </div>
+      <div class="card-body">
+        <span class="card-date">${day.date}</span>
         <h3>${day.title}</h3>
         <p>${day.text}</p>
+        <span class="card-weather-chip" id="weatherChip-${dayNumber}">${ic("clock")} погода загружается…</span>
       </div>
     `;
 
     card.onclick = () => openModal(day);
-    cards.appendChild(card);
+    item.appendChild(dot);
+    item.appendChild(card);
+    cards.appendChild(item);
+
+    loadDayWeather(day.date, dayNumber);
   });
 
   observeRevealTargets();
@@ -722,19 +800,36 @@ function openModal(day) {
   const list = document.getElementById("modalEvents");
   list.innerHTML = "";
 
-  day.events.forEach(event => {
+  const progressState = getDayProgressState(day.date);
+
+  day.events.forEach((event, eventIndex) => {
     const item = document.createElement("div");
-    item.className = "event";
+    const isChecked = !!progressState[eventIndex];
+    item.className = "event" + (isChecked ? " event-done" : "");
 
     item.innerHTML = `
-      <img src="${event.img}" alt="${event.text}">
+      <img src="${event.img}" alt="${event.text}" loading="lazy" decoding="async">
       <div>
         <b>${event.time}</b>
         <span>${event.text}</span>
       </div>
+      <button class="event-check" aria-label="Отметить выполненным" data-index="${eventIndex}">
+        ${isChecked ? "✓" : ""}
+      </button>
     `;
 
-    item.onclick = () => openEventModal(event);
+    item.querySelector("img").onclick = () => openEventModal(event);
+    item.querySelector("div").onclick = () => openEventModal(event);
+
+    item.querySelector(".event-check").onclick = (e) => {
+      e.stopPropagation();
+      const state = getDayProgressState(day.date);
+      state[eventIndex] = !state[eventIndex];
+      saveDayProgressState(day.date, state);
+      openModal(day);
+      renderCards(currentDayFilter);
+    };
+
     list.appendChild(item);
   });
 }
@@ -1230,11 +1325,15 @@ function initSpaceScene() {
   camera.position.z = 6;
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // На мобильных и слабых устройствах снижаем нагрузку — меньше частиц, меньше "мусора"
+  const isLowPower = window.innerWidth < 700 || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isLowPower ? 1.5 : 2));
   renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
   // Звёздное поле в цветах сайта: коралл, бирюза, тёплый белый
-  const starCount = 2200;
+  const starCount = isLowPower ? 900 : 2200;
   const positions = new Float32Array(starCount * 3);
   const colors = new Float32Array(starCount * 3);
   const palette = [
@@ -1262,7 +1361,7 @@ function initSpaceScene() {
 
   // "Тропический мусор" в тоннеле — пальмовые листья, разлетающиеся вокруг пути полёта
   const debrisGroup = new THREE.Group();
-  const debrisCount = 70;
+  const debrisCount = isLowPower ? 30 : 70;
   const debrisPalette = [0xff5b39, 0x17e3c4, 0xf4f2ed];
 
   for (let i = 0; i < debrisCount; i++) {
@@ -1702,6 +1801,49 @@ function showSectionLoader(label) {
   requestAnimationFrame(tick);
 }
 
+// === Карта маршрута (Leaflet, без API-ключа) ===
+const routePoints = [
+  { name: "Вилла The Regent Villa Pasak", lat: 8.0057, lng: 98.3160, day: "Дни 1 и 10" },
+  { name: "Blue Tree Phuket", lat: 7.9868, lng: 98.3186, day: "День 2" },
+  { name: "Big Buddha Phuket", lat: 7.8276, lng: 98.3128, day: "День 3" },
+  { name: "James Bond Island", lat: 8.2745, lng: 98.5012, day: "День 4" },
+  { name: "Phuket Elephant Sanctuary", lat: 8.0207, lng: 98.3984, day: "День 5" },
+  { name: "Bangla Road, Патонг", lat: 7.8935, lng: 98.2968, day: "День 6" },
+  { name: "Promthep Cape", lat: 7.7618, lng: 98.3053, day: "День 7" },
+  { name: "XANA Beach Club", lat: 8.0058, lng: 98.2929, day: "День 8" },
+  { name: "Central Phuket", lat: 7.8916, lng: 98.3678, day: "День 9" }
+];
+
+function initRouteMap() {
+  const mapEl = document.getElementById("leafletMap");
+  if (!mapEl || typeof L === "undefined") return;
+
+  const map = L.map("leafletMap", { scrollWheelZoom: false }).setView([7.98, 98.33], 10);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors",
+    maxZoom: 18
+  }).addTo(map);
+
+  const latlngs = routePoints.map(p => [p.lat, p.lng]);
+
+  L.polyline(latlngs, { color: "#ff5b39", weight: 3, dashArray: "6 8" }).addTo(map);
+
+  routePoints.forEach((point, i) => {
+    const marker = L.circleMarker([point.lat, point.lng], {
+      radius: 8,
+      fillColor: "#17e3c4",
+      color: "#0a0b0d",
+      weight: 2,
+      fillOpacity: 1
+    }).addTo(map);
+
+    marker.bindPopup(`<b>${i + 1}. ${point.name}</b><br>${point.day}`);
+  });
+
+  map.fitBounds(latlngs, { padding: [30, 30] });
+}
+
 createSectionLoader("days", "ЗАГРУЗКА МАРШРУТА");
 createSectionLoader("spaceFinale", "ВХОД В КОСМОС");
 
@@ -1711,6 +1853,7 @@ renderChecklist();
 renderBudget();
 renderPhrasebook();
 loadWeather();
+initRouteMap();
 updateCountdown();
 observeRevealTargets();
 updateParallax();
