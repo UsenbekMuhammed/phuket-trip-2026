@@ -1399,19 +1399,65 @@ function initSpaceScene() {
   planet.position.set(2.4, 0.4, -20);
   scene.add(planet);
 
+  // Мягкое "свечение" планеты (имитация bloom через полупрозрачные слои)
+  const glowGeo = new THREE.SphereGeometry(1.8, 32, 32);
+  const glowMat = new THREE.MeshBasicMaterial({ color: 0xff5b39, transparent: true, opacity: 0.12 });
+  const glow = new THREE.Mesh(glowGeo, glowMat);
+  planet.add(glow);
+
+  // Вторая, маленькая бирюзовая луна дальше по пути
+  const moonGeo = new THREE.SphereGeometry(0.6, 32, 32);
+  const moonMat = new THREE.MeshStandardMaterial({ color: 0x17e3c4, emissive: 0x063d36, roughness: 0.5 });
+  const moon = new THREE.Mesh(moonGeo, moonMat);
+  moon.position.set(-3, -1, -55);
+  scene.add(moon);
+
   const tealLight = new THREE.PointLight(0x17e3c4, 3, 60);
   tealLight.position.set(-6, 3, 4);
   scene.add(tealLight);
+
+  const coralLight = new THREE.PointLight(0xff5b39, 2, 50);
+  coralLight.position.set(4, -2, -10);
+  scene.add(coralLight);
+
   scene.add(new THREE.AmbientLight(0x404040, 1.4));
 
-  // Бумажный самолётик — символ полета домой, летит перед камерой
-  const planeGroup = new THREE.Group();
-  const bodyGeo = new THREE.ConeGeometry(0.16, 0.9, 4);
-  const bodyMat = new THREE.MeshStandardMaterial({ color: 0xf4f2ed, flatShading: true, roughness: 0.4 });
-  const body = new THREE.Mesh(bodyGeo, bodyMat);
-  body.rotation.x = Math.PI / 2;
-  planeGroup.add(body);
-  scene.add(planeGroup);
+  // === Космонавт — летит перед камерой, руки в стороны, как в невесомости ===
+  const astronaut = new THREE.Group();
+
+  const suitMat = new THREE.MeshStandardMaterial({ color: 0xf4f2ed, roughness: 0.55, metalness: 0.05 });
+  const visorMat = new THREE.MeshStandardMaterial({ color: 0x0a0b0d, roughness: 0.1, metalness: 0.7, emissive: 0x17e3c4, emissiveIntensity: 0.15 });
+
+  const helmet = new THREE.Mesh(new THREE.SphereGeometry(0.32, 24, 24), suitMat);
+  helmet.position.set(0, 0.55, 0);
+  astronaut.add(helmet);
+
+  const visor = new THREE.Mesh(new THREE.SphereGeometry(0.22, 20, 20), visorMat);
+  visor.position.set(0, 0.55, 0.2);
+  visor.scale.set(1, 0.85, 0.6);
+  astronaut.add(visor);
+
+  const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.32, 0.65, 14), suitMat);
+  torso.position.set(0, 0, 0);
+  astronaut.add(torso);
+
+  const backpack = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.5, 0.18), suitMat);
+  backpack.position.set(0, 0.05, -0.28);
+  astronaut.add(backpack);
+
+  [-1, 1].forEach(side => {
+    const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.09, 0.55, 10), suitMat);
+    arm.position.set(side * 0.42, 0.1, 0);
+    arm.rotation.z = side * 0.9;
+    astronaut.add(arm);
+
+    const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.09, 0.55, 10), suitMat);
+    leg.position.set(side * 0.14, -0.6, 0);
+    leg.rotation.z = side * 0.15;
+    astronaut.add(leg);
+  });
+
+  scene.add(astronaut);
 
   let mouseX = 0, mouseY = 0;
   window.addEventListener("mousemove", (e) => {
@@ -1443,7 +1489,7 @@ function initSpaceScene() {
     // Плавно подтягиваем текущее значение к целевому — крутишь назад, летит назад
     currentProgress += (targetProgress - currentProgress) * 0.08;
 
-    const depth = currentProgress * 60;
+    const depth = currentProgress * 90;
 
     stars.position.z = depth * 0.3;
     stars.rotation.y = currentProgress * 1.2;
@@ -1454,13 +1500,17 @@ function initSpaceScene() {
     planet.position.z = -20 + depth;
     planet.rotation.y = currentProgress * 3;
 
-    planeGroup.position.set(0, -0.3, -3 + depth * 0.05);
-    planeGroup.rotation.y = Math.sin(currentProgress * 8) * 0.3;
-    planeGroup.rotation.z = Math.cos(currentProgress * 6) * 0.25;
+    moon.position.z = -55 + depth * 1.1;
+    moon.rotation.y = currentProgress * 2;
+
+    astronaut.position.set(0, -0.2 + Math.sin(currentProgress * 6) * 0.15, -3 + depth * 0.05);
+    astronaut.rotation.y = Math.sin(currentProgress * 5) * 0.5;
+    astronaut.rotation.z = Math.cos(currentProgress * 4) * 0.2;
+    astronaut.rotation.x = Math.sin(currentProgress * 3) * 0.1;
 
     camera.position.x += (mouseX * 1.4 - camera.position.x) * 0.03;
     camera.position.y += (-mouseY * 1.4 - camera.position.y) * 0.03;
-    camera.lookAt(0, 0, planeGroup.position.z - 2);
+    camera.lookAt(0, 0, astronaut.position.z - 2);
 
     renderer.render(scene, camera);
   }
@@ -1820,10 +1870,24 @@ function initRouteMap() {
 
   const map = L.map("leafletMap", { scrollWheelZoom: false }).setView([7.98, 98.33], 10);
 
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  const streets = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "© OpenStreetMap contributors",
     maxZoom: 18
-  }).addTo(map);
+  });
+
+  // Спутниковый снимок — бесплатный слой Esri (без API-ключа, в отличие от Google Satellite)
+  const satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+    attribution: "Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics",
+    maxZoom: 19
+  });
+
+  satellite.addTo(map);
+
+  L.control.layers(
+    { "🛰️ Спутник": satellite, "🗺️ Карта": streets },
+    {},
+    { position: "topright" }
+  ).addTo(map);
 
   const latlngs = routePoints.map(p => [p.lat, p.lng]);
 
