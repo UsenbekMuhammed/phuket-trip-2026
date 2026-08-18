@@ -770,22 +770,40 @@ h2 {
 }
 
 /* ===== Day cards ===== */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 220px;
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
+.timeline {
+  position: relative;
+  padding-left: 40px;
 }
 
-.card.card--big {
-  grid-column: span 2;
-  grid-row: span 2;
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--coral), var(--teal));
 }
 
-.card.card--wide {
-  grid-column: span 2;
+.timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -40px;
+  top: 28px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--coral);
+  z-index: 2;
+}
+
+.timeline-dot.done {
+  background: var(--coral);
 }
 
 .card {
@@ -794,69 +812,117 @@ h2 {
   position: relative;
   cursor: pointer;
   background: var(--surface);
+  border: 1px solid var(--line);
+  display: flex;
+  min-height: 180px;
+}
+
+.card-photo {
+  width: 220px;
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-body {
+  flex: 1;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.card-progress-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(10,11,13,.75);
+  color: var(--teal);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 50px;
+  z-index: 3;
+}
+
+.card-weather-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.route-map {
+  width: 100%;
+  height: 480px;
+  border: 1px solid var(--line);
+  filter: grayscale(0.3) contrast(1.05);
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.leaflet-popup-content {
+  font-family: var(--font-body);
+  font-size: 13px;
 }
 
 .card-num {
   position: absolute;
-  top: -18px;
-  right: 6px;
+  bottom: 4px;
+  right: 10px;
   font-family: var(--font-display);
-  font-size: 130px;
+  font-size: 90px;
   font-weight: 700;
-  color: rgba(244, 242, 237, .06);
+  color: rgba(244, 242, 237, .05);
   z-index: 1;
   line-height: 1;
   pointer-events: none;
 }
 
-.card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: var(--duotone);
-  transition: transform .7s ease, filter .5s ease;
-}
-
-.card:hover img {
+.card:hover .card-photo img {
   transform: scale(1.08);
   filter: var(--duotone) brightness(1.15) saturate(1.6);
 }
 
-.card:after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(10,11,13,.95), rgba(10,11,13,.15));
-}
-
-.card-text {
-  position: absolute;
-  bottom: 0;
-  padding: 26px;
-  z-index: 2;
-}
-
-.card-text span {
+.card-date {
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: .05em;
 }
 
-.card-text h3 {
+.card-body h3 {
   font-family: var(--font-display);
-  font-size: 24px;
-  margin: 10px 0;
+  font-size: 22px;
+  margin: 2px 0;
   line-height: 1.15;
   color: var(--text);
   font-weight: 600;
+  position: relative;
+  z-index: 2;
 }
 
-.card-text p {
+.card-body p {
   color: var(--muted);
   line-height: 1.4;
   font-size: 14px;
   font-weight: 500;
+  position: relative;
+  z-index: 2;
 }
 
 .card-today {
@@ -865,8 +931,8 @@ h2 {
 
 .today-badge {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 14px;
+  left: 14px;
   z-index: 3;
   background: var(--coral);
   color: var(--text);
@@ -878,7 +944,7 @@ h2 {
   border-radius: 50px;
 }
 
-/* ===== Squad ===== */
+/* ===== Squад ===== */
 .squad-grid,
 .checklist {
   display: grid;
@@ -1312,13 +1378,37 @@ h2 {
 
 .event {
   display: grid;
-  grid-template-columns: 120px 1fr;
+  grid-template-columns: 120px 1fr auto;
   gap: 16px;
   align-items: center;
   padding: 12px;
   background: var(--bg);
   cursor: pointer;
   transition: .2s;
+}
+
+.event-check {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--muted);
+  background: transparent;
+  color: var(--teal);
+  font-weight: 900;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.event-done .event-check {
+  background: var(--teal);
+  color: var(--bg);
+  border-color: var(--teal);
+}
+
+.event-done span,
+.event-done b {
+  opacity: .55;
+  text-decoration: line-through;
 }
 
 .event:hover {
@@ -1702,8 +1792,28 @@ footer {
     grid-template-columns: 1fr;
   }
 
+  .timeline {
+    padding-left: 26px;
+  }
+
+  .timeline-dot {
+    left: -26px;
+    width: 16px;
+    height: 16px;
+  }
+
   .card {
-    height: 380px;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .card-photo {
+    width: 100%;
+    height: 180px;
+  }
+
+  .route-map {
+    height: 320px;
   }
 
   .event {
