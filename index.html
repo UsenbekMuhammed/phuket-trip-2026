@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 
@@ -150,7 +152,14 @@
     <button onclick="filterDays('adventure', this)">Приключения</button>
   </div>
 
-  <div class="cards" id="cards"></div>
+  <div class="timeline" id="cards"></div>
+</section>
+
+<section id="routemap" class="reveal">
+  <span class="eyebrow">/ 03b — Карта</span>
+  <h2 class="split-text">Весь маршрут<br>одним взглядом</h2>
+  <p class="section-note">Точки в порядке дней — от виллы в Банг Тао до самого юга острова и обратно.</p>
+  <div id="leafletMap" class="route-map"></div>
 </section>
 
 <section id="squad" class="reveal">
