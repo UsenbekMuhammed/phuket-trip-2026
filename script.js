@@ -1,3 +1,27 @@
+// === Прелоадер ===
+(function initPreloader() {
+  const preloader = document.getElementById("preloader");
+  const numberEl = document.getElementById("preloaderNumber");
+  if (!preloader || !numberEl) return;
+
+  let progress = 0;
+  const duration = 1400;
+  const start = performance.now();
+
+  function tick(now) {
+    const elapsed = now - start;
+    progress = Math.min(100, Math.round((elapsed / duration) * 100));
+    numberEl.textContent = progress;
+
+    if (progress < 100) {
+      requestAnimationFrame(tick);
+    } else {
+      setTimeout(() => preloader.classList.add("done"), 250);
+    }
+  }
+  requestAnimationFrame(tick);
+})();
+
 const days = [
   {
     date: "21.08.2026",
@@ -599,6 +623,20 @@ function getEventInfo(event) {
   return base;
 }
 
+// Проверяем, совпадает ли дата карточки с сегодняшним днём по времени Пхукета (UTC+7)
+function isTripDayToday(dateStr) {
+  const [day, month, year] = dateStr.split(".").map(Number);
+
+  const now = new Date();
+  const phuketNow = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Bangkok" }));
+
+  return (
+    phuketNow.getDate() === day &&
+    phuketNow.getMonth() + 1 === month &&
+    phuketNow.getFullYear() === year
+  );
+}
+
 function renderCards(filter = "all") {
   if (!cards) return;
   cards.innerHTML = "";
@@ -611,9 +649,12 @@ function renderCards(filter = "all") {
     card.style.setProperty("--stagger-index", index);
 
     const dayNumber = String(days.indexOf(day) + 1).padStart(2, "0");
+    const isToday = isTripDayToday(day.date);
+    if (isToday) card.classList.add("card-today");
 
     card.innerHTML = `
       <span class="card-num">${dayNumber}</span>
+      ${isToday ? '<span class="today-badge">Сегодня</span>' : ""}
       <img src="${day.img}" alt="${day.title}">
       <div class="card-text">
         <span>${day.date}</span>
@@ -1197,8 +1238,203 @@ function initSpaceScene() {
 
 window.addEventListener("load", initSpaceScene);
 
+// === Интерактивный чек-лист с прогрессом (сохраняется в localStorage) ===
+const checklistItems = [
+  "Загранпаспорт", "Страховка", "SPF 50", "Купальники",
+  "Наличные", "Powerbank", "Чехол для воды", "Одежда для ATV",
+  "Аптечка", "Дождевик", "Очки", "Легкая рубашка"
+];
+
+function getChecklistState() {
+  try {
+    return JSON.parse(localStorage.getItem("phuketChecklist") || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function saveChecklistState(state) {
+  localStorage.setItem("phuketChecklist", JSON.stringify(state));
+}
+
+function renderChecklist() {
+  const grid = document.getElementById("checklistGrid");
+  if (!grid) return;
+
+  const state = getChecklistState();
+  grid.innerHTML = "";
+
+  checklistItems.forEach((item, i) => {
+    const div = document.createElement("div");
+    div.textContent = item;
+    if (state[i]) div.classList.add("checked");
+
+    div.onclick = () => {
+      const current = getChecklistState();
+      current[i] = !current[i];
+      saveChecklistState(current);
+      renderChecklist();
+    };
+
+    grid.appendChild(div);
+  });
+
+  updateChecklistProgress(state);
+}
+
+function updateChecklistProgress(state) {
+  const checkedCount = Object.values(state).filter(Boolean).length;
+  const total = checklistItems.length;
+  const bar = document.getElementById("checklistProgressBar");
+  const label = document.getElementById("checklistProgressLabel");
+
+  if (bar) bar.style.width = `${(checkedCount / total) * 100}%`;
+  if (label) label.textContent = `${checkedCount} из ${total} собрано`;
+}
+
+// === Погода Пхукета в реальном времени (Open-Meteo, без API-ключа) ===
+const weatherCodeMap = {
+  0: ["☀️", "Ясно"],
+  1: ["🌤️", "Малооблачно"],
+  2: ["⛅", "Переменная облачность"],
+  3: ["☁️", "Облачно"],
+  45: ["🌫️", "Туман"],
+  48: ["🌫️", "Туман с изморозью"],
+  51: ["🌦️", "Морось"],
+  53: ["🌦️", "Морось"],
+  55: ["🌧️", "Сильная морось"],
+  61: ["🌧️", "Небольшой дождь"],
+  63: ["🌧️", "Дождь"],
+  65: ["⛈️", "Сильный дождь"],
+  80: ["🌦️", "Ливень"],
+  81: ["🌧️", "Сильный ливень"],
+  82: ["⛈️", "Очень сильный ливень"],
+  95: ["⛈️", "Гроза"],
+  96: ["⛈️", "Гроза с градом"],
+  99: ["⛈️", "Сильная гроза"]
+};
+
+async function loadWeather() {
+  const tempEl = document.getElementById("weatherTemp");
+  const descEl = document.getElementById("weatherDesc");
+  const iconEl = document.getElementById("weatherIcon");
+  const detailsEl = document.getElementById("weatherDetails");
+
+  if (!tempEl) return;
+
+  try {
+    const url = "https://api.open-meteo.com/v1/forecast?latitude=8.00&longitude=98.29&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FBangkok";
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const current = data.current;
+    const daily = data.daily;
+    const [icon, desc] = weatherCodeMap[current.weather_code] || ["🌤️", "—"];
+
+    tempEl.textContent = `${Math.round(current.temperature_2m)}°C`;
+    descEl.textContent = `${desc} · Банг Тао`;
+    iconEl.textContent = icon;
+
+    detailsEl.innerHTML = `
+      <div><b>${Math.round(current.relative_humidity_2m)}%</b>Влажность</div>
+      <div><b>${Math.round(current.wind_speed_10m)} км/ч</b>Ветер</div>
+      <div><b>${Math.round(daily.temperature_2m_max[0])}° / ${Math.round(daily.temperature_2m_min[0])}°</b>Макс/мин сегодня</div>
+      <div><b>${daily.precipitation_probability_max[0]}%</b>Шанс дождя</div>
+    `;
+  } catch (error) {
+    descEl.textContent = "Не удалось загрузить погоду";
+  }
+}
+
+// === Калькулятор общих расходов (локально, per-device) ===
+const BUDGET_KEY = "phuketBudget";
+const BUDGET_PEOPLE = 7;
+
+function getBudgetItems() {
+  try {
+    return JSON.parse(localStorage.getItem(BUDGET_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveBudgetItems(items) {
+  localStorage.setItem(BUDGET_KEY, JSON.stringify(items));
+}
+
+function renderBudget() {
+  const list = document.getElementById("budgetList");
+  const totalEl = document.getElementById("budgetTotal");
+  const perPersonEl = document.getElementById("budgetPerPerson");
+  if (!list) return;
+
+  const items = getBudgetItems();
+  list.innerHTML = "";
+
+  if (items.length === 0) {
+    list.innerHTML = `<div class="budget-empty">Пока нет ни одной записи — добавь первый расход выше.</div>`;
+  } else {
+    items.forEach((item, index) => {
+      const row = document.createElement("div");
+      row.className = "budget-item";
+      row.innerHTML = `
+        <div><b>${item.desc}</b> <span>· заплатил ${item.payer}</span></div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <b>${item.amount.toLocaleString("ru-RU")} ฿</b>
+          <button aria-label="Удалить" data-index="${index}">×</button>
+        </div>
+      `;
+      list.appendChild(row);
+    });
+
+    list.querySelectorAll("button[data-index]").forEach(btn => {
+      btn.onclick = () => {
+        const items = getBudgetItems();
+        items.splice(Number(btn.dataset.index), 1);
+        saveBudgetItems(items);
+        renderBudget();
+      };
+    });
+  }
+
+  const total = items.reduce((sum, item) => sum + item.amount, 0);
+  totalEl.textContent = `${total.toLocaleString("ru-RU")} ฿`;
+  perPersonEl.textContent = `${Math.round(total / BUDGET_PEOPLE).toLocaleString("ru-RU")} ฿`;
+}
+
+const budgetForm = document.getElementById("budgetForm");
+if (budgetForm) {
+  budgetForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const desc = document.getElementById("budgetDesc").value.trim();
+    const payer = document.getElementById("budgetPayer").value;
+    const amount = Number(document.getElementById("budgetAmount").value);
+
+    if (!desc || !amount) return;
+
+    const items = getBudgetItems();
+    items.push({ desc, payer, amount });
+    saveBudgetItems(items);
+    renderBudget();
+    budgetForm.reset();
+  });
+}
+
+const budgetClearBtn = document.getElementById("budgetClear");
+if (budgetClearBtn) {
+  budgetClearBtn.addEventListener("click", () => {
+    if (confirm("Точно очистить все записи расходов?")) {
+      saveBudgetItems([]);
+      renderBudget();
+    }
+  });
+}
+
 renderCards();
 renderSquad();
+renderChecklist();
+renderBudget();
+loadWeather();
 updateCountdown();
 observeRevealTargets();
 updateParallax();
