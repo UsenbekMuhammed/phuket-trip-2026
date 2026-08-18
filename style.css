@@ -1450,6 +1450,54 @@ h2 {
   margin-top: 10px;
 }
 
+.phrase-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.phrase-group-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--teal);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: 14px;
+}
+
+.phrase-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.phrase-card {
+  background: var(--surface);
+  padding: 20px 24px;
+}
+
+.phrase-ru {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.phrase-thai {
+  font-family: var(--font-mono);
+  color: var(--coral);
+  font-size: 14px;
+}
+
+.phrase-latin {
+  font-family: var(--font-mono);
+  color: var(--muted);
+  font-size: 13px;
+  margin-left: 8px;
+}
+
 /* ===== Footer ===== */
 footer {
   text-align: center;
@@ -1538,6 +1586,10 @@ footer {
 
   .emergency-card.wide {
     grid-column: span 1;
+  }
+
+  .phrase-grid {
+    grid-template-columns: 1fr;
   }
 
   .card {
